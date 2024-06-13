@@ -1,14 +1,41 @@
 <script setup>
 import HeaderSearch from './HeaderSearch.vue'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 const isSearchBarOpened = ref(false)
+const isTopPriceOpened = ref(false)
+const currencies = ['USD', 'ARS', 'AUD', 'BRL', 'GBP', 'DKK', 'EUR']
+const languages = [
+  { code: 'en', name: 'Tiếng Anh' },
+  { code: 'au', name: 'Úc' },
+  { code: 'es', name: 'Tây Ban Nha' },
+  { code: 'br', name: 'Brazil' },
+  { code: 'fr', name: 'Pháp' },
+  { code: 'us', name: 'Hoa Kỳ' }
+]
+
+const language = ref('en')
+const selectedCurrency = ref('USD')
+
+const currentLanguage = computed(() => {
+  const foundLanguage = languages.find((item) => item.code === language.value)
+  return foundLanguage ? foundLanguage.name : 'Tiếng Anh'
+})
+
 
 const openSearchBar = () => {
   isSearchBarOpened.value = true
 }
 
+const changeLanguage = (lang) => {
+  language.value = lang.code
+}
+
 const closeSearchBar = () => {
   isSearchBarOpened.value = false
+}
+
+const toggleTopPriceSelect = () => {
+  isTopPriceOpened.value = !isTopPriceOpened.value
 }
 </script>
 
@@ -33,52 +60,23 @@ const closeSearchBar = () => {
                 <a href="faq.html">FAQs</a>
               </div>
               <div class="header__lang">
-                <span class="header__lang-select"
-                  >Tiếng Anh <i class="fa fa-chevron-down"></i
-                ></span>
+                <span class="header__lang-select">
+                  {{ currentLanguage }} <i class="fa fa-chevron-down"></i>
+                </span>
                 <ul class="header__lang-submenu">
-                  <li>
-                    <a href="#">Úc</a>
-                  </li>
-                  <li>
-                    <a href="#">Tây Ban Nha</a>
-                  </li>
-                  <li>
-                    <a href="#">Brazil</a>
-                  </li>
-                  <li>
-                    <a href="#">Anh</a>
-                  </li>
-                  <li>
-                    <a href="#">Pháp</a>
-                  </li>
-                  <li>
-                    <a href="#">Hoa Kỳ</a>
+                  <li v-for="(lang, index) in languages" :key="index">
+                    <a href="#" @click="changeLanguage(lang)">{{ lang.name }}</a>
                   </li>
                 </ul>
               </div>
               <div class="header__top-price">
-                <select style="display: none">
-                  <option>USD</option>
-                  <option>ARS</option>
-                  <option>AUD</option>
-                  <option>BRL</option>
-                  <option>GBP</option>
-                  <option>DKK</option>
-                  <option>EUR</option>
+                <select
+                  v-model="selectedCurrency"
+                  @click="toggleTopPriceSelect"
+                  class="nice-select"
+                >
+                  <option v-for="currency in currencies" :value="currency">{{ currency }}</option>
                 </select>
-                <div class="nice-select" tabindex="0">
-                  <span class="current">USD</span>
-                  <ul class="list">
-                    <li data-value="USD" class="option selected focus">USD</li>
-                    <li data-value="ARS" class="option">ARS</li>
-                    <li data-value="AUD" class="option">AUD</li>
-                    <li data-value="BRL" class="option">BRL</li>
-                    <li data-value="GBP" class="option">GBP</li>
-                    <li data-value="DKK" class="option">DKK</li>
-                    <li data-value="EUR" class="option">EUR</li>
-                  </ul>
-                </div>
               </div>
             </div>
           </div>
@@ -283,6 +281,7 @@ const closeSearchBar = () => {
 }
 
 .header__lang-select {
+  font-size: 13px;
   color: var(--tp-common-white);
   padding-left: 15px;
   margin-left: 15px;
@@ -324,10 +323,23 @@ const closeSearchBar = () => {
   list-style: none;
   margin-bottom: 5px;
 }
+.header__lang-submenu li a {
+  font-size: 14px;
+  font-weight: 400;
+  color: inherit;
+}
+.header__lang-submenu li a:hover {
+  color: var(--tp-heading-secondary);
+}
 .header__lang:hover .header__lang-select {
   opacity: 1;
   visibility: visible;
   top: 100%;
+}
+.header__lang:hover .header__lang-submenu {
+  visibility: visible;
+  opacity: 1;
+  transform: perspective(400px) rotateX(0deg);
 }
 .header__top-price .nice-select {
   background: var(--tp-heading-primary);
@@ -335,10 +347,15 @@ const closeSearchBar = () => {
   border: none;
   font-size: 13px;
   height: 40px;
-  width: 60px;
+  width: 85px;
   padding-right: 16px;
   font-weight: 400;
   margin-left: 5px;
+}
+
+.header__top-price .nice-select .option {
+  margin-bottom: -13px;
+  cursor: pointer;
 }
 
 .header__main-area {
