@@ -1,5 +1,15 @@
 <script setup>
-import HeaderSearch from './HeaderSearch.vue';
+import HeaderSearch from './HeaderSearch.vue'
+import { ref } from 'vue'
+const isSearchBarOpened = ref(false)
+
+const openSearchBar = () => {
+  isSearchBarOpened.value = true
+}
+
+const closeSearchBar = () => {
+  isSearchBarOpened.value = false
+}
 </script>
 
 <template>
@@ -24,7 +34,7 @@ import HeaderSearch from './HeaderSearch.vue';
               </div>
               <div class="header__lang">
                 <span class="header__lang-select"
-                  >Tiếng Anh <i class="far fa-solid fa-angle-down"></i
+                  >Tiếng Anh <i class="fa fa-chevron-down"></i
                 ></span>
                 <ul class="header__lang-submenu">
                   <li>
@@ -91,117 +101,123 @@ import HeaderSearch from './HeaderSearch.vue';
                 <nav id="mobile-menu" style="display: block">
                   <ul>
                     <li class="has-dropdown has-homemenu">
-                      <a href="index.html">Home</a>
+                      <a href="index.html">Trang chủ <i class="fa fa-chevron-down icon"></i></a>
                       <ul class="sub-menu home-menu-style">
                         <li>
                           <a href="index.html"
-                            ><img src="../assets/img/header/home1-1.jpg" alt="" /> Home Page V1</a
+                            ><img src="../assets/img/header/home1-1.jpg" alt="" /> Trang chủ V1</a
                           >
                         </li>
                         <li>
                           <a href="index-2.html"
-                            ><img src="../assets/img/header/home2-1.jpg" alt="" /> Home Page V2</a
+                            ><img src="../assets/img/header/home2-1.jpg" alt="" /> Trang chủ V2</a
                           >
                         </li>
                         <li>
                           <a href="index-3.html"
-                            ><img src="../assets/img/header/home3-1.jpg" alt="" /> Home Page V3</a
+                            ><img src="../assets/img/header/home3-1.jpg" alt="" /> Trang chủ V3</a
                           >
                         </li>
                         <li>
                           <a href="index-4.html"
-                            ><img src="../assets/img/header/home4-1.jpg" alt="" /> Home Page V4</a
+                            ><img src="../assets/img/header/home4-1.jpg" alt="" /> Trang chủ V4</a
                           >
                         </li>
                         <li>
                           <a href="index-5.html"
-                            ><img src="../assets/img/header/home5-1.jpg" alt="" /> Home Page V5</a
+                            ><img src="../assets/img/header/home5-1.jpg" alt="" /> Trang chủ V5</a
                           >
                         </li>
                         <li>
                           <a href="index-6.html"
-                            ><img src="../assets/img/header/home6-1.jpg" alt="" /> Home Page V6</a
+                            ><img src="../assets/img/header/home6-1.jpg" alt="" /> Trang chủ V6</a
                           >
                         </li>
                       </ul>
                     </li>
                     <li class="has-dropdown has-megamenu">
-                      <a href="course-grid.html">Shop</a>
+                      <a href="course-grid.html"
+                        >Cửa hàng <i class="fa fa-chevron-down icon"></i
+                      ></a>
                       <ul
                         class="sub-menu mega-menu"
                         data-background="../assets/img/banner/mega-menu-shop-1.jpg"
                         style="background-image: url('../assets/img/banner/mega-menu-shop-1.jpg')"
                       >
                         <li>
-                          <a class="mega-menu-title">Shop layout</a>
+                          <a class="mega-menu-title">Bố cục cửa hàng</a>
                           <ul>
-                            <li><a href="shop-left-sidebar.html">Shop With Banner </a></li>
-                            <li><a href="shop-3.html">Shop Without Banner</a></li>
-                            <li><a href="shop-2.html">Shop Version</a></li>
-                            <li><a href="shop-left-sidebar.html">Shop Left sidebar</a></li>
-                            <li><a href="shop-right-sidebar.html">Shop Right sidebar</a></li>
-                            <li><a href="shop-list-view.html">Shop List view</a></li>
+                            <li><a href="shop-left-sidebar.html">Cửa hàng có Banner </a></li>
+                            <li><a href="shop-3.html">Cửa hàng không Banner</a></li>
+                            <li><a href="shop-2.html">Phiên bản Cửa hàng</a></li>
+                            <li>
+                              <a href="shop-left-sidebar.html">Thanh bên trái của cửa hàng</a>
+                            </li>
+                            <li>
+                              <a href="shop-right-sidebar.html">Thanh bên phải của cửa hàng</a>
+                            </li>
+                            <li><a href="shop-list-view.html">Chế độ xem danh sách cửa hàng</a></li>
                           </ul>
                         </li>
                         <li>
-                          <a class="mega-menu-title">Product layout</a>
+                          <a class="mega-menu-title">Bố cục sản phẩm</a>
                           <ul>
-                            <li><a href="shop-details-3.html">Image scroll</a></li>
-                            <li><a href="shop-details-grid.html">Product grid</a></li>
-                            <li><a href="shop-details-top.html">Top Thumb Product</a></li>
-                            <li><a href="shop-details.html">Bottom Thumb Product</a></li>
-                            <li><a href="shop-details-4.html">Simple Product</a></li>
+                            <li><a href="shop-details-3.html">Cuộn ảnh</a></li>
+                            <li><a href="shop-details-grid.html">Lưới sản phẩm</a></li>
+                            <li><a href="shop-details-top.html">Sản phẩm có đầu ngón tay</a></li>
+                            <li><a href="shop-details.html">Sản phẩm dưới đáy</a></li>
+                            <li><a href="shop-details-4.html">Sản phẩm đơn giản</a></li>
                           </ul>
                         </li>
                         <li>
-                          <a class="mega-menu-title">Product type</a>
+                          <a class="mega-menu-title">Loại sản phẩm</a>
                           <ul>
-                            <li><a href="shop-details.html">Products Simple</a></li>
-                            <li><a href="shop-details-grid.html">Products Group</a></li>
-                            <li><a href="shop-details-3.html">Products Variable</a></li>
-                            <li><a href="shop-details-3.html">Special</a></li>
-                            <li><a href="shop-details-4.html">Decoration</a></li>
-                            <li><a href="shop-details-top.html">Contruction</a></li>
+                            <li><a href="shop-details.html">Sản phẩm đơn giản</a></li>
+                            <li><a href="shop-details-grid.html">Nhóm sản phẩm</a></li>
+                            <li><a href="shop-details-3.html">Sản phẩm biến thể</a></li>
+                            <li><a href="shop-details-3.html">Đặc biệt</a></li>
+                            <li><a href="shop-details-4.html">Trang trí</a></li>
+                            <li><a href="shop-details-top.html">Xây dựng</a></li>
                           </ul>
                         </li>
                         <li>
-                          <a class="mega-menu-title">Product category</a>
+                          <a class="mega-menu-title">Danh mục sản phẩm</a>
                           <ul>
-                            <li><a href="shop-details.html">Fresh bakery</a></li>
-                            <li><a href="shop-details-3.html">Fresh fruits</a></li>
-                            <li><a href="shop-details-4.html">Fresh meat</a></li>
-                            <li><a href="shop-details.html">Fruit drink</a></li>
-                            <li><a href="shop-details.html">Fresh bakery</a></li>
-                            <li><a href="shop-details-grid.html">Biscuits snack</a></li>
+                            <li><a href="shop-details.html">Bánh ngọt tươi</a></li>
+                            <li><a href="shop-details-3.html">Trái cây tươi</a></li>
+                            <li><a href="shop-details-4.html">Thịt tươi</a></li>
+                            <li><a href="shop-details.html">Nước trái cây</a></li>
+                            <li><a href="shop-details.html">Bánh quy snack</a></li>
+                            <li><a href="shop-details-grid.html">Bánh quy snack</a></li>
                           </ul>
                         </li>
                       </ul>
                     </li>
                     <li class="has-dropdown">
-                      <a href="blog.html">Blog</a>
+                      <a href="blog.html">Blog <i class="fa fa-chevron-down icon"></i></a>
                       <ul class="sub-menu">
-                        <li><a href="blog.html">Big image</a></li>
-                        <li><a href="blog-right-sidebar.html">Right sidebar</a></li>
-                        <li><a href="blog-left-sidebar.html">Left sidebar</a></li>
-                        <li><a href="blog-details.html">Single Post</a></li>
+                        <li><a href="blog.html">Hình ảnh lớn</a></li>
+                        <li><a href="blog-right-sidebar.html">Thanh bên phải</a></li>
+                        <li><a href="blog-left-sidebar.html">Thanh bên trái</a></li>
+                        <li><a href="blog-details.html">Bài đăng duy nhất</a></li>
                       </ul>
                     </li>
                     <li class="has-dropdown">
-                      <a href="about.html">Pages</a>
+                      <a href="about.html">Trang <i class="fa fa-chevron-down icon"></i></a>
                       <ul class="sub-menu">
-                        <li><a href="shop-location.html">Shop Location One</a></li>
-                        <li><a href="shop-location-2.html">Shop Location Two</a></li>
-                        <li><a href="faq.html">FAQs</a></li>
-                        <li><a href="checkout.html">Checkout</a></li>
-                        <li><a href="cart.html">Cart Page</a></li>
-                        <li><a href="wishlist.html">Wishlist</a></li>
-                        <li><a href="log-in.html">Sign In</a></li>
-                        <li><a href="comming-soon.html">Coming soon</a></li>
-                        <li><a href="404.html">Page 404</a></li>
+                        <li><a href="shop-location.html">Địa điểm cửa hàng một</a></li>
+                        <li><a href="shop-location-2.html">Địa điểm cửa hàng hai</a></li>
+                        <li><a href="faq.html">Câu hỏi thường gặp</a></li>
+                        <li><a href="checkout.html">Thanh toán</a></li>
+                        <li><a href="cart.html">Trang giỏ hàng</a></li>
+                        <li><a href="wishlist.html">Danh sách mong muốn</a></li>
+                        <li><a href="log-in.html">Đăng nhập</a></li>
+                        <li><a href="comming-soon.html">Sắp tới</a></li>
+                        <li><a href="404.html">Trang 404</a></li>
                       </ul>
                     </li>
-                    <li><a href="about.html">About Us</a></li>
-                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="about.html">Về chúng tôi</a></li>
+                    <li><a href="contact.html">Liên hệ chúng tôi</a></li>
                   </ul>
                 </nav>
               </div>
@@ -209,7 +225,9 @@ import HeaderSearch from './HeaderSearch.vue';
             <div class="col-xl-3">
               <div class="header__info d-flex align-items-center">
                 <div class="header__info-search tpcolor__purple ml-10">
-                  <button class="tp-search-toggle"><i class="icon-search"></i></button>
+                  <button class="tp-search-toggle" @click="openSearchBar">
+                    <i class="icon-search"></i>
+                  </button>
                 </div>
                 <div class="header__info-user tpcolor__yellow ml-10">
                   <a href="log-in.html"><i class="icon-user"></i></a>
@@ -229,7 +247,7 @@ import HeaderSearch from './HeaderSearch.vue';
         </div>
       </div>
     </div>
-    <HeaderSearch/>
+    <HeaderSearch :isSearchBarOpened="isSearchBarOpened" @closeSearchBar="closeSearchBar" />
   </header>
 </template>
 
@@ -339,10 +357,18 @@ import HeaderSearch from './HeaderSearch.vue';
 
 .main-menu ul li.has-dropdown > a {
   position: relative;
+  padding: 32px 20px 32px 12px;
+}
+.main-menu ul li.has-dropdown > a > .icon {
+  position: absolute;
+  font-size: 10px;
+  font-weight: 300;
+  line-height: 12px;
+  padding: 0 0 0 5px;
 }
 
 .main-menu ul li:hover.has-dropdown a::after {
-    color: var(--tp-heading-secondary);
+  color: var(--tp-heading-secondary);
 }
 
 @media only screen and (min-width: 1200px) and (max-width: 1399px) {
@@ -359,7 +385,6 @@ import HeaderSearch from './HeaderSearch.vue';
 }
 
 .main-menu ul li.has-dropdown > a::after {
-  content: '\e94f';
   font-size: 14px;
   color: var(--tp-common-black);
   font-family: 'icon-dukamarket';
@@ -375,7 +400,7 @@ import HeaderSearch from './HeaderSearch.vue';
   top: 100%;
 }
 .main-menu ul li .home-menu-style {
-display: flex;
+  display: flex;
   width: 100%;
 }
 .main-menu ul li .sub-menu {
@@ -434,13 +459,13 @@ display: flex;
 }
 
 .main-menu ul li .home-menu-style li a:hover {
-    padding-left: 0px;
-    transform: scale(0.92);
+  padding-left: 0px;
+  transform: scale(0.92);
 }
 
 .main-menu ul li .sub-menu > li > a:hover {
-    color: var(--tp-heading-secondary);
-    padding-left: 8px;
+  color: var(--tp-heading-secondary);
+  padding-left: 8px;
 }
 
 @media only screen and (min-width: 1200px) and (max-width: 1399px) {
@@ -478,9 +503,9 @@ display: flex;
 }
 
 @media only screen and (min-width: 1400px) and (max-width: 1600px) {
-    .main-menu ul li .home-menu-style li {
-        width: 220px;
-    }
+  .main-menu ul li .home-menu-style li {
+    width: 220px;
+  }
 }
 
 @media only screen and (min-width: 1200px) and (max-width: 1399px) {
@@ -502,7 +527,7 @@ display: flex;
 
 .main-menu ul li:nth-of-type(3) .sub-menu,
 .main-menu ul li:nth-of-type(4) .sub-menu {
-    padding: 0 20px 0 40px;
+  padding: 0 20px 0 40px;
 }
 
 .main-menu ul li .home-menu-style li a img {
@@ -514,124 +539,126 @@ display: flex;
 }
 
 .main-menu ul li .mega-menu {
-    padding: 35px 40px 26px 40px;
-    position: absolute;
-    top: 120%;
-    width: 1200px;
-    background-color: var(--tp-common-white);
-    left: 0;
-    right: 0;
-    z-index: 9999;
-    transform-origin: top;
-    display: flex;
-    justify-content: space-between;
-    flex: 0 0 auto;
-    margin: 0 auto;
-    box-shadow: 0px 8px 20px rgba(61, 110, 168, 0.1);
-    border-radius: 0px 0px 10px 10px;
-    border-top: 2px solid var(--tp-heading-secondary);
+  padding: 35px 40px 26px 40px;
+  position: absolute;
+  top: 120%;
+  width: 1200px;
+  background-color: var(--tp-common-white);
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  transform-origin: top;
+  display: flex;
+  justify-content: space-between;
+  flex: 0 0 auto;
+  margin: 0 auto;
+  box-shadow: 0px 8px 20px rgba(61, 110, 168, 0.1);
+  border-radius: 0px 0px 10px 10px;
+  border-top: 2px solid var(--tp-heading-secondary);
 }
 
 .main-menu ul li.has-megamenu {
-    position: static;
+  position: static;
 }
 
 .main-menu ul li .mega-menu li .mega-menu-title {
-    display: inline-flex;
-    align-items: center;
-    font-weight: 600;
-    font-size: 13px;
-    position: relative;
-    text-transform: uppercase;
-    color: var(--tp-heading-secondary);
-    font-family: "Jost", sans-serif;
-    margin-bottom: 10px;
+  display: inline-flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 13px;
+  position: relative;
+  text-transform: uppercase;
+  color: var(--tp-heading-secondary);
+  font-family: 'Jost', sans-serif;
+  margin-bottom: 10px;
 }
 
 .main-menu ul li .mega-menu li ul li {
-    padding-left: 0;
-    text-align: left;
+  padding-left: 0;
+  text-align: left;
 }
 
 .main-menu ul li .mega-menu li {
-    width: 260px;
-    text-align: left;
-    padding-left: 0;
-    padding-right: 0;
+  width: 260px;
+  text-align: left;
+  padding-left: 0;
+  padding-right: 0;
 }
 .main-menu ul li .mega-menu li ul {
-    padding-left: 0;
-    text-align: left;
+  padding-left: 0;
+  text-align: left;
 }
 .main-menu ul li .mega-menu li ul li a {
-    position: relative;
-    padding: 10px;
-    font-size: 16px;
-    font-weight: 400;
-    color: var(--tp-text-body);
-    text-transform: capitalize;
-    text-align: start;
-    margin: 0;
-    padding-left: 0;
+  position: relative;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--tp-text-body);
+  text-transform: capitalize;
+  text-align: start;
+  margin: 0;
+  padding-left: 0;
 }
 .main-menu ul li .mega-menu li ul li a:hover {
-    color: var(--tp-heading-secondary);
-    padding-left: 8px;
+  color: var(--tp-heading-secondary);
+  padding-left: 8px;
 }
 
-
-
-.header__info a i, .header__info button i {
-    height: 40px;
-    width: 40px;
-    border-radius: 50px;
-    background-color: var(--tp-grey-3);
-    text-align: center;
-    line-height: 40px;
-    color: var(--tp-theme-1);
-    display: block;
+.header__info a i,
+.header__info button i {
+  height: 40px;
+  width: 40px;
+  border-radius: 50px;
+  background-color: var(--tp-grey-3);
+  text-align: center;
+  line-height: 40px;
+  color: var(--tp-theme-1);
+  display: block;
 }
 .icon-search:before {
-    content: "\e9ed";
+  content: '\f002';
+  font: normal normal normal 14px/1 FontAwesome;
 }
 
 .icon-user:before {
-    content: "\e91a";
+  font: normal normal normal 14px/1 FontAwesome;
+  content: '\f007';
 }
 
 .icon-heart:before {
-    content: "\e99e";
+  font: normal normal normal 14px/1 FontAwesome;
+  content: '\f004';
 }
 
 .tpcolor__yellow a i,
 .tpcolor__greenish a i,
 .tpcolor__oasis button i {
-    background-color: var(--tp-grey-4);
+  background-color: var(--tp-grey-4);
 }
 
 .tpcolor__greenish a i {
-    background-color: var(--tp-grey-5);
+  background-color: var(--tp-grey-5);
 }
 
 .tpcolor__oasis button i {
-    background-color: var(--tp-grey-6);
+  background-color: var(--tp-grey-6);
 }
 
 .header__info {
-    justify-content: end;
+  justify-content: end;
 }
 .header__info-cart span {
-    position: absolute;
-    font-size: 11px;
-    background-color: red;
-    color: var(--tp-common-white);
-    height: 18px;
-    width: 18px;
-    text-align: center;
-    line-height: 18px;
-    display: block;
-    border-radius: 50px;
-    top: 26px;
-    right: -3px;
+  position: absolute;
+  font-size: 11px;
+  background-color: red;
+  color: var(--tp-common-white);
+  height: 18px;
+  width: 18px;
+  text-align: center;
+  line-height: 18px;
+  display: block;
+  border-radius: 50px;
+  top: 26px;
+  right: -3px;
 }
 </style>
