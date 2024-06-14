@@ -19,6 +19,7 @@ body {
   overflow-X: hidden !important;
 }
 header{
+  max-height: 122px;
   font-family: var(--tp-ff-jost);
 }
 
