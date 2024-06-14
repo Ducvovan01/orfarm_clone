@@ -4,6 +4,7 @@
 @import 'spacing.css';
 @import '_background.css';
 @import '_button.css';
+@import 'animation.css';
 
 #app {
   width: 100%;
@@ -51,7 +52,7 @@ a, button {
       background-color: var(--tp-theme-1);
 }
 
-@media (hover: hover) {
+@media (hover:hover) {
   a:hover {
   }
 }

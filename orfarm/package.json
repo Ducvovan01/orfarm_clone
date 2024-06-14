@@ -19,7 +19,7 @@
     "bootstrap": "^5.3.3",
     "font-awesome": "^4.7.0",
     "pinia": "^2.1.7",
-    "vue-router": "^4.3.0"
+    "vue-router": "^4.0.13"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.8.0",

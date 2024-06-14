@@ -1,16 +1,14 @@
 <script setup>
-import NotFound from './views/NotFound.vue';
-
-
+import Footer from '@/components/Footer.vue'
+import Header from '@/components/Header.vue'
 </script>
 
 <template>
-  <header>
-    <div class="wrapper">
-      <NotFound></NotFound>
-    </div>
-  </header>
-
+  <Header></Header>
+  <main>
+    <router-view></router-view>
+  </main>
+  <Footer></Footer>
 </template>
 
 <style scoped>
