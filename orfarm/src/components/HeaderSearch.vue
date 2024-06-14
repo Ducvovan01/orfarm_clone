@@ -16,10 +16,10 @@ const props = defineProps({
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-6 pt-100 pb-100">
-                        <h2 class="tpsearchbar__title">What Are You Looking For?</h2>
+                        <h2 class="tpsearchbar__title">Bạn Đang Tìm Kiếm Gì?</h2>
                         <div class="tpsearchbar__form">
                             <form action="#">
-                                <input type="text" name="search" placeholder="Search Product...">
+                                <input type="text" name="search" placeholder="Tìm sản phẩm...">
                                 <button class="tpsearchbar__search-btn"><i class="fa fa-magnifying-glass"></i></button>
                             </form>
                         </div>

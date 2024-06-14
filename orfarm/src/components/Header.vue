@@ -21,7 +21,6 @@ const currentLanguage = computed(() => {
   return foundLanguage ? foundLanguage.name : 'Tiếng Anh'
 })
 
-
 const openSearchBar = () => {
   isSearchBarOpened.value = true
 }
@@ -47,7 +46,7 @@ const toggleTopPriceSelect = () => {
           <div class="col-lg-6 col-md-12">
             <div class="header__top-left">
               <span
-                >Do đợt dịch bệnh <strong>COVID-19</strong>, các đơn hàng có thể được xử lý chậm hơn
+                >Do đợt dịch bệnh <strong>COVID-19</strong>, đơn hàng có thể được xử lý chậm hơn
                 một chút.</span
               >
             </div>
@@ -214,8 +213,8 @@ const toggleTopPriceSelect = () => {
                         <li><a href="404.html">Trang 404</a></li>
                       </ul>
                     </li>
-                    <li><a href="about.html">Về chúng tôi</a></li>
-                    <li><a href="contact.html">Liên hệ chúng tôi</a></li>
+                    <li><a href="about.html">Thông tin</a></li>
+                    <li><a href="contact.html">Liên hệ</a></li>
                   </ul>
                 </nav>
               </div>
@@ -234,7 +233,7 @@ const toggleTopPriceSelect = () => {
                   <a href="wishlist.html"><i class="icon-heart icons"></i></a>
                 </div>
                 <div class="header__info-cart tpcolor__oasis ml-10 tp-cart-toggle">
-                  <button>
+                  <button class="header__info-button">
                     <i><img src="../assets/img/icon/cart-1.svg" alt="" /></i>
                     <span>5</span>
                   </button>
@@ -267,7 +266,7 @@ const toggleTopPriceSelect = () => {
   color: var(--tp-common-white);
   display: inline-block;
   font-size: 13px;
-  margin-left: 25px;
+  margin-left: 14px;
   cursor: pointer;
 }
 .header__top-link a:hover {
@@ -621,6 +620,10 @@ const toggleTopPriceSelect = () => {
   padding-left: 8px;
 }
 
+#mobile-menu > ul {
+  margin-bottom: 0;
+}
+
 .header__info a i,
 .header__info button i {
   height: 40px;
@@ -664,6 +667,11 @@ const toggleTopPriceSelect = () => {
 .header__info {
   justify-content: end;
 }
+
+.header__info-button {
+  position: relative;
+}
+
 .header__info-cart span {
   position: absolute;
   font-size: 11px;
@@ -675,7 +683,7 @@ const toggleTopPriceSelect = () => {
   line-height: 18px;
   display: block;
   border-radius: 50px;
-  top: 26px;
+  top: 0px;
   right: -3px;
 }
 </style>
