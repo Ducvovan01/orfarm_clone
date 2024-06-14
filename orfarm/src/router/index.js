@@ -9,12 +9,12 @@ import LogIn from '../views/LogIn.vue';
 import Cart from '../views/Cart.vue';
 import Wishlist from '../views/Wishlist.vue';
 import NotFound from '../views/NotFound.vue';
-
+import Home from '../views/Home.vue';
 const routes = [
   {
     path: '/',
     name: 'home',
-    component: App
+    component: Home
   },
   {
     path: '/shop-details',
