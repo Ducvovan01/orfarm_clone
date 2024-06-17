@@ -110,7 +110,7 @@ const toggleTopPriceSelect = () => {
                      <div class="col-xl-4">
                         <div class="header__info d-flex align-items-center justify-content-end">
                            <div class="header__info-search tpcolor__purple ml-10">
-                              <button class="tp-search-toggle"><i class="icon-search"></i></button>
+                              <button class="tp-search-toggle"  @click="openSearchBar" ><i class="icon-search"></i></button>
                            </div>
                            <div class="header__info-user tpcolor__yellow ml-10">
                               <a href="#"><i class="icon-user"></i></a>
