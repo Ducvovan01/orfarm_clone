@@ -6,6 +6,8 @@
 @import '_background.css';
 @import '_button.css';
 @import 'animation.css';
+@import 'animate.css';
+@import '_section-title.css';
 
 #app {
   width: 100%;
@@ -23,6 +25,11 @@ header{
   max-height: 122px;
   font-family: var(--tp-ff-jost);
 }
+@media (min-width: 1400px) {
+      .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+          max-width: 1410px !important;
+      }
+  }
 
 h1,
 h2,

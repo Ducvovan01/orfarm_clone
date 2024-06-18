@@ -1,12 +1,13 @@
 <script setup>
 import HeaderSearch from './HeaderSearch.vue'
 import { ref, computed } from 'vue'
-import { defineProps } from 'vue';
+import { defineProps,onMounted, onUnmounted  } from 'vue';
 
 const props = defineProps({
   isHomePage: Boolean
 });
 
+const isHeaderSticky = ref(false)
 const isSearchBarOpened = ref(false)
 const isTopPriceOpened = ref(false)
 const currencies = ['USD', 'ARS', 'AUD', 'BRL', 'GBP', 'DKK', 'EUR']
@@ -42,6 +43,21 @@ const closeSearchBar = () => {
 const toggleTopPriceSelect = () => {
   isTopPriceOpened.value = !isTopPriceOpened.value
 }
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll)
+})
+
+const handleScroll = () => {
+  if (window.scrollY > 400) {
+    isHeaderSticky.value = true
+  } else {
+    isHeaderSticky.value = false
+  }
+}
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
+})
 </script>
 
 <template>
@@ -89,7 +105,7 @@ const toggleTopPriceSelect = () => {
       </div>
     </div>
 
-    <!-- Header Menu -->
+    <!--Header Menu-->
     <div id="header-sticky" class="header__main-area three d-none d-xl-block">
       <div class="container">
         <div class="header__for-megamenu p-relative" v-if='isHomePage'>
@@ -126,10 +142,10 @@ const toggleTopPriceSelect = () => {
                         </div>
                      </div>
                   </div>
-                  <div class="row justify-content-center"> 
+                  <div class="row justify-content-center" :class="{ 'header-sticky': isHeaderSticky }">  
                      <div class="col-xxl-6 col-xl-8">
               <div class="header__menu main-menu three text-center">
-                <nav id="mobile-menu" style="display: block">
+                <nav id="mobile-menu" style="display: block" >
                   <ul>
                     <li class="has-dropdown has-homemenu">
                       <a href="index.html">Trang chủ <i class="fa fa-chevron-down icon"></i></a>
@@ -256,7 +272,7 @@ const toggleTopPriceSelect = () => {
           </div>
           </div>
           <div class="header__for-megamenu p-relative" v-else>
-          <div class="row align-items-center">
+          <div class="row align-items-center" :class="{ 'header-sticky': isHeaderSticky }">
             <div class="col-xl-3">
               <div class="header__logo">
                 <a href="index.html"><img src="../assets/img/logo/logo.png" alt="logo" /></a>
@@ -419,6 +435,18 @@ const toggleTopPriceSelect = () => {
 </template>
 
 <style scoped>
+.header-sticky {
+    position: fixed;
+    left: 0;
+    margin: auto;
+    top: 0;
+    width: 100%;
+    box-shadow: 0 0 60px 0 rgba(0, 0, 0, 0.07);
+    z-index: 99999;
+    animation: 300ms ease-in-out 0s normal none 1 running fadeInDown;
+    background: var(--tp-common-white);
+}
+
 .header-logo-border {
     padding: 30px 0;
     border-bottom: 1px solid var(--tp-border-1);
@@ -885,6 +913,6 @@ const toggleTopPriceSelect = () => {
   right: -3px;
 }
 .main-menu.three ul li a {
-  padding: 22px 12px;
+  padding: 22px 20px;
 }
 </style>
