@@ -64,7 +64,7 @@ const toggleFormCoupon = ()=>{
       <div class="col-md-6">
         <div class="coupon-accordion">
           <!-- ACCORDION START -->
-          <h3>Khách hàng cũ? <span id="showlogin" @click="toggleFormLogin()">Nhấn vào đây để đăng nhập</span></h3>
+          <h3>Đã có tài khoản? <span id="showlogin" @click="toggleFormLogin()">Nhấn vào đây để đăng nhập</span></h3>
           <div id="checkout-login" class="coupon-content" :class="{ open: isShowLogin }">
             <div class="coupon-info">
               <p class="coupon-text">Quisque gravida turpis sit amet nulla posuere lacinia. Cras sed est sit amet ipsum luctus.</p>
@@ -81,7 +81,7 @@ const toggleFormCoupon = ()=>{
                   <button class="tp-btn tp-color-btn" type="submit">Đăng nhập</button>
                   <label>
                     <input type="checkbox" v-model="form.login.rememberMe">
-                    Nhớ tôi
+                    Ghi nhớ đăng nhập
                   </label>
                 </p>
                 <p class="lost-password">

@@ -1,6 +1,13 @@
 <script setup>
 import HeaderSearch from './HeaderSearch.vue'
 import { ref, computed } from 'vue'
+import { defineProps,onMounted, onUnmounted  } from 'vue';
+
+const props = defineProps({
+  isHomePage: Boolean
+});
+
+const isHeaderSticky = ref(false)
 const isSearchBarOpened = ref(false)
 const isTopPriceOpened = ref(false)
 const currencies = ['USD', 'ARS', 'AUD', 'BRL', 'GBP', 'DKK', 'EUR']
@@ -36,6 +43,21 @@ const closeSearchBar = () => {
 const toggleTopPriceSelect = () => {
   isTopPriceOpened.value = !isTopPriceOpened.value
 }
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll)
+})
+
+const handleScroll = () => {
+  if (window.scrollY > 400) {
+    isHeaderSticky.value = true
+  } else {
+    isHeaderSticky.value = false
+  }
+}
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
+})
 </script>
 
 <template>
@@ -83,11 +105,174 @@ const toggleTopPriceSelect = () => {
       </div>
     </div>
 
-    <!-- Header Menu -->
-    <div id="header-sticky" class="header__main-area d-none d-xl-block">
+    <!--Header Menu-->
+    <div id="header-sticky" class="header__main-area three d-none d-xl-block">
       <div class="container">
-        <div class="header__for-megamenu p-relative">
-          <div class="row align-items-center">
+        <div class="header__for-megamenu p-relative" v-if='isHomePage'>
+          <div class="row align-items-center header-logo-border">
+                     <div class="col-xl-4">
+                        <div class="header-three__search">
+                           <form action="#">
+                              <input type="email" placeholder="Search products...">
+                              <i class="icon-search"></i>
+                           </form>
+                        </div>
+                     </div>
+                     <div class="col-xl-4">
+                        <div class="header__logo text-center">
+                           <a href="index.html"><img src="../assets/img/logo/logo.png" alt="logo"></a>
+                        </div>
+                     </div>
+                     <div class="col-xl-4">
+                        <div class="header__info d-flex align-items-center justify-content-end">
+                           <div class="header__info-search tpcolor__purple ml-10">
+                              <button class="tp-search-toggle"  @click="openSearchBar" ><i class="icon-search"></i></button>
+                           </div>
+                           <div class="header__info-user tpcolor__yellow ml-10">
+                              <a href="#"><i class="icon-user"></i></a>
+                           </div>
+                           <div class="header__info-wishlist tpcolor__greenish ml-10">
+                              <a href="#"><i class="icon-heart icons"></i></a>
+                           </div>
+                           <div class="header__info-cart tpcolor__oasis ml-10 tp-cart-toggle">
+                              <button><i><img src="../assets/img/icon/cart-1.svg" alt=""></i>
+                                 <span>5</span>
+                              </button>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="row justify-content-center" :class="{ 'header-sticky': isHeaderSticky }">  
+                     <div class="col-xxl-6 col-xl-8">
+              <div class="header__menu main-menu three text-center">
+                <nav id="mobile-menu" style="display: block" >
+                  <ul>
+                    <li class="has-dropdown has-homemenu">
+                      <a href="index.html">Trang chủ <i class="fa fa-chevron-down icon"></i></a>
+                      <ul class="sub-menu home-menu-style">
+                        <li>
+                          <a href="index.html"
+                            ><img src="../assets/img/header/home1-1.jpg" alt="" /> Trang chủ V1</a
+                          >
+                        </li>
+                        <li>
+                          <a href="index-2.html"
+                            ><img src="../assets/img/header/home2-1.jpg" alt="" /> Trang chủ V2</a
+                          >
+                        </li>
+                        <li>
+                          <a href="index-3.html"
+                            ><img src="../assets/img/header/home3-1.jpg" alt="" /> Trang chủ V3</a
+                          >
+                        </li>
+                        <li>
+                          <a href="index-4.html"
+                            ><img src="../assets/img/header/home4-1.jpg" alt="" /> Trang chủ V4</a
+                          >
+                        </li>
+                        <li>
+                          <a href="index-5.html"
+                            ><img src="../assets/img/header/home5-1.jpg" alt="" /> Trang chủ V5</a
+                          >
+                        </li>
+                        <li>
+                          <a href="index-6.html"
+                            ><img src="../assets/img/header/home6-1.jpg" alt="" /> Trang chủ V6</a
+                          >
+                        </li>
+                      </ul>
+                    </li>
+                    <li class="has-dropdown has-megamenu">
+                      <a href="course-grid.html"
+                        >Cửa hàng <i class="fa fa-chevron-down icon"></i
+                      ></a>
+                      <ul
+                        class="sub-menu mega-menu"
+                        data-background="../assets/img/banner/mega-menu-shop-1.jpg"
+                        style="background-image: url('../assets/img/banner/mega-menu-shop-1.jpg')"
+                      >
+                        <li>
+                          <a class="mega-menu-title">Bố cục cửa hàng</a>
+                          <ul>
+                            <li><a href="shop-left-sidebar.html">Cửa hàng có Banner </a></li>
+                            <li><a href="shop-3.html">Cửa hàng không Banner</a></li>
+                            <li><a href="shop-2.html">Phiên bản Cửa hàng</a></li>
+                            <li>
+                              <a href="shop-left-sidebar.html">Thanh bên trái của cửa hàng</a>
+                            </li>
+                            <li>
+                              <a href="shop-right-sidebar.html">Thanh bên phải của cửa hàng</a>
+                            </li>
+                            <li><a href="shop-list-view.html">Chế độ xem danh sách cửa hàng</a></li>
+                          </ul>
+                        </li>
+                        <li>
+                          <a class="mega-menu-title">Bố cục sản phẩm</a>
+                          <ul>
+                            <li><a href="shop-details-3.html">Cuộn ảnh</a></li>
+                            <li><a href="shop-details-grid.html">Lưới sản phẩm</a></li>
+                            <li><a href="shop-details-top.html">Sản phẩm có đầu ngón tay</a></li>
+                            <li><a href="shop-details.html">Sản phẩm dưới đáy</a></li>
+                            <li><a href="shop-details-4.html">Sản phẩm đơn giản</a></li>
+                          </ul>
+                        </li>
+                        <li>
+                          <a class="mega-menu-title">Loại sản phẩm</a>
+                          <ul>
+                            <li><a href="shop-details.html">Sản phẩm đơn giản</a></li>
+                            <li><a href="shop-details-grid.html">Nhóm sản phẩm</a></li>
+                            <li><a href="shop-details-3.html">Sản phẩm biến thể</a></li>
+                            <li><a href="shop-details-3.html">Đặc biệt</a></li>
+                            <li><a href="shop-details-4.html">Trang trí</a></li>
+                            <li><a href="shop-details-top.html">Xây dựng</a></li>
+                          </ul>
+                        </li>
+                        <li>
+                          <a class="mega-menu-title">Danh mục sản phẩm</a>
+                          <ul>
+                            <li><a href="shop-details.html">Bánh ngọt tươi</a></li>
+                            <li><a href="shop-details-3.html">Trái cây tươi</a></li>
+                            <li><a href="shop-details-4.html">Thịt tươi</a></li>
+                            <li><a href="shop-details.html">Nước trái cây</a></li>
+                            <li><a href="shop-details.html">Bánh quy snack</a></li>
+                            <li><a href="shop-details-grid.html">Bánh quy snack</a></li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </li>
+                    <li class="has-dropdown">
+                      <a href="blog.html">Blog <i class="fa fa-chevron-down icon"></i></a>
+                      <ul class="sub-menu">
+                        <li><a href="blog.html">Hình ảnh lớn</a></li>
+                        <li><a href="blog-right-sidebar.html">Thanh bên phải</a></li>
+                        <li><a href="blog-left-sidebar.html">Thanh bên trái</a></li>
+                        <li><a href="blog-details.html">Bài đăng duy nhất</a></li>
+                      </ul>
+                    </li>
+                    <li class="has-dropdown">
+                      <a href="about.html">Trang <i class="fa fa-chevron-down icon"></i></a>
+                      <ul class="sub-menu">
+                        <li><a href="shop-location.html">Địa điểm cửa hàng một</a></li>
+                        <li><a href="shop-location-2.html">Địa điểm cửa hàng hai</a></li>
+                        <li><a href="faq.html">Câu hỏi thường gặp</a></li>
+                        <li><a href="checkout.html">Thanh toán</a></li>
+                        <li><a href="cart.html">Trang giỏ hàng</a></li>
+                        <li><a href="wishlist.html">Danh sách mong muốn</a></li>
+                        <li><a href="log-in.html">Đăng nhập</a></li>
+                        <li><a href="comming-soon.html">Sắp tới</a></li>
+                        <li><a href="404.html">Trang 404</a></li>
+                      </ul>
+                    </li>
+                    <li><a href="about.html">Thông tin</a></li>
+                    <li><a href="contact.html">Liên hệ</a></li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          </div>
+          </div>
+          <div class="header__for-megamenu p-relative" v-else>
+          <div class="row align-items-center" :class="{ 'header-sticky': isHeaderSticky }">
             <div class="col-xl-3">
               <div class="header__logo">
                 <a href="index.html"><img src="../assets/img/logo/logo.png" alt="logo" /></a>
@@ -240,6 +425,7 @@ const toggleTopPriceSelect = () => {
                 </div>
               </div>
             </div>
+      
           </div>
         </div>
       </div>
@@ -249,6 +435,22 @@ const toggleTopPriceSelect = () => {
 </template>
 
 <style scoped>
+.header-sticky {
+    position: fixed;
+    left: 0;
+    margin: auto;
+    top: 0;
+    width: 100%;
+    box-shadow: 0 0 60px 0 rgba(0, 0, 0, 0.07);
+    z-index: 99999;
+    animation: 300ms ease-in-out 0s normal none 1 running fadeInDown;
+    background: var(--tp-common-white);
+}
+
+.header-logo-border {
+    padding: 30px 0;
+    border-bottom: 1px solid var(--tp-border-1);
+}
 .header__top-left span {
   color: var(--tp-common-white);
   font-size: 13px;
@@ -357,13 +559,13 @@ const toggleTopPriceSelect = () => {
   cursor: pointer;
 }
 
-.header__main-area {
-  border: 1px solid #e6eaf0;
-}
 .main-menu ul li.has-homemenu {
   position: static;
 }
 
+.main-menu ul{
+  padding-left:0;
+}
 .main-menu ul li {
   position: relative;
   display: inline-block;
@@ -635,6 +837,27 @@ const toggleTopPriceSelect = () => {
   color: var(--tp-theme-1);
   display: block;
 }
+.header-three__search form {
+    position: relative;
+}
+.header-three__search form input {
+    height: 40px;
+    width: 260px;
+    border-radius: 30px;
+    border: none;
+    background-color: #F4F4F4;
+    display: block;
+    padding: 5px 20px 5px 45px;
+}
+.header-three__search form i {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 20px;
+    margin-right: 8px;
+    font-size: 16px;
+    color: var(--tp-common-black);
+}
 .icon-search:before {
   content: '\f002';
   font: normal normal normal 14px/1 FontAwesome;
@@ -671,6 +894,9 @@ const toggleTopPriceSelect = () => {
 .header__info-button {
   position: relative;
 }
+.header__info-cart{
+  position:relative;
+}
 
 .header__info-cart span {
   position: absolute;
@@ -685,5 +911,8 @@ const toggleTopPriceSelect = () => {
   border-radius: 50px;
   top: 0px;
   right: -3px;
+}
+.main-menu.three ul li a {
+  padding: 22px 20px;
 }
 </style>
