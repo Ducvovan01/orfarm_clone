@@ -79,10 +79,10 @@ import HomeBlogArea from '@/components/HomeBlogArea.vue'
    </div>
 </section>
  <!-- HomePage Weekly Product -->
- <ProductSlider title='Weekly Food Offers' option='View All'/>
+ <ProductSlider title='Weekly Food Offers' option='View All' fullscreen=''/>
          <HomeBannerSection/>
-         <ProductSlider title='New Arrivals\Features\Best Rate' option='View All'/>
-         <ProductSlider title='Top Trending Product' option='All\Sea Food\Vegetables\Beans & Peas'/>
+         <ProductSlider title='New Arrivals\Features\Best Rate' option='View All' fullscreen=''/>
+         <ProductSlider title='Top Trending Product' option='All\Sea Food\Vegetables\Beans & Peas' fullscreen=''/>
          <HomeBigBannerSection/>
          <HomeBrandProduct/>
          <HomeReviewSlider/>

@@ -32,6 +32,7 @@ const props = defineProps({
 <style scoped>
 .breadcrumb__area{
     position: relative;
+    background-color:transparent;
 }
 .tp-breadcrumb__content {
     padding: 8px 0;
