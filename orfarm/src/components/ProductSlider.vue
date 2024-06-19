@@ -6,7 +6,9 @@ const props = defineProps({
   },
   option:{
     type:String,
-    required: true,
+  },
+  fullscreen:{
+   type:Boolean,
   }
 });
 
@@ -17,11 +19,14 @@ const haveMultiOption = (param)=>{
         return false;
     }
 }
+const isValidOption = (option) => {
+  return option && Object.keys(option).length > 0;
+};
 
 </script>
    <template>
       <section class="weekly-product-area grey-bg whight-product">
-         <div class="container">
+         <div :class="{ container: !isValidOption(fullscreen) }">
             <div class="sections__wrapper white-bg pr-50 pl-50">
                <div class="row align-items-center">
                   <div class="col-md-6 text-center">
@@ -40,20 +45,21 @@ const haveMultiOption = (param)=>{
                   </div>
                   <div class="col-md-6">
                      
-                     <div class="tpnavtab__area tp-navtab-style-2" v-if='haveMultiOption(option)'>
-                              <nav>
-                                 <div class="nav nav-tabs" role="tablist">
-                                    <button class="nav-link active" id="nav-all-tab" data-bs-toggle="tab" data-bs-target="#nav-all" type="button" role="tab" aria-controls="nav-all" aria-selected="true">All</button>
-                                    <button class="nav-link" id="nav-meat-tab" data-bs-toggle="tab" data-bs-target="#nav-meat" type="button" role="tab" aria-controls="nav-meat" aria-selected="false" tabindex="-1">Sea Food</button>
-                                    <button class="nav-link" id="nav-vegetables-tab" data-bs-toggle="tab" data-bs-target="#nav-vegetables" type="button" role="tab" aria-controls="nav-vegetables" aria-selected="false" tabindex="-1">Vegetables</button>
-                                    <button class="nav-link" id="nav-snacks-tab" data-bs-toggle="tab" data-bs-target="#nav-snacks" type="button" role="tab" aria-controls="nav-snacks" aria-selected="false" tabindex="-1">Beans &amp; Peas</button>
-                                 </div>
-                              </nav>
-                           </div>
-                     <div class="tpproduct__all-item" v-else>
-                        <a href="#">View All <i class="icon-chevron-right"></i></a>
-                     </div>
-
+                     <div v-if="isValidOption(option)">
+    <div class="tpnavtab__area tp-navtab-style-2" v-if="haveMultiOption(option)">
+      <nav>
+        <div class="nav nav-tabs" role="tablist">
+          <button class="nav-link active" id="nav-all-tab" data-bs-toggle="tab" data-bs-target="#nav-all" type="button" role="tab" aria-controls="nav-all" aria-selected="true">All</button>
+          <button class="nav-link" id="nav-meat-tab" data-bs-toggle="tab" data-bs-target="#nav-meat" type="button" role="tab" aria-controls="nav-meat" aria-selected="false" tabindex="-1">Sea Food</button>
+          <button class="nav-link" id="nav-vegetables-tab" data-bs-toggle="tab" data-bs-target="#nav-vegetables" type="button" role="tab" aria-controls="nav-vegetables" aria-selected="false" tabindex="-1">Vegetables</button>
+          <button class="nav-link" id="nav-snacks-tab" data-bs-toggle="tab" data-bs-target="#nav-snacks" type="button" role="tab" aria-controls="nav-snacks" aria-selected="false" tabindex="-1">Beans &amp; Peas</button>
+        </div>
+      </nav>
+    </div>
+    <div class="tpproduct__all-item" v-else>
+      <a href="#">View All <i class="icon-chevron-right"></i></a>
+    </div>
+  </div>
                   </div>
                </div>
                <div class="row">

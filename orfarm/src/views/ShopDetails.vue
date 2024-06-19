@@ -1,7 +1,8 @@
 <script setup>
 import BreadCrumb from '@/components/BreadCrumb.vue'
-
+import ProductSlider from '@/components/ProductSlider.vue'
 const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, { route:'shop', name: 'Bữa sáng & Sữa' },{name:'Măng Cụt Tươi 100% Hữu Cơ Từ Việt Nam'}]
+
 </script>
 <template>
 <BreadCrumb :breadCrumbPath="breadCrumbPath" />
@@ -391,6 +392,8 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, { route:'shop', nam
                </div>
             </div>
          </section>
+
+        <ProductSlider title='Related Products' option='' fullscreen='true'/>
 </template>
 <style scoped>
 .tpdetails__product {
@@ -732,5 +735,186 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, { route:'shop', nam
 }
 .tpdescription__video-wrapper img {
     border-radius: 5px;
+}
+
+.tpreview__wrapper-title {
+    font-size: 24px;
+    color: var(--tp-heading-primary);
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+.tpreview__comment {
+    display: flex;
+    margin-bottom: 20px;
+    padding-bottom: 50px;
+    border-bottom: 1px solid var(--tp-border-1);
+}
+.tpreview__comment-img {
+    flex: 0 0 auto;
+}
+
+.tpreview__comment-text {
+    flex: 0 0 auto;
+    border: 1px solid var(--tp-border-1);
+    border-radius: 10px;
+    padding: 10px;
+}
+.tpreview__comment-author {
+    font-weight: 600;
+    color: var(--tp-heading-primary);
+    font-size: 13px;
+    text-transform: uppercase;
+    flex: 0 0 auto;
+    margin-right: 10px;
+}
+.tpreview__comment-star {
+    flex: 0 0 auto;
+}
+.tpreview__comment-star i {
+    font-size: 14px;
+    color: var(--tp-text-1);
+}
+.icon-star_outline1:before {
+    margin-right:5px;
+    content: "\f005";
+    font: normal normal normal 14px/1 FontAwesome;
+}
+.tpreview__comment-text .date {
+    color: #767676;
+    font-size: 14px;
+    font-weight: 400;
+    display: inline-block;
+}
+.tpreview__form-title {
+    color: var(--tp-heading-primary);
+    font-weight: 600;
+    font-size: 20px;
+}
+.tpreview__input input {
+    height: 60px;
+    width: 100%;
+    border: 1px solid var(--tp-border-1);
+    border-radius: 30px;
+    padding: 5px 30px;
+}
+.tpreview__star .title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--tp-heading-primary);
+}
+.tpreview__star-icon i {
+    color: var(--tp-heading-primary);
+}
+.tpreview__input textarea {
+    width: 100%;
+    padding: 10px;
+    height: 220px;
+    border: 1px solid var(--tp-border-1);
+    border-radius: 10px;
+    outline: 0;
+}
+.tpsidebar__warning {
+    border: 1px solid #E8C3C3;
+    border-radius: 10px;
+    padding: 25px 30px;
+}
+.tpsidebar__warning ul li {
+    list-style: none;
+    padding-bottom: 30px;
+    margin-bottom: 26px;
+    border-bottom: 1px dashed #E8C3C3;
+}
+.tpsidebar__warning-item {
+    text-align: center;
+}
+.tpsidebar__warning-icon i {
+    color: #B45353;
+    font-size: 20px;
+}
+.icon-package:before {
+    content: "\e9cd";
+}
+.icon-shield:before {
+    content: "\e9f3";
+}
+
+.icon-package:before {
+    content: "\e9cd";
+}
+.tpsidebar__warning ul{
+    padding:0;
+}
+.tpsidebar__warning-text p {
+    font-family: var(--tp-ff-jost);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
+    color: #B45353;
+    margin-bottom: 0px;
+}
+.tpsidebar__banner img {
+    max-width: 100%;
+}
+
+.tpsidebar__product {
+    background: var(--tp-common-white);
+    border-radius: 10px;
+    padding: 35px 30px 25px 30px;
+}
+.tpsidebar__title {
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 25px;
+    letter-spacing: -0.03em;
+    color: var(--tp-heading-primary);
+}
+.tpsidebar__product-item {
+    border-bottom: 1px dashed #E6ECF0;
+    margin-bottom: 15px;
+    padding-bottom: 12px;
+}
+.tpsidebar__product-thumb img {
+    max-width: 100%;
+}
+.tpsidebar__info {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.bage__hot {
+    font-weight: 500;
+    font-size: 12px;
+    background-color: var(--tp-text-4);
+    border-radius: 2px;
+    color: var(--tp-theme-2);
+    padding: 3px 9px;
+}
+.tpsidebar__product-title a{
+    word-break: break-word;
+    font-family: var(--tp-ff-jost);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    color: var(--tp-heading-primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+}
+.tpproduct__rating a i {
+    margin-right: -5px;
+    font-size: 14px;
+    color: var(--tp-text-1);
+}
+.tpproduct__price span {
+    color: var(--tp-theme-2);
+    font-weight: 500;
+    font-size: 18px;
+}
+.tpproduct__price del {
+    font-weight: 400;
+    font-size: 14px;
 }
 </style>
