@@ -435,6 +435,9 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
+.header__main-area {
+    border: 1px solid #E6EAF0;
+}
 .header-sticky {
     position: fixed;
     left: 0;
