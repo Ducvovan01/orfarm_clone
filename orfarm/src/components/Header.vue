@@ -875,7 +875,10 @@ onUnmounted(() => {
   font: normal normal normal 14px/1 FontAwesome;
   content: '\f004';
 }
-
+.fa-chevron-down:before  {
+    content: "\f107";
+    font: normal normal normal 16px/1 FontAwesome;
+}
 .tpcolor__yellow a i,
 .tpcolor__greenish a i,
 .tpcolor__oasis button i {
