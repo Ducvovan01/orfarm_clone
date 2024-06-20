@@ -8,6 +8,8 @@
 @import 'animation.css';
 @import 'animate.css';
 @import '_section-title.css';
+@import '_product.css';
+@import '_pagination.css';
 
 #app {
   width: 100%;

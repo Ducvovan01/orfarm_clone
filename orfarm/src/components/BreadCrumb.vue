@@ -3,12 +3,15 @@ const props = defineProps({
   breadCrumbPath: {
     type: Array,
     required: true
+  },
+  isGrey:{
+    type:String,
   }
 })
 </script>
 
 <template>
-  <div class="breadcrumb__area pt-5x pb-5x">
+  <div class="breadcrumb__area pt-5x pb-5x" :class="{'grey-bg' : isGrey}">
     <div class="container">
       <div class="row">
         <div class="col-lg-12">
@@ -32,7 +35,6 @@ const props = defineProps({
 <style scoped>
 .breadcrumb__area{
     position: relative;
-    background-color:transparent;
 }
 .tp-breadcrumb__content {
     padding: 8px 0;
