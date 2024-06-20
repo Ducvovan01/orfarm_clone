@@ -46,7 +46,7 @@
 <style scoped>
 
 .slider-area    {
-    top:90px;
+    top:86px;
     position:relative;
     height: 600px;
     background-position: bottom;
