@@ -1,99 +1,25 @@
 <script setup>
- import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
-import {ref} from 'vue';
-import { Swiper, SwiperSlide } from 'swiper/vue';
+import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 
-const swiperOption = ref({
-      slidesPerView: 3,
-      spaceBetween: 30,
-      pagination: {
-        el: '.swiper-pagination',
-        clickable: true
-      }
-    });
+import { Virtual } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/vue";
+
+
+const onSwiper = (swiper) => {
+  console.log(swiper);
+};
+
+const onSlideChange = () => {
+  console.log("slide change");
+};
 </script>
 <template>
     <section class="blog-area pt-30">
-        <div class="container-fluid">
-            <swiper class="swiper" :options="swiperOption">
-                <swiper-slide>  <div class="swiper-slide swiper-slide-active" style="width: 452.667px; margin-right: 30px;" role="group" aria-label="1 / 4">
-                  <div class="tpblog__single p-relative">
-                     <div class="tpblog__single-img">
-                        <img src="../assets/img/blog/blog-single-1.jpg" alt="">
-                     </div>
-                     <div class="tpblog__single-text text-center">
-                        <div class="tpblog__entry-wap">
-                           <span class="cat-links"><a href="shop-details.html">Lifestyle</a></span>
-                           <span class="author-by"><a href="#">Admin</a></span>
-                           <span class="post-data"><a href="#">SEP 15. 2022</a></span>
-                        </div>
-                        <h4 class="tpblog__single-title mb-20">
-                           <a href="blog-details.html">Popular Reasons You Must Drinks <br> Juice Everyday</a>
-                        </h4>
-                        <a href="blog-details.html">Continue reading</a>
-                     </div>
-                  </div>
-               </div></swiper-slide>
-                <swiper-slide> <div class="swiper-slide swiper-slide-active" style="width: 452.667px; margin-right: 30px;" role="group" aria-label="1 / 4">
-                  <div class="tpblog__single p-relative">
-                     <div class="tpblog__single-img">
-                        <img src="../assets/img/blog/blog-single-1.jpg" alt="">
-                     </div>
-                     <div class="tpblog__single-text text-center">
-                        <div class="tpblog__entry-wap">
-                           <span class="cat-links"><a href="shop-details.html">Lifestyle</a></span>
-                           <span class="author-by"><a href="#">Admin</a></span>
-                           <span class="post-data"><a href="#">SEP 15. 2022</a></span>
-                        </div>
-                        <h4 class="tpblog__single-title mb-20">
-                           <a href="blog-details.html">Popular Reasons You Must Drinks <br> Juice Everyday</a>
-                        </h4>
-                        <a href="blog-details.html">Continue reading</a>
-                     </div>
-                  </div>
-               </div></swiper-slide>
-                <swiper-slide> <div class="swiper-slide swiper-slide-active" style="width: 452.667px; margin-right: 30px;" role="group" aria-label="1 / 4">
-                  <div class="tpblog__single p-relative">
-                     <div class="tpblog__single-img">
-                        <img src="../assets/img/blog/blog-single-1.jpg" alt="">
-                     </div>
-                     <div class="tpblog__single-text text-center">
-                        <div class="tpblog__entry-wap">
-                           <span class="cat-links"><a href="shop-details.html">Lifestyle</a></span>
-                           <span class="author-by"><a href="#">Admin</a></span>
-                           <span class="post-data"><a href="#">SEP 15. 2022</a></span>
-                        </div>
-                        <h4 class="tpblog__single-title mb-20">
-                           <a href="blog-details.html">Popular Reasons You Must Drinks <br> Juice Everyday</a>
-                        </h4>
-                        <a href="blog-details.html">Continue reading</a>
-                     </div>
-                  </div>
-               </div></swiper-slide>
-                <swiper-slide> <div class="swiper-slide swiper-slide-active" style="width: 452.667px; margin-right: 30px;" role="group" aria-label="1 / 4">
-                  <div class="tpblog__single p-relative">
-                     <div class="tpblog__single-img">
-                        <img src="../assets/img/blog/blog-single-1.jpg" alt="">
-                     </div>
-                     <div class="tpblog__single-text text-center">
-                        <div class="tpblog__entry-wap">
-                           <span class="cat-links"><a href="shop-details.html">Lifestyle</a></span>
-                           <span class="author-by"><a href="#">Admin</a></span>
-                           <span class="post-data"><a href="#">SEP 15. 2022</a></span>
-                        </div>
-                        <h4 class="tpblog__single-title mb-20">
-                           <a href="blog-details.html">Popular Reasons You Must Drinks <br> Juice Everyday</a>
-                        </h4>
-                        <a href="blog-details.html">Continue reading</a>
-                     </div>
-                  </div>
-               </div></swiper-slide>
-                <div class="swiper-pagination" slot="pagination"></div>
-              </swiper>
-           <div class="swiper-container blog-active-3 swiper-container-initialized swiper-container-horizontal swiper-container-pointer-events">
-              <div class="swiper-wrapper" id="swiper-wrapper-bc445a6c1e43ab32" aria-live="off" style="transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;">
-                 <div class="swiper-slide swiper-slide-active" style="width: 452.667px; margin-right: 30px;" role="group" aria-label="1 / 4">
-                    <div class="tpblog__single p-relative">
+        <div class="container-fluid tpblog_slider">
+         <swiper :modules="[Virtual]" :slides-per-view="3" :space-between="50" virtual>
+        
+            <swiper-slide>      
+            <div class="tpblog__single p-relative">
                        <div class="tpblog__single-img">
                           <img src="../assets/img/blog/blog-single-1.jpg" alt="">
                        </div>
@@ -108,9 +34,10 @@ const swiperOption = ref({
                           </h4>
                           <a href="blog-details.html">Continue reading</a>
                        </div>
-                    </div>
-                 </div>
-                 <div class="swiper-slide swiper-slide-next" style="width: 452.667px; margin-right: 30px;" role="group" aria-label="2 / 4">
+            </div>
+                  </swiper-slide>  
+
+                  <swiper-slide>  
                     <div class="tpblog__single p-relative">
                        <div class="tpblog__single-img">
                           <img src="../assets/img/blog/blog-single-2.jpg" alt="">
@@ -126,9 +53,9 @@ const swiperOption = ref({
                           </h4>
                           <a href="blog-details.html">Continue reading</a>
                        </div>
-                    </div>
                  </div>
-                 <div class="swiper-slide" style="width: 452.667px; margin-right: 30px;" role="group" aria-label="3 / 4">
+               </swiper-slide>  
+               <swiper-slide>  
                     <div class="tpblog__single p-relative">
                        <div class="tpblog__single-img">
                           <img src="../assets/img/blog/blog-single-3.jpg" alt="">
@@ -145,8 +72,8 @@ const swiperOption = ref({
                           <a href="blog-details.html">Continue reading</a>
                        </div>
                     </div>
-                 </div>
-                 <div class="swiper-slide" role="group" aria-label="4 / 4" style="width: 452.667px; margin-right: 30px;">
+                  </swiper-slide>  
+                  <swiper-slide>  
                     <div class="tpblog__single p-relative">
                        <div class="tpblog__single-img">
                           <img src="../assets/img/blog/blog-single-1.jpg" alt="">
@@ -162,14 +89,20 @@ const swiperOption = ref({
                           </h4>
                           <a href="blog-details.html">Continue reading</a>
                        </div>
-                    </div>
                  </div>
-              </div>
-           <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+               </swiper-slide>  
+               </swiper>
+            
+           <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
         </div>
      </section>
 </template>
 <style scoped>
+.tpblog_slider{
+   width:100vw;
+   position:relative;
+   overflow:hidden;
+}
 .tpblog__single-img {
     position: relative;
 }
