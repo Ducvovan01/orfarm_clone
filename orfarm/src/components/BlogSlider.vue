@@ -4,14 +4,6 @@ import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 import { Virtual } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/vue";
 
-
-const onSwiper = (swiper) => {
-  console.log(swiper);
-};
-
-const onSlideChange = () => {
-  console.log("slide change");
-};
 </script>
 <template>
     <section class="blog-area pt-30">

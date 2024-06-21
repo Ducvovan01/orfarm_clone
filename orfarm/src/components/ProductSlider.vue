@@ -1,4 +1,7 @@
 <script setup>
+import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
+import { Virtual } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/vue";
 const props = defineProps({
     title: {
     type: String,
@@ -8,7 +11,7 @@ const props = defineProps({
     type:String,
   },
   fullscreen:{
-   type:Boolean,
+   type:String,
   }
 });
 
@@ -64,11 +67,11 @@ const isValidOption = (option) => {
                </div>
                <div class="row">
                   <div class="col-lg-12">
-                     <div class="tpnavtab__area pb-40">
-                        <div class="tpproduct__arrow p-relative">
-                           <div class="swiper-container tpproduct-active-2 tpslider-bottom p-relative swiper-container-initialized swiper-container-horizontal swiper-container-pointer-events">
-                              <div class="swiper-wrapper" id="swiper-wrapper-a4ffd613ce71f479" aria-live="off" style="transform: translate3d(0px, 0px, 0px);">
-                                 <div class="swiper-slide swiper-slide-active" role="group" aria-label="1 / 5" style="width: 246px; margin-right: 20px;">
+                     <div class="tpnavtab__area pb-40" >
+                        <div class="tpproduct__arrow p-relative container" >
+                           <swiper  :slides-per-view="6" :space-between="20">
+                            
+                              <swiper-slide style="width:10vw">  
                                     <div class="tpproduct p-relative tpprogress__hover">
                                        <div class="tpproduct__thumb p-relative text-center">
                                           <a href="#"><img src="../assets/img/product/products29-min.jpg" alt=""></a>
@@ -121,8 +124,8 @@ const isValidOption = (option) => {
                                           </div>
                                        </div>
                                     </div>
-                                 </div>
-                                 <div class="swiper-slide swiper-slide-next" role="group" aria-label="2 / 5" style="width: 246px; margin-right: 20px;">
+                                 </swiper-slide>  
+                                 <swiper-slide style="width:10vw">  
                                     <div class="tpproduct p-relative tpprogress__hover">
                                        <div class="tpproduct__thumb p-relative text-center">
                                           <a href="#"><img src="../assets/img/product/products9-min.jpg" alt=""></a>
@@ -174,8 +177,8 @@ const isValidOption = (option) => {
                                           </div>
                                        </div>
                                     </div>
-                                 </div>
-                                 <div class="swiper-slide" role="group" aria-label="3 / 5" style="width: 246px; margin-right: 20px;">
+                                 </swiper-slide>  
+                                 <swiper-slide style="width:10vw">  
                                     <div class="tpproduct p-relative tpprogress__hover">
                                        <div class="tpproduct__thumb p-relative text-center">
                                           <a href="#"><img src="../assets/img/product/products13-min.jpg" alt=""></a>
@@ -227,8 +230,8 @@ const isValidOption = (option) => {
                                           </div>
                                        </div>
                                     </div>
-                                 </div>
-                                 <div class="swiper-slide" role="group" aria-label="4 / 5" style="width: 246px; margin-right: 20px;">
+                                 </swiper-slide>  
+                                 <swiper-slide style="width:10vw">  
                                     <div class="tpproduct p-relative tpprogress__hover">
                                        <div class="tpproduct__thumb p-relative text-center">
                                           <a href="#"><img src="../assets/img/product/products27-min.jpg" alt=""></a>
@@ -281,8 +284,8 @@ const isValidOption = (option) => {
                                           </div>
                                        </div>
                                     </div>
-                                 </div>
-                                 <div class="swiper-slide" role="group" aria-label="5 / 5" style="width: 246px; margin-right: 20px;">
+                                 </swiper-slide>  
+                                 <swiper-slide style="width:10vw">  
                                     <div class="tpproduct p-relative tpprogress__hover">
                                        <div class="tpproduct__thumb p-relative text-center">
                                           <a href="#"><img src="../assets/img/product/products15-min.jpg" alt=""></a>
@@ -334,9 +337,115 @@ const isValidOption = (option) => {
                                           </div>
                                        </div>
                                     </div>
-                                 </div>
-                              </div>
-                           <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+                                 </swiper-slide>  
+                                 <swiper-slide style="width:10vw">  
+                                    <div class="tpproduct p-relative tpprogress__hover">
+                                       <div class="tpproduct__thumb p-relative text-center">
+                                          <a href="#"><img src="../assets/img/product/products15-min.jpg" alt=""></a>
+                                          <a class="tpproduct__thumb-img" href="shop-details.html"><img src="../assets/img/product/products32-min.jpg" alt=""></a>
+                                          <div class="tpproduct__info bage">
+                                             <span class="tpproduct__info-discount bage__discount">-50%</span>
+                                          </div>
+                                          <div class="tpproduct__shopping">
+                                             <a class="tpproduct__shopping-wishlist" href="wishlist.html"><i class="icon-heart icons"></i></a>
+                                             <a class="tpproduct__shopping-wishlist" href="#"><i class="icon-layers"></i></a>
+                                             <a class="tpproduct__shopping-cart" href="#"><i class="icon-eye"></i></a>
+                                          </div>
+                                       </div>
+                                       <div class="tpproduct__content">
+                                          <span class="tpproduct__content-weight">
+                                             <a href="shop-details-3.html">Vagetables</a>
+                                          </span>
+                                          <h4 class="tpproduct__title">
+                                             <a href="shop-details-3.html">Ginger Fresh, Whole, Organic - 250gram</a>
+                                          </h4>
+                                          <div class="tpproduct__rating">
+                                             <a href="#"><i class="icon-star_outline1"></i></a>
+                                             <a href="#"><i class="icon-star_outline1"></i></a>
+                                             <a href="#"><i class="icon-star_outline1"></i></a>
+                                             <a href="#"><i class="icon-star_outline1"></i></a>
+                                             <a href="#"><i class="icon-star_outline1"></i></a>
+                                          </div>
+                                          <div class="tpproduct__price">
+                                             <span>$56.00</span>
+                                             <del>$19.00</del>
+                                          </div>
+                                          <div class="tpproduct__progress">
+                                             <div class="progress">
+                                                <div class="progress-bar w-25" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                                <span>Sold: <b>16/60</b></span>
+                                          </div>
+                                       </div>
+                                       <div class="tpproduct__hover-text">
+                                          <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
+                                             <a class="tp-btn-2" href="cart.html">Add to cart</a>
+                                          </div>
+                                          <div class="tpproduct__descrip">
+                                             <ul>
+                                                <li>Type: Organic</li>
+                                                <li>MFG: August 4.2021</li>
+                                                <li>LIFE: 60 days</li>
+                                             </ul>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </swiper-slide>  
+                                 <swiper-slide style="width:10vw">  
+                                    <div class="tpproduct p-relative tpprogress__hover">
+                                       <div class="tpproduct__thumb p-relative text-center">
+                                          <a href="#"><img src="../assets/img/product/products15-min.jpg" alt=""></a>
+                                          <a class="tpproduct__thumb-img" href="shop-details.html"><img src="../assets/img/product/products32-min.jpg" alt=""></a>
+                                          <div class="tpproduct__info bage">
+                                             <span class="tpproduct__info-discount bage__discount">-50%</span>
+                                          </div>
+                                          <div class="tpproduct__shopping">
+                                             <a class="tpproduct__shopping-wishlist" href="wishlist.html"><i class="icon-heart icons"></i></a>
+                                             <a class="tpproduct__shopping-wishlist" href="#"><i class="icon-layers"></i></a>
+                                             <a class="tpproduct__shopping-cart" href="#"><i class="icon-eye"></i></a>
+                                          </div>
+                                       </div>
+                                       <div class="tpproduct__content">
+                                          <span class="tpproduct__content-weight">
+                                             <a href="shop-details-3.html">Vagetables</a>
+                                          </span>
+                                          <h4 class="tpproduct__title">
+                                             <a href="shop-details-3.html">Ginger Fresh, Whole, Organic - 250gram</a>
+                                          </h4>
+                                          <div class="tpproduct__rating">
+                                             <a href="#"><i class="icon-star_outline1"></i></a>
+                                             <a href="#"><i class="icon-star_outline1"></i></a>
+                                             <a href="#"><i class="icon-star_outline1"></i></a>
+                                             <a href="#"><i class="icon-star_outline1"></i></a>
+                                             <a href="#"><i class="icon-star_outline1"></i></a>
+                                          </div>
+                                          <div class="tpproduct__price">
+                                             <span>$56.00</span>
+                                             <del>$19.00</del>
+                                          </div>
+                                          <div class="tpproduct__progress">
+                                             <div class="progress">
+                                                <div class="progress-bar w-25" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                                <span>Sold: <b>16/60</b></span>
+                                          </div>
+                                       </div>
+                                       <div class="tpproduct__hover-text">
+                                          <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
+                                             <a class="tp-btn-2" href="cart.html">Add to cart</a>
+                                          </div>
+                                          <div class="tpproduct__descrip">
+                                             <ul>
+                                                <li>Type: Organic</li>
+                                                <li>MFG: August 4.2021</li>
+                                                <li>LIFE: 60 days</li>
+                                             </ul>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </swiper-slide>  
+                              </swiper>
+                           <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
                         </div>
                      </div>
                   </div>
@@ -608,6 +717,11 @@ const isValidOption = (option) => {
  .tpnavtab__newitem {
     display: flex;
     align-items: flex-start;
+}
+.tpnavtab__area{
+   position:relative;
+   overflow:hidden;
+   width:100%;
 }
 .tpnavtab__area nav {
     margin-bottom: 15px;
