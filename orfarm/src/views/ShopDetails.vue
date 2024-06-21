@@ -1,11 +1,12 @@
 <script setup>
 import BreadCrumb from '@/components/BreadCrumb.vue'
 import ProductSlider from '@/components/ProductSlider.vue'
+
 const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, { route:'shop', name: 'Bữa sáng & Sữa' },{name:'Măng Cụt Tươi 100% Hữu Cơ Từ Việt Nam'}]
 
 </script>
 <template>
-<BreadCrumb :breadCrumbPath="breadCrumbPath" />
+<BreadCrumb :breadCrumbPath="breadCrumbPath" :isGrey='true'/>
 <section class="shopdetails-area grey-bg pb-50">
             <div class="container">
                <div class="row">
@@ -393,7 +394,7 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, { route:'shop', nam
             </div>
          </section>
 
-        <ProductSlider title='Related Products' option='' fullscreen='true'/>
+        <ProductSlider title='Related Products' option='' fullscreen='true' :hasProcess="false"/>
 </template>
 <style scoped>
 .tpdetails__product {
@@ -572,9 +573,13 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, { route:'shop', nam
 }
 .fa-minus:before {
     content: "\f068";
+    font: normal normal normal 14px/1 FontAwesome;
+    margin-right:5px;
 }
 .fa-plus:before {
     content: "\f067";
+    font: normal normal normal 14px/1 FontAwesome;
+    margin-left:5px;
 }
 
 .product__details-count input {
@@ -614,14 +619,12 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, { route:'shop', nam
     margin-right: 25px;
     margin-bottom: 5px;
 }
-.icon-heart:before {
-    content: "\e99e";
-}
-.icon-layers:before {
-    content: "\e9a8";
+.tpproduct__product-category a{
+   color:inherit;
 }
 .icon-share-2:before {
-    content: "\e9f2";
+    content: "\f064";
+    font: normal normal normal 12px / 1 FontAwesome;
 }
 .product__details-check{
     padding:0;
@@ -832,15 +835,19 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, { route:'shop', nam
     font-size: 20px;
 }
 .icon-package:before {
-    content: "\e9cd";
+    content: "\f466";
+    font: normal normal normal 16px/1 FontAwesome;
+
 }
 .icon-shield:before {
-    content: "\e9f3";
+    content: "\f3ed";
+    font: normal normal normal 16px/1 FontAwesome;
 }
 
-.icon-package:before {
-    content: "\e9cd";
+.tpsidebar {
+    margin-left: -60px;
 }
+
 .tpsidebar__warning ul{
     padding:0;
 }

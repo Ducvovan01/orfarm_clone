@@ -1,7 +1,6 @@
 <script setup>
-import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
-import { Virtual } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/vue";
+import { Autoplay } from 'swiper/modules';
 const props = defineProps({
     title: {
     type: String,
@@ -12,8 +11,13 @@ const props = defineProps({
   },
   fullscreen:{
    type:String,
+  },
+  hasProcess:{
+   type:Boolean,
   }
 });
+
+
 
 const haveMultiOption = (param)=>{
     if(param.includes('\\')){
@@ -28,7 +32,7 @@ const isValidOption = (option) => {
 
 </script>
    <template>
-      <section class="weekly-product-area grey-bg whight-product">
+      <section class="weekly-product-area whight-product" :class="fullscreen ? 'pt-75 pb-80' : 'grey-bg'">
          <div :class="{ container: !isValidOption(fullscreen) }">
             <div class="sections__wrapper white-bg pr-50 pl-50">
                <div class="row align-items-center">
@@ -69,9 +73,9 @@ const isValidOption = (option) => {
                   <div class="col-lg-12">
                      <div class="tpnavtab__area pb-40" >
                         <div class="tpproduct__arrow p-relative container" >
-                           <swiper  :slides-per-view="6" :space-between="20">
+                           <swiper  :slides-per-view="6" :space-between="20" :autoplay="true" :modules="[Autoplay]">
                             
-                              <swiper-slide style="width:10vw">  
+                              <swiper-slide>  
                                     <div class="tpproduct p-relative tpprogress__hover">
                                        <div class="tpproduct__thumb p-relative text-center">
                                           <a href="#"><img src="../assets/img/product/products29-min.jpg" alt=""></a>
@@ -104,7 +108,7 @@ const isValidOption = (option) => {
                                              <span>$56.00</span>
                                              <del>$19.00</del>
                                           </div>
-                                          <div class="tpproduct__progress">
+                                          <div class="tpproduct__progress" v-if="hasProcess">
                                              <div class="progress">
                                                 <div class="progress-bar w-25" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
                                                 </div>
@@ -125,7 +129,7 @@ const isValidOption = (option) => {
                                        </div>
                                     </div>
                                  </swiper-slide>  
-                                 <swiper-slide style="width:10vw">  
+                                 <swiper-slide >  
                                     <div class="tpproduct p-relative tpprogress__hover">
                                        <div class="tpproduct__thumb p-relative text-center">
                                           <a href="#"><img src="../assets/img/product/products9-min.jpg" alt=""></a>
@@ -157,7 +161,7 @@ const isValidOption = (option) => {
                                              <span>$56.00</span>
                                              <del>$19.00</del>
                                           </div>
-                                          <div class="tpproduct__progress">
+                                          <div class="tpproduct__progress" v-if="hasProcess">
                                              <div class="progress">
                                                 <div class="progress-bar w-25" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
                                                 </div>
@@ -178,7 +182,7 @@ const isValidOption = (option) => {
                                        </div>
                                     </div>
                                  </swiper-slide>  
-                                 <swiper-slide style="width:10vw">  
+                                 <swiper-slide>  
                                     <div class="tpproduct p-relative tpprogress__hover">
                                        <div class="tpproduct__thumb p-relative text-center">
                                           <a href="#"><img src="../assets/img/product/products13-min.jpg" alt=""></a>
@@ -210,7 +214,7 @@ const isValidOption = (option) => {
                                              <span>$56.00</span>
                                              <del>$19.00</del>
                                           </div>
-                                          <div class="tpproduct__progress">
+                                          <div class="tpproduct__progress" v-if="hasProcess">
                                              <div class="progress">
                                                 <div class="progress-bar w-75" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
                                                 </div>
@@ -231,7 +235,7 @@ const isValidOption = (option) => {
                                        </div>
                                     </div>
                                  </swiper-slide>  
-                                 <swiper-slide style="width:10vw">  
+                                 <swiper-slide >  
                                     <div class="tpproduct p-relative tpprogress__hover">
                                        <div class="tpproduct__thumb p-relative text-center">
                                           <a href="#"><img src="../assets/img/product/products27-min.jpg" alt=""></a>
@@ -264,7 +268,7 @@ const isValidOption = (option) => {
                                              <span>$56.00</span>
                                              <del>$19.00</del>
                                           </div>
-                                          <div class="tpproduct__progress">
+                                          <div class="tpproduct__progress" v-if="hasProcess">
                                              <div class="progress">
                                                 <div class="progress-bar w-25" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
                                                 </div>
@@ -285,7 +289,7 @@ const isValidOption = (option) => {
                                        </div>
                                     </div>
                                  </swiper-slide>  
-                                 <swiper-slide style="width:10vw">  
+                                 <swiper-slide >  
                                     <div class="tpproduct p-relative tpprogress__hover">
                                        <div class="tpproduct__thumb p-relative text-center">
                                           <a href="#"><img src="../assets/img/product/products15-min.jpg" alt=""></a>
@@ -317,7 +321,7 @@ const isValidOption = (option) => {
                                              <span>$56.00</span>
                                              <del>$19.00</del>
                                           </div>
-                                          <div class="tpproduct__progress">
+                                          <div class="tpproduct__progress" v-if="hasProcess">
                                              <div class="progress">
                                                 <div class="progress-bar w-25" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
                                                 </div>
@@ -338,7 +342,167 @@ const isValidOption = (option) => {
                                        </div>
                                     </div>
                                  </swiper-slide>  
-                                 <swiper-slide style="width:10vw">  
+                                 <swiper-slide >  
+                                    <div class="tpproduct p-relative tpprogress__hover">
+                                       <div class="tpproduct__thumb p-relative text-center">
+                                          <a href="#"><img src="../assets/img/product/products9-min.jpg" alt=""></a>
+                                          <a class="tpproduct__thumb-img" href="shop-details.html"><img src="../assets/img/product/products10-min.jpg" alt=""></a>
+                                          <div class="tpproduct__info bage">
+                                             <span class="tpproduct__info-discount bage__discount">-40%</span>
+                                          </div>
+                                          <div class="tpproduct__shopping">
+                                             <a class="tpproduct__shopping-wishlist" href="wishlist.html"><i class="icon-heart icons"></i></a>
+                                             <a class="tpproduct__shopping-wishlist" href="#"><i class="icon-layers"></i></a>
+                                             <a class="tpproduct__shopping-cart" href="#"><i class="icon-eye"></i></a>
+                                          </div>
+                                       </div>
+                                       <div class="tpproduct__content">
+                                          <span class="tpproduct__content-weight">
+                                             <a href="shop-details.html">Fresh Meat</a>
+                                          </span>
+                                          <h4 class="tpproduct__title">
+                                             <a href="shop-details.html">Soda Sparkling Water Maker (Rose Gold)</a>
+                                          </h4>
+                                          <div class="tpproduct__rating">
+                                             <a href="#"><i class="icon-star_outline1"></i></a>
+                                             <a href="#"><i class="icon-star_outline1"></i></a>
+                                             <a href="#"><i class="icon-star_outline1"></i></a>
+                                             <a href="#"><i class="icon-star_outline1"></i></a>
+                                             <a href="#"><i class="icon-star_outline1"></i></a>
+                                          </div>
+                                          <div class="tpproduct__price">
+                                             <span>$56.00</span>
+                                             <del>$19.00</del>
+                                          </div>
+                                          <div class="tpproduct__progress" v-if="hasProcess">
+                                             <div class="progress">
+                                                <div class="progress-bar w-25" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                                <span>Sold: <b>20/80</b></span>
+                                          </div>
+                                       </div>
+                                       <div class="tpproduct__hover-text">
+                                          <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
+                                             <a class="tp-btn-2" href="cart.html">Add to cart</a>
+                                          </div>
+                                          <div class="tpproduct__descrip">
+                                             <ul>
+                                                <li>Type: Organic</li>
+                                                <li>MFG: August 4.2021</li>
+                                                <li>LIFE: 60 days</li>
+                                             </ul>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </swiper-slide>  
+                                 <swiper-slide>  
+                                    <div class="tpproduct p-relative tpprogress__hover">
+                                       <div class="tpproduct__thumb p-relative text-center">
+                                          <a href="#"><img src="../assets/img/product/products13-min.jpg" alt=""></a>
+                                          <a class="tpproduct__thumb-img" href="shop-details.html"><img src="../assets/img/product/products35-min.jpg" alt=""></a>
+                                          <div class="tpproduct__info bage">
+                                             <span class="tpproduct__info-discount bage__discount">-10%</span>
+                                          </div>
+                                          <div class="tpproduct__shopping">
+                                             <a class="tpproduct__shopping-wishlist" href="wishlist.html"><i class="icon-heart icons"></i></a>
+                                             <a class="tpproduct__shopping-wishlist" href="#"><i class="icon-layers"></i></a>
+                                             <a class="tpproduct__shopping-cart" href="#"><i class="icon-eye"></i></a>
+                                          </div>
+                                       </div>
+                                       <div class="tpproduct__content">
+                                          <span class="tpproduct__content-weight">
+                                             <a href="shop-details-3.html">Fresh Fruits</a>
+                                          </span>
+                                          <h4 class="tpproduct__title">
+                                             <a href="shop-details.html">HOT - Lettuce Fresh Produce Fruit Vegetables</a>
+                                          </h4>
+                                          <div class="tpproduct__rating">
+                                             <a href="#"><i class="icon-star_outline1"></i></a>
+                                             <a href="#"><i class="icon-star_outline1"></i></a>
+                                             <a href="#"><i class="icon-star_outline1"></i></a>
+                                             <a href="#"><i class="icon-star_outline1"></i></a>
+                                             <a href="#"><i class="icon-star_outline1"></i></a>
+                                          </div>
+                                          <div class="tpproduct__price">
+                                             <span>$56.00</span>
+                                             <del>$19.00</del>
+                                          </div>
+                                          <div class="tpproduct__progress" v-if="hasProcess">
+                                             <div class="progress">
+                                                <div class="progress-bar w-75" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                                <span>Sold: <b>40/70</b></span>
+                                          </div>
+                                       </div>
+                                       <div class="tpproduct__hover-text">
+                                          <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
+                                             <a class="tp-btn-2" href="cart.html">Add to cart</a>
+                                          </div>
+                                          <div class="tpproduct__descrip">
+                                             <ul>
+                                                <li>Type: Organic</li>
+                                                <li>MFG: August 4.2021</li>
+                                                <li>LIFE: 60 days</li>
+                                             </ul>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </swiper-slide>  
+                                 <swiper-slide >  
+                                    <div class="tpproduct p-relative tpprogress__hover">
+                                       <div class="tpproduct__thumb p-relative text-center">
+                                          <a href="#"><img src="../assets/img/product/products27-min.jpg" alt=""></a>
+                                          <a class="tpproduct__thumb-img" href="shop-details.html"><img src="../assets/img/product/products14-min.jpg" alt=""></a>
+                                          <div class="tpproduct__info bage">
+                                             <span class="tpproduct__info-discount bage__discount">-90%</span>
+                                             <span class="tpproduct__info-hot bage__hot">HOT</span>
+                                          </div>
+                                          <div class="tpproduct__shopping">
+                                             <a class="tpproduct__shopping-wishlist" href="wishlist.html"><i class="icon-heart icons"></i></a>
+                                             <a class="tpproduct__shopping-wishlist" href="#"><i class="icon-layers"></i></a>
+                                             <a class="tpproduct__shopping-cart" href="#"><i class="icon-eye"></i></a>
+                                          </div>
+                                       </div>
+                                       <div class="tpproduct__content">
+                                          <span class="tpproduct__content-weight">
+                                             <a href="shop-details-3.html">Fresh Fruits</a>
+                                          </span>
+                                          <h4 class="tpproduct__title">
+                                             <a href="shop-details-grid.html">Pure Irish Organic Beef Quarter Pounder Burgers</a>
+                                          </h4>
+                                          <div class="tpproduct__rating">
+                                             <a href="#"><i class="icon-star_outline1"></i></a>
+                                             <a href="#"><i class="icon-star_outline1"></i></a>
+                                             <a href="#"><i class="icon-star_outline1"></i></a>
+                                             <a href="#"><i class="icon-star_outline1"></i></a>
+                                             <a href="#"><i class="icon-star_outline1"></i></a>
+                                          </div>
+                                          <div class="tpproduct__price">
+                                             <span>$56.00</span>
+                                             <del>$19.00</del>
+                                          </div>
+                                          <div class="tpproduct__progress" v-if="hasProcess">
+                                             <div class="progress">
+                                                <div class="progress-bar w-25" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                                <span>Sold: <b>16/60</b></span>
+                                          </div>
+                                       </div>
+                                       <div class="tpproduct__hover-text">
+                                          <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
+                                             <a class="tp-btn-2" href="cart.html">Add to cart</a>
+                                          </div>
+                                          <div class="tpproduct__descrip">
+                                             <ul>
+                                                <li>Type: Organic</li>
+                                                <li>MFG: August 4.2021</li>
+                                                <li>LIFE: 60 days</li>
+                                             </ul>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </swiper-slide>  
+                                 <swiper-slide >  
                                     <div class="tpproduct p-relative tpprogress__hover">
                                        <div class="tpproduct__thumb p-relative text-center">
                                           <a href="#"><img src="../assets/img/product/products15-min.jpg" alt=""></a>
@@ -370,60 +534,7 @@ const isValidOption = (option) => {
                                              <span>$56.00</span>
                                              <del>$19.00</del>
                                           </div>
-                                          <div class="tpproduct__progress">
-                                             <div class="progress">
-                                                <div class="progress-bar w-25" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                                </div>
-                                                <span>Sold: <b>16/60</b></span>
-                                          </div>
-                                       </div>
-                                       <div class="tpproduct__hover-text">
-                                          <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
-                                             <a class="tp-btn-2" href="cart.html">Add to cart</a>
-                                          </div>
-                                          <div class="tpproduct__descrip">
-                                             <ul>
-                                                <li>Type: Organic</li>
-                                                <li>MFG: August 4.2021</li>
-                                                <li>LIFE: 60 days</li>
-                                             </ul>
-                                          </div>
-                                       </div>
-                                    </div>
-                                 </swiper-slide>  
-                                 <swiper-slide style="width:10vw">  
-                                    <div class="tpproduct p-relative tpprogress__hover">
-                                       <div class="tpproduct__thumb p-relative text-center">
-                                          <a href="#"><img src="../assets/img/product/products15-min.jpg" alt=""></a>
-                                          <a class="tpproduct__thumb-img" href="shop-details.html"><img src="../assets/img/product/products32-min.jpg" alt=""></a>
-                                          <div class="tpproduct__info bage">
-                                             <span class="tpproduct__info-discount bage__discount">-50%</span>
-                                          </div>
-                                          <div class="tpproduct__shopping">
-                                             <a class="tpproduct__shopping-wishlist" href="wishlist.html"><i class="icon-heart icons"></i></a>
-                                             <a class="tpproduct__shopping-wishlist" href="#"><i class="icon-layers"></i></a>
-                                             <a class="tpproduct__shopping-cart" href="#"><i class="icon-eye"></i></a>
-                                          </div>
-                                       </div>
-                                       <div class="tpproduct__content">
-                                          <span class="tpproduct__content-weight">
-                                             <a href="shop-details-3.html">Vagetables</a>
-                                          </span>
-                                          <h4 class="tpproduct__title">
-                                             <a href="shop-details-3.html">Ginger Fresh, Whole, Organic - 250gram</a>
-                                          </h4>
-                                          <div class="tpproduct__rating">
-                                             <a href="#"><i class="icon-star_outline1"></i></a>
-                                             <a href="#"><i class="icon-star_outline1"></i></a>
-                                             <a href="#"><i class="icon-star_outline1"></i></a>
-                                             <a href="#"><i class="icon-star_outline1"></i></a>
-                                             <a href="#"><i class="icon-star_outline1"></i></a>
-                                          </div>
-                                          <div class="tpproduct__price">
-                                             <span>$56.00</span>
-                                             <del>$19.00</del>
-                                          </div>
-                                          <div class="tpproduct__progress">
+                                          <div class="tpproduct__progress" v-if="hasProcess">
                                              <div class="progress">
                                                 <div class="progress-bar w-25" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
                                                 </div>
@@ -679,6 +790,7 @@ const isValidOption = (option) => {
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
     border: 1px solid #EBEFF4;
+    z-index:999;
    border-top: none;
     -webkit-transition: all 0.2s ease-out 0s;
     -moz-transition: all 0.2s ease-out 0s;
@@ -686,7 +798,10 @@ const isValidOption = (option) => {
     -o-transition: all 0.2s ease-out 0s;
     transition: all 0.2s ease-out 0s;
  }
- 
+ .swiper{
+   overflow-y: visible;
+overflow-x: clip;
+ }
  .tpproduct:hover .tpproduct__hover-text {
     opacity: 1;
     visibility: visible;
@@ -720,7 +835,6 @@ const isValidOption = (option) => {
 }
 .tpnavtab__area{
    position:relative;
-   overflow:hidden;
    width:100%;
 }
 .tpnavtab__area nav {

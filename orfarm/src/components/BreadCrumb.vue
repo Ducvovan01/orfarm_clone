@@ -5,7 +5,7 @@ const props = defineProps({
     required: true
   },
   isGrey:{
-    type:String,
+    type:Boolean,
   }
 })
 </script>
