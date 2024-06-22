@@ -1,5 +1,13 @@
 <script setup>
-
+import { ref } from 'vue';
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import { Navigation, Pagination, Scrollbar, A11y, Autoplay } from 'swiper/modules';
+const options = ref({
+  autoplay: {
+    delay: 4000, 
+    disableOnInteraction: false
+  }
+});
 </script>
 
 <template>
@@ -17,9 +25,10 @@
                     </div>
                 </div>
             </div>
-            <div class="swiper-container tpblog-active swiper-container-initialized swiper-container-horizontal swiper-container-pointer-events">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide" role="group" aria-label="1 / 8" style="width: 337.5px; margin-right: 20px;">
+            <swiper   :slides-per-view="4" :space-between="20" :autoplay="options.autoplay" :modules="[Autoplay]"  v-bind="options" class=" tpblog-active">
+    
+                <swiper-slide>
+                
                         <div class="tpblog__item">
                             <div class="tpblog__thumb fix">
                                 <a href="blog-details.html"><img src="../assets/img/blog/blog-bg-1.jpg" alt=""></a>
@@ -33,8 +42,9 @@
                                 <h4 class="tpblog__title"><a href="blog-details.html">Cá Hồi Nướng Bơ Lành Mạnh Cho Cơ Thể</a></h4>
                             </div>
                         </div>
-                    </div>
-                    <div class="swiper-slide" role="group" aria-label="2 / 8" style="width: 337.5px; margin-right: 20px;">
+              
+                    </swiper-slide>
+                    <swiper-slide>
                         <div class="tpblog__item">
                             <div class="tpblog__thumb fix">
                                 <a href="blog-details.html"><img src="../assets/img/blog/blog-bg-2.jpg" alt=""></a>
@@ -48,8 +58,9 @@
                                 <h4 class="tpblog__title"><a href="blog-details.html">Những Lợi Ích Tuyệt Vời Của Thịt Bò Tươi Sức Khỏe Cho Phụ Nữ</a></h4>
                             </div>
                         </div>
-                    </div>
-                    <div class="swiper-slide" role="group" aria-label="3 / 8" style="width: 337.5px; margin-right: 20px;">
+                    </swiper-slide>
+                    <swiper-slide>
+                  
                         <div class="tpblog__item">
                             <div class="tpblog__thumb fix">
                                 <a href="blog-details.html"><img src="../assets/img/blog/blog-bg-3.jpg" alt=""></a>
@@ -62,9 +73,10 @@
                                 </div>
                                 <h4 class="tpblog__title"><a href="blog-details.html">Cách Chọn Trái Cây & Hải Sản Tốt Cho Thai Kỳ</a></h4>
                             </div>
-                        </div>
+                       
                     </div>
-                    <div class="swiper-slide swiper-slide-prev" role="group" aria-label="4 / 8" style="width: 337.5px; margin-right: 20px;">
+                </swiper-slide>
+                <swiper-slide>
                         <div class="tpblog__item">
                             <div class="tpblog__thumb fix">
                                 <a href="blog-details.html"><img src="../assets/img/blog/blog-bg-4.jpg" alt=""></a>
@@ -78,10 +90,42 @@
                                 <h4 class="tpblog__title"><a href="blog-details.html">Bữa Sáng Mùa Hè Cho Một Buổi Sáng Khỏe Mạnh Với Cà Chua</a></h4>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    </swiper-slide>
+                    <swiper-slide>
+                
+                        <div class="tpblog__item">
+                            <div class="tpblog__thumb fix">
+                                <a href="blog-details.html"><img src="../assets/img/blog/blog-bg-1.jpg" alt=""></a>
+                            </div>
+                            <div class="tpblog__wrapper">
+                                <div class="tpblog__entry-wap">
+                                    <span class="cat-links"><a href="shop-details.html">Lối Sống</a></span>
+                                    <span class="author-by"><a href="#">Admin</a></span>
+                                    <span class="post-data"><a href="#">SEP 15. 2022</a></span>
+                                </div>
+                                <h4 class="tpblog__title"><a href="blog-details.html">Cá Hồi Nướng Bơ Lành Mạnh Cho Cơ Thể</a></h4>
+                            </div>
+                        </div>
+              
+                    </swiper-slide>
+                    <swiper-slide>
+                        <div class="tpblog__item">
+                            <div class="tpblog__thumb fix">
+                                <a href="blog-details.html"><img src="../assets/img/blog/blog-bg-2.jpg" alt=""></a>
+                            </div>
+                            <div class="tpblog__wrapper">
+                                <div class="tpblog__entry-wap">
+                                    <span class="cat-links"><a href="shop-details.html">Hữu Cơ</a></span>
+                                    <span class="author-by"><a href="#">Admin</a></span>
+                                    <span class="post-data"><a href="#">SEP 15. 2022</a></span>
+                                </div>
+                                <h4 class="tpblog__title"><a href="blog-details.html">Những Lợi Ích Tuyệt Vời Của Thịt Bò Tươi Sức Khỏe Cho Phụ Nữ</a></h4>
+                            </div>
+                        </div>
+                    </swiper-slide>
+
                 <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
-            </div>
+                </swiper>
         </div>
     </section>    
 </template>

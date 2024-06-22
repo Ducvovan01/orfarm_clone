@@ -14,6 +14,9 @@ const props = defineProps({
   },
   hasProcess:{
    type:Boolean,
+  },
+  slideOnShow:{
+   type:Number,
   }
 });
 
@@ -47,7 +50,7 @@ const isValidOption = (option) => {
                                  </div>
                               </nav>
                            </div>
-                           <h4 v-else class="tpsection__title text-start brand-product-title">{{title}}</h4>
+                           <h4 v-else class="tpsection__title text-start brand-product-title" :class=" fullscreen ?? 'fullscreen'">{{title}}</h4>
                      </div>
                   </div>
                   <div class="col-md-6">
@@ -73,7 +76,7 @@ const isValidOption = (option) => {
                   <div class="col-lg-12">
                      <div class="tpnavtab__area pb-40" >
                         <div class="tpproduct__arrow p-relative container" >
-                           <swiper  :slides-per-view="6" :space-between="20" :autoplay="true" :modules="[Autoplay]">
+                           <swiper  :slides-per-view="slideOnShow" :space-between="20" :autoplay="true" :modules="[Autoplay]">
                             
                               <swiper-slide>  
                                     <div class="tpproduct p-relative tpprogress__hover">
@@ -566,6 +569,16 @@ const isValidOption = (option) => {
       </section>
    </template>
 <style scoped>
+.tpsection__title.true{
+   font-family: var(--tp-ff-jost);
+   font-style: normal;
+   font-weight: 600;
+   font-size: 13px;
+   line-height: 19px;
+   text-transform: uppercase;
+   color: var(--tp-heading-primary);
+   padding-left:60px;
+}
 .swiper-wrapper {
     position: relative;
     width: 100%;

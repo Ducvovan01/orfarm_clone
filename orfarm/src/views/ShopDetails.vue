@@ -394,7 +394,7 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, { route:'shop', nam
             </div>
          </section>
 
-        <ProductSlider title='Related Products' option='' fullscreen='true' :hasProcess="false"/>
+        <ProductSlider title='Related Products' option='' fullscreen='true' :hasProcess="false" :slideOnShow='6'/>
 </template>
 <style scoped>
 .tpdetails__product {
