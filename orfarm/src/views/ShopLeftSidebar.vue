@@ -3,7 +3,7 @@ import BreadCrumb from '@/components/BreadCrumb.vue'
 import Pagination from '@/components/Pagination.vue'
 import ProductSlider from '@/components/ProductSlider.vue'
 import bannerImage from '@/assets/img/banner/shop-bg-1.jpg';
-import DoubleRangeSlider from '@/components/MultiSlider.vue'
+import DoubleRangeSlider from '@/components/MultiSlider.vue';
 const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, {name:'Cửa hàng' }]
 
 </script>
@@ -68,7 +68,7 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, {name:'Cửa hàng'
     </div>
     <div class="tpshop__widget mb-30 pb-25">
         <h4 class="tpshop__widget-title mb-20">LỌC THEO GIÁ</h4>
-        <DoubleRangeSlider :min="min" :max="max" @update:min="value => min = value" @update:max="value => max = value"></DoubleRangeSlider>
+        <DoubleRangeSlider :min="0" :max="1000" @update:min="value => min = value" @update:max="value => max = value"></DoubleRangeSlider>
         <div class="productsidebar__btn mt-15 mb-15">
             <a href="#">LỌC</a>
         </div>

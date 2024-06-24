@@ -4,7 +4,7 @@ var ZBRangeSlider = function(id) {
   var startX = 0, x = 0;
 
   // retrieve touch button
-  var slider     = document.getElementById(id)
+  var slider     = document.getElementById(id);
   var touchLeft  = slider.querySelector('.slider-touch-left');
   var touchRight = slider.querySelector('.slider-touch-right');
   var lineSpan   = slider.querySelector('.slider-line span');
