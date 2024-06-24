@@ -12,7 +12,7 @@ const form = reactive({
 </script>
 
 <template>
-    <BreadCrumb :breadCrumbPath="breadCrumbPath" />
+    <BreadCrumb :breadCrumbPath="breadCrumbPath"/>
     <section class="blog-details-area pb-50">
     <div class="container">
         <div class="row">

@@ -3,6 +3,7 @@ import BreadCrumb from '@/components/BreadCrumb.vue'
 import Pagination from '@/components/Pagination.vue'
 import ProductSlider from '@/components/ProductSlider.vue'
 import bannerImage from '@/assets/img/banner/shop-bg-1.jpg';
+import DoubleRangeSlider from '@/components/MultiSlider.vue';
 const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, {name:'Cửa hàng' }]
 
 </script>
@@ -67,19 +68,7 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, {name:'Cửa hàng'
     </div>
     <div class="tpshop__widget mb-30 pb-25">
         <h4 class="tpshop__widget-title mb-20">LỌC THEO GIÁ</h4>
-        <div class="productsidebar">
-            <div class="productsidebar__head"></div>
-            <div class="productsidebar__range">
-                <div id="slider-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content">
-                    <div class="ui-slider-range ui-corner-all ui-widget-header" style="left: 0%; width: 50%;"></div>
-                    <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 0%;"></span>
-                    <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 50%;"></span>
-                </div>
-                <div class="price-filter mt-10">
-                    <input type="text" id="amount">
-                </div>
-            </div>
-        </div>
+        <DoubleRangeSlider :min="0" :max="1000" @update:min="value => min = value" @update:max="value => max = value"></DoubleRangeSlider>
         <div class="productsidebar__btn mt-15 mb-15">
             <a href="#">LỌC</a>
         </div>
