@@ -1,4 +1,6 @@
 <script setup>
+import Pagination from '@/components/Pagination.vue'
+import BlogSlider from '@/components/BlogSlider.vue'
 const blogs = [
   {
     title: 'Cá Hồi Nướng Bơ, Giàu Dinh Dưỡng Cho Cơ Thể',
@@ -121,6 +123,7 @@ const blogs = [
 </script>
 
 <template>
+  <BlogSlider/>
   <section class="blog-area pt-80">
     <div class="container">
       <div class="row">
@@ -153,19 +156,8 @@ const blogs = [
             </div>
           </div>
         </div>
-        <div class="col-lg-12">
-          <div class="basic-pagination text-center mb-80">
-            <nav>
-              <ul>
-                <li><span class="current">1</span></li>
-                <li><a href="blog.html">2</a></li>
-                <li><a href="blog.html">3</a></li>
-                <li>
-                  <a href="blog.html"><i class="icon-chevrons-right"></i></a>
-                </li>
-              </ul>
-            </nav>
-          </div>
+        <div class="col-lg-12 mb-80">
+         <Pagination/>
         </div>
       </div>
     </div>
@@ -317,5 +309,17 @@ const blogs = [
 .icon-chevrons-right:before {
   content: '\f101';
   font: normal normal normal 14px/1 FontAwesome;
+}
+.tpblog__details a i {
+    display: inline-block;
+    font-size: 16px;
+    margin-left: 3px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease-out 0s;
+}
+.tpblog__item:hover .tpblog__details a i{
+    opacity:100;
+    visibility:visible;
 }
 </style>

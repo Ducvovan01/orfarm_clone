@@ -223,6 +223,9 @@
     font-size: 15px;
     color: var(--tp-text-3);
 }
+.tpbrandproduct__product-title a:hover {
+   color: var(--tp-heading-secondary);
+}
 .tpbrandproduct__item {
     border: 1px solid #EBEFF4;
     border-radius: 10px;

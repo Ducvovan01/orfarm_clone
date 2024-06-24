@@ -5,7 +5,7 @@ import { createPinia } from 'pinia'
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap"
 import 'font-awesome/scss/font-awesome.scss'
-
+import 'swiper/css';
 import App from './App.vue'
 import router from './router'
 

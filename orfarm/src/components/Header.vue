@@ -602,7 +602,7 @@ onUnmounted(() => {
   display: inline-block;
   font-weight: 500;
   font-size: 16px;
-  padding: 32px 12px;
+  padding: 32px 20px;
 }
 
 .main-menu ul li.has-dropdown > a::after {
@@ -698,7 +698,7 @@ onUnmounted(() => {
   display: inline-block;
   font-weight: 500;
   font-size: 16px;
-  padding: 32px 12px;
+  padding: 32px 20px;
 }
 .main-menu ul li .home-menu-style li a img {
   border: 1px solid rgba(222, 226, 230, 0.5607843137);
@@ -875,7 +875,10 @@ onUnmounted(() => {
   font: normal normal normal 14px/1 FontAwesome;
   content: '\f004';
 }
-
+.fa-chevron-down:before  {
+    content: "\f107";
+    font: normal normal normal 16px/1 FontAwesome;
+}
 .tpcolor__yellow a i,
 .tpcolor__greenish a i,
 .tpcolor__oasis button i {

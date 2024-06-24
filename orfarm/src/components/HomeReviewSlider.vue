@@ -1,5 +1,13 @@
 <script setup>
-
+import { ref } from 'vue';
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import { Navigation, Pagination, Scrollbar, A11y, Autoplay } from 'swiper/modules';
+const options = ref({
+  navigation: {
+    prevEl: '.swiper-button-prev',
+    nextEl: '.swiper-button-next'
+  }
+});
 </script>
 
 <template>
@@ -10,39 +18,85 @@
                 <img src="../assets/img/shape/tree-leaf-5.svg" alt="" class="testimonial__shape-two">
                 <img src="../assets/img/shape/tree-leaf-6.png" alt="" class="testimonial__shape-three">
             </div>
-            <div class="swiper-container tptestimonial-active p-relative swiper-container-initialized swiper-container-horizontal swiper-container-pointer-events">
-                <div class="swiper-wrapper" id="swiper-wrapper-fba2cb255fbfa587" aria-live="off" style="transition-duration: 0ms; transform: translate3d(0px, 0px, 0px);">
-                    <div class="swiper-slide swiper-slide-duplicate swiper-slide-active" data-swiper-slide-index="2" role="group" aria-label="1 / 5" style="width: 1410px;">
-                        <div class="row justify-content-center p-relative">
-                            <div class="col-md-8">
-                                <div class="tptestimonial__item text-center">
-                                    <div class="tptestimonial__avata mb-25">
-                                        <img src="../assets/img/testimonial/test-avata-3.png" alt="">
-                                    </div>
-                                    <div class="tptestimonial__content">
-                                        <p>"Tôi cũng thích việc có thể chọn các sản phẩm chính trong các bao <br/> giấy nâu và bình thủy tinh ở khu vực không chất thải, nhằm mục đích giảm nhựa và cũng tiện lợi hơn."</p>
-                                        <div class="tptestimonial__rating" style="margin-bottom:5px;">
-                                            <a href="#"><i class="icon-star_outline1"></i></a>
-                                            <a href="#"><i class="icon-star_outline1"></i></a>
-                                            <a href="#"><i class="icon-star_outline1"></i></a>
-                                            <a href="#"><i class="icon-star_outline1"></i></a>
-                                            <a href="#"><i class="icon-star_outline1"></i></a>
-                                        </div>
-                                        <h4 class="tptestimonial__title">Lionel</h4>
-                                        <span class="tptestimonial__avata-position">Thiết Kế Web tại Blueskytechco</span>
-                                    </div>
+            <swiper  :slides-per-view="1" :space-between="20" :autoplay="true" :modules="[Navigation, Pagination, Scrollbar, A11y, Autoplay]"  v-bind="options" class="p-relative">
+            <swiper-slide>
+                <div class="row justify-content-center p-relative">
+                    <div class="col-md-8">
+                        <div class="tptestimonial__item text-center">
+                            <div class="tptestimonial__avata mb-25">
+                                <img src="../assets/img/testimonial/test-avata-3.png" alt="">
+                            </div>
+                            <div class="tptestimonial__content">
+                                <p>"Tôi cũng thích việc có thể chọn các sản phẩm chính trong các bao giấy nâu và bình thủy tinh <br/> ở khu vực không chất thải, nhằm mục đích giảm nhựa và cũng tiện lợi hơn."</p>
+                                <div class="tptestimonial__rating" style="margin-bottom:5px;">
+                                    <a href="#"><i class="icon-star_outline1"></i></a>
+                                    <a href="#"><i class="icon-star_outline1"></i></a>
+                                    <a href="#"><i class="icon-star_outline1"></i></a>
+                                    <a href="#"><i class="icon-star_outline1"></i></a>
+                                    <a href="#"><i class="icon-star_outline1"></i></a>
                                 </div>
+                                <h4 class="tptestimonial__title">Lionel</h4>
+                                <span class="tptestimonial__avata-position">Thiết Kế Web tại Blueskytechco</span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="tptestimonial-arrow d-none d-md-block">
-                    <button class="testi-arrow tptestimonial-arrow-left swiper-button-disabled" tabindex="-1" aria-label="Slide trước" aria-controls="swiper-wrapper-396bb5bddafbd292" aria-disabled="true"><i class="icon-chevron-left"></i></button>
-                    <button class="testi-arrow tptestimonial-arrow-right swiper-button-disabled" tabindex="-1" aria-label="Slide tiếp theo" aria-controls="swiper-wrapper-396bb5bddafbd292" aria-disabled="true"><i class="icon-chevron-right"></i></button>
+            </swiper-slide>
+            <swiper-slide>
+                <div class="row justify-content-center p-relative">
+                    <div class="col-md-8">
+                        <div class="tptestimonial__item text-center">
+                            <div class="tptestimonial__avata mb-25">
+                                <img src="../assets/img/testimonial/test-avata-1.png" alt="">
+                            </div>
+                            <div class="tptestimonial__content">
+                                <p>"Tôi cũng thích việc có thể chọn các sản phẩm chính trong các bao giấy nâu và bình thủy tinh <br/> ở khu vực không chất thải, nhằm mục đích <br/>giảm nhựa và cũng tiện lợi hơn."</p>
+                                <div class="tptestimonial__rating" style="margin-bottom:5px;">
+                                    <a href="#"><i class="icon-star_outline1"></i></a>
+                                    <a href="#"><i class="icon-star_outline1"></i></a>
+                                    <a href="#"><i class="icon-star_outline1"></i></a>
+                                    <a href="#"><i class="icon-star_outline1"></i></a>
+                                    <a href="#"><i class="icon-star_outline1"></i></a>
+                                </div>
+                                <h4 class="tptestimonial__title">Algistino Lionel</h4>
+                                <span class="tptestimonial__avata-position">Thiết Kế Web tại Blueskytechco</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </swiper-slide>
+            <swiper-slide>
+                <div class="row justify-content-center p-relative">
+                    <div class="col-md-8">
+                        <div class="tptestimonial__item text-center">
+                            <div class="tptestimonial__avata mb-25">
+                                <img src="../assets/img/testimonial/test-avata-2.png" alt="">
+                            </div>
+                            <div class="tptestimonial__content">
+                                <p>"Tôi cũng thích việc có thể chọn các sản phẩm chính <br/> trong các bao giấy nâu và bình thủy tinh ở khu vực không chất thải, <br/>nhằm mục đích giảm nhựa và cũng tiện lợi hơn."</p>
+                                <div class="tptestimonial__rating" style="margin-bottom:5px;">
+                                    <a href="#"><i class="icon-star_outline1"></i></a>
+                                    <a href="#"><i class="icon-star_outline1"></i></a>
+                                    <a href="#"><i class="icon-star_outline1"></i></a>
+                                    <a href="#"><i class="icon-star_outline1"></i></a>
+                                    <a href="#"><i class="icon-star_outline1"></i></a>
+                                </div>
+                                <h4 class="tptestimonial__title">Jackson Roben</h4>
+                                <span class="tptestimonial__avata-position">Thiết Kế Web tại Blueskytechco</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </swiper-slide>
+              
+                <div class="tptestimonial-arrow  d-md-block">
+                    <button class="testi-arrow tptestimonial-arrow-left swiper-button-disabled swiper-button-next"  tabindex="-1" aria-label="Slide trước" aria-controls="swiper-wrapper-396bb5bddafbd292" aria-disabled="true"><i class="icon-chevron-left"></i></button>
+                    <button class="testi-arrow tptestimonial-arrow-right swiper-button-disabled swiper-button-prev" tabindex="-1" aria-label="Slide tiếp theo" aria-controls="swiper-wrapper-396bb5bddafbd292" aria-disabled="true"><i class="icon-chevron-right"></i></button>
                 </div>
                 <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+            </swiper>
             </div>
-        </div>
+      
     </section>
     
 </template>
@@ -94,7 +148,7 @@
 .icon-star_outline1:before {
     color:#FFBD13;
     content: "\f005";
-    font: normal normal normal 16px/1 FontAwesome;
+    font: normal normal normal 14px/1 FontAwesome;
 }
 .tptestimonial__title {
     font-weight: 700;
@@ -103,4 +157,52 @@
     text-transform: uppercase;
     margin-bottom: 0;
 }
+.testi-arrow.tptestimonial-arrow-left {
+    position:absolute;
+    left: 550px;
+}
+.testi-arrow i {
+    height: 50px;
+    width: 50px;
+    background-color: var(--tp-heading-secondary);
+    opacity: 0.3;
+    line-height: 50px;
+    border-radius: 50%;
+    font-size: 14px;
+    color: var(--tp-common-white);
+    display: inline-block;
+    -webkit-font-smoothing: antialiased;
+    transition:all 0.2s;
+
+}
+.icon-chevron-left:before {
+    margin-left:4px;
+    content: "\f054";
+    font: normal normal normal 14px/1 FontAwesome;
+}
+.testi-arrow.tptestimonial-arrow-right {
+    position:absolute;
+    right: 250px;
+    left: 0 auto;
+}
+.tptestimonial-arrow{
+    position:absolute;
+    z-index:999;
+    left:40%;
+    top:40%;
+}
+
+@media screen and (max-width: 768px) {
+    .tptestimonial-arrow {
+      display: none;
+    }
+  }
+.icon-chevron-right:before {
+    content: "\f053";
+    margin-right:4px;
+    font: normal normal normal 14px/1 FontAwesome;
+}
+.testi-arrow i:hover {
+    opacity: 1;
+}   
 </style>
