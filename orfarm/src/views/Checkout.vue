@@ -440,8 +440,6 @@ const toggleFormCoupon = ()=>{
 }
 .coupon-content {
     margin-bottom: 20px;
-    padding: 30px;
-    border: 1px solid #eaedff;
 }
 .coupon-info p.coupon-text {
     margin-bottom: 15px;
@@ -522,16 +520,17 @@ const toggleFormCoupon = ()=>{
   }
   .coupon-checkout-content,
 .coupon-content {
-    display:none;
-  max-height: 0; 
-  overflow: hidden; 
-  transition:  max-height 1s  linear;
+  border: 1px solid #ffffff;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 1s ease-out; 
 }
 
 .coupon-checkout-content.open,
 .coupon-content.open {
-    display:block;
+  border: 1px solid #eaedff;
   max-height: 1000px;
+  transition: max-height 1s ease-in; 
 }
 
 .create-acc label {
@@ -571,6 +570,9 @@ const toggleFormCoupon = ()=>{
     margin-top: 15px;
     margin-left: 15px;
     color: #6f7172;
+}
+.coupon-info{
+  padding:30px;
 }
 .coupon-info p.form-row-last label span.required {
     color: red;
