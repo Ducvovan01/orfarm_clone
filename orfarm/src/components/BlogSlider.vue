@@ -8,7 +8,16 @@ import { Swiper, SwiperSlide } from "swiper/vue";
 <template>
    <section class="blog-area pt-30">
        <div class="container-fluid tpblog_slider">
-           <swiper :modules="[Virtual]" :slides-per-view="3" :space-between="50" virtual>
+           <swiper :modules="[Virtual]" :breakpoints="{
+            640: {
+                slidesPerView: 1,
+                spaceBetween: 10,
+              },
+            768: {
+              slidesPerView: 3,
+              spaceBetween: 20
+            }
+          }" virtual>
                <swiper-slide>      
                    <div class="tpblog__single p-relative">
                        <div class="tpblog__single-img">
@@ -188,4 +197,12 @@ import { Swiper, SwiperSlide } from "swiper/vue";
 .swiper-wrapper {
     display:flex;
 }
+/* Responsive */
+@media (max-width: 767.98px) {
+    .tpblog__single-title a{
+        font-size: 16px;
+        margin-bottom: 8px;
+    }
+}
+
 </style>
