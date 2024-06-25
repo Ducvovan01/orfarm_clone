@@ -70,4 +70,7 @@
     padding: 16px 35px;
     border-radius: 30px;
 }
+.tperror__btn a:hover {
+   background-color: #859A00;
+}
 </style>
