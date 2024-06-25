@@ -6,9 +6,10 @@ import { useRoute } from 'vue-router';
 
 const route = useRoute();
 const isHomePage = ref(route.path === '/');
-
+const isGrey = ref(route.path==='/shop-left-sidebar')
 watch(route, () => {
   isHomePage.value = route.path === '/';
+  isGrey.value = route.path === '/shop-left-sidebar';
 });
 </script>
 
@@ -17,7 +18,7 @@ watch(route, () => {
   <main>
     <router-view></router-view>
   </main>
-  <Footer :isHomePage="isHomePage"></Footer>
+  <Footer :isHomePage="isHomePage" :isGrey="isGrey"></Footer>
 </template>
 
 <style scoped>

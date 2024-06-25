@@ -322,4 +322,12 @@ const blogs = [
     opacity:100;
     visibility:visible;
 }
+.tpblog__details a:hover i {
+    opacity: 1;
+    visibility: visible;
+    animation: shakenext 1s ease infinite;
+}
+.tpblog__title a:hover {
+    color: var(--tp-heading-secondary);
+}
 </style>

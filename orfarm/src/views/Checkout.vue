@@ -512,7 +512,7 @@ const toggleFormCoupon = ()=>{
 .ship-box-info{
     overflow: hidden;
     max-height: 0;
-    transition: max-height 0.5s ease-in-out; 
+    transition: max-height 1s ease-in-out; 
   }
   .create-account.open,
   .ship-box-info.open {

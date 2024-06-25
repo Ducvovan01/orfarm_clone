@@ -286,8 +286,9 @@ const form = reactive({
     line-height: 1.25;
     color: var(--tp-heading-primary);
 }
-.tp-blog-details__img-item img {
-    max-width: 100%;
+.tp-blog-details__img-item img{
+    width: 100%;
+    object-fit: cover;
     border-radius: 10px;
 }
 .tp-blog-details__img-item {
@@ -494,5 +495,15 @@ const form = reactive({
     font-size: 15px;
     line-height: 22px;
     color: var(--tp-text-body) !important;
+}
+.tagcloud a:hover {
+    background-color: var(--tp-heading-secondary);
+    color: var(--tp-common-white);
+}
+.tp-blog-details__post-item a:hover {
+    color: var(--tp-heading-secondary);
+}
+.tp-blog-details__author-text .author-btn:hover {
+    background-color: var(--tp-heading-secondary);
 }
 </style>

@@ -1,7 +1,8 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 const props = defineProps({
-  isHomePage: Boolean
+  isHomePage: Boolean,
+  isGrey:Boolean,
 });
 
 const isScrollOpen = ref(false)
@@ -35,7 +36,7 @@ onBeforeUnmount(() => {
 <template>
   <!-- Phần Chính -->
   <section
-    class="feature-area mainfeature__bg pt-50 pb-40 "
+    class="feature-area mainfeature__bg pt-50 pb-40  " :class="{'grey-bg':isGrey}"
     v-if="!isHomePage"
     data-background="../assets/img/shape/footer-shape-1.svg"
   >
@@ -380,5 +381,10 @@ onBeforeUnmount(() => {
   padding-top:55px;
 }
 
-
+.mainfeature__item:hover .mainfeature__icon img {
+    animation: animation-plus 1s infinite linear alternate;
+}
+.tpfooter__widget-social a:hover {
+    color: var(--tp-heading-secondary);
+}
 </style>
