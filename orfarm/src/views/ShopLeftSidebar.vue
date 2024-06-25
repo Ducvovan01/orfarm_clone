@@ -4,7 +4,20 @@ import Pagination from '@/components/Pagination.vue'
 import ProductSlider from '@/components/ProductSlider.vue'
 import bannerImage from '@/assets/img/banner/shop-bg-1.jpg';
 import DoubleRangeSlider from '@/components/MultiSlider.vue';
+import {reactive} from 'vue';
 const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, {name:'Cửa hàng' }]
+const sortSelect = reactive({
+  isSortSelectOpen: false,
+  selectedOption: 'Sắp xếp mặc định',
+  options: ['Sắp xếp mặc định', 'Hiển thị 08', 'Hiển thị 20']
+});
+const toggleSortSelect = ()=>{
+   sortSelect.isSortSelectOpen=!sortSelect.isSortSelectOpen;
+}
+const selectOption = (option)=>{
+   console.log(option);
+   sortSelect.selectedOption = option;
+}
 </script>
 
 <template>
@@ -297,12 +310,16 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, {name:'Cửa hàng'
                               <div class="col-sm-4">
                                  <div class="product__navtabs d-flex justify-content-end align-items-center">
         <div class="tp-shop-selector">
-            <select>
-                <option>Sắp xếp mặc định</option>
-                <option>Hiển thị 14</option>
-                <option>Hiển thị 08</option>
-                <option>Hiển thị 20</option>
-            </select>
+         <div class="nice-select" :v-model='sortSelect.selectedOption' @mousedown="toggleSortSelect" :class="{ 'open': sortSelect.isSortSelectOpen }">
+            <div class="current">
+      {{ sortSelect.selectedOption }}
+    </div>
+    <ul class="list">
+      <li class="tp-shop-option" v-for="option in sortSelect.options" :key="option" @mousedown="selectOption(option)">
+        {{ option }}
+      </li>
+    </ul>
+  </div>
         </div>
     </div>
 </div>
@@ -1934,5 +1951,17 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, {name:'Cửa hàng'
 }
 .tplist__content {
     margin-left: -140px;
+}
+.tp-shop-option{
+   cursor: pointer;
+    font-weight: 400;
+    line-height: 40px;
+    list-style: none;
+    min-height: 40px;
+    outline: none;
+    padding: 10px 29px 10px 18px;
+    text-align: left;
+    -webkit-transition: all 0.2s;
+    transition: all 0.2s;
 }
 </style>
