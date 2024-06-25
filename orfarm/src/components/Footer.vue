@@ -1,5 +1,9 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
+const props = defineProps({
+  isHomePage: Boolean
+});
+
 const isScrollOpen = ref(false)
 
 const handleScroll = () => {
@@ -31,7 +35,8 @@ onBeforeUnmount(() => {
 <template>
   <!-- Phần Chính -->
   <section
-    class="feature-area mainfeature__bg pt-50 pb-40"
+    class="feature-area mainfeature__bg pt-50 pb-40 "
+    v-if="!isHomePage"
     data-background="../assets/img/shape/footer-shape-1.svg"
   >
     <div class="container">
@@ -99,7 +104,7 @@ onBeforeUnmount(() => {
 
   <!-- Footer -->
   <footer>
-    <div class="tpfooter__area theme-bg-2">
+    <div class="tpfooter__area theme-bg-2" :class="{'footer-border':isHomePage}" >
       <div class="tpfooter__top pb-15">
         <div class="container">
           <div class="row">
@@ -111,7 +116,7 @@ onBeforeUnmount(() => {
                   <a href="mailto:support@example.com">support@example.com</a>
                 </p>
                 <div class="tpfooter__widget-social mt-45">
-                  <span class="tpfooter__widget-social-title mb-5">Mạng xã hội:</span>
+                  <span class="tpfooter__widget-social-title" style="margin-bottom:5px;">Mạng xã hội:</span>
                   <a href="#"><i class="fab fa-facebook-f"></i></a>
                   <a href="#"><i class="fab fa-twitter"></i></a>
                   <a href="#"><i class="fab fa-youtube"></i></a>
@@ -222,6 +227,7 @@ onBeforeUnmount(() => {
   background-image: url('../assets/img/shape/footer-shape-1.svg');
   background-repeat: repeat-x;
 }
+
 .mainfeature__border {
   border-bottom: 1px solid #484492;
 }
@@ -367,4 +373,12 @@ onBeforeUnmount(() => {
   width: 90%;
   background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0) 80%);
 }
+.footer-border {
+    border-top: 2px solid var(--tp-heading-secondary);
+}
+.tpfooter__area.footer-border{
+  padding-top:55px;
+}
+
+
 </style>
