@@ -4,8 +4,20 @@ import Pagination from '@/components/Pagination.vue'
 import ProductSlider from '@/components/ProductSlider.vue'
 import bannerImage from '@/assets/img/banner/shop-bg-1.jpg';
 import DoubleRangeSlider from '@/components/MultiSlider.vue';
+import {reactive} from 'vue';
 const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, {name:'Cửa hàng' }]
-
+const sortSelect = reactive({
+  isSortSelectOpen: false,
+  selectedOption: 'Sắp xếp mặc định',
+  options: ['Sắp xếp mặc định', 'Hiển thị 08', 'Hiển thị 20']
+});
+const toggleSortSelect = ()=>{
+   sortSelect.isSortSelectOpen=!sortSelect.isSortSelectOpen;
+}
+const selectOption = (option)=>{
+   console.log(option);
+   sortSelect.selectedOption = option;
+}
 </script>
 
 <template>
@@ -239,7 +251,7 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, {name:'Cửa hàng'
                            <div class="row align-items-center">
                               <div class="col-sm-4">
                                  <div class="product__item-count">
-                                    <span>Showing 1 - 18 of 40 Products</span>
+                                    <span>Hiển thị 1 - 18 trong 40 Sản Phẩm</span>
                                  </div>
                               </div>
                               <div class="col-sm-4">
@@ -297,25 +309,21 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, {name:'Cửa hàng'
                               </div>
                               <div class="col-sm-4">
                                  <div class="product__navtabs d-flex justify-content-end align-items-center">
-                                    <div class="tp-shop-selector">
-                                       <select style="display: none;">
-                                          <option>Default sorting</option>
-                                          <option>Show 14</option>
-                                          <option>Show 08</option>
-                                          <option>Show 20</option>
-                                       </select>
-                                       <div class="nice-select" tabindex="0">
-                                          <span class="current">Default sorting</span>
-                                          <ul class="list">
-                                             <li data-value="Show 12" class="option selected">Default sorting</li>
-                                             <li data-value="Show 14" class="option">Short popularity</li>
-                                             <li data-value="Show 08" class="option">Show 08</li>
-                                             <li data-value="Show 20" class="option">Show 20</li>
-                                          </ul>
-                                       </div>
-                                    </div>
-                                 </div>
-                              </div>
+        <div class="tp-shop-selector">
+         <div class="nice-select" :v-model='sortSelect.selectedOption' @mousedown="toggleSortSelect" :class="{ 'open': sortSelect.isSortSelectOpen }">
+            <div class="current">
+      {{ sortSelect.selectedOption }}
+    </div>
+    <ul class="list">
+      <li class="tp-shop-option" v-for="option in sortSelect.options" :key="option" @mousedown="selectOption(option)">
+        {{ option }}
+      </li>
+    </ul>
+  </div>
+        </div>
+    </div>
+</div>
+
                            </div>
                         </div>
                         <div class="tab-content" id="nav-tabContent">
@@ -358,14 +366,14 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, {name:'Cửa hàng'
                                        </div>
                                        <div class="tpproduct__hover-text">
                                           <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
-                                             <a class="tp-btn-2" href="cart.html">Add to cart</a>
+                                             <a class="tp-btn-2" href="cart.html">Thêm vào giỏ hàng</a>
                                           </div>
                                           <div class="tpproduct__descrip">
-                                             <ul>
-                                                <li>Type: Organic</li>
-                                                <li>MFG: August 4.2021</li>
-                                                <li>LIFE: 60 days</li>
-                                             </ul>
+                                         <ul>
+    <li>Loại: Hữu cơ</li>
+    <li>Ngày sản xuất: 4 tháng 8, 2021</li>
+    <li>Hạn sử dụng: 60 ngày</li>
+</ul>
                                           </div>
                                        </div>
                                     </div>
@@ -405,14 +413,14 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, {name:'Cửa hàng'
                                        </div>
                                        <div class="tpproduct__hover-text">
                                           <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
-                                             <a class="tp-btn-2" href="cart.html">Add to cart</a>
+                                             <a class="tp-btn-2" href="cart.html">Thêm vào giỏ hàng</a>
                                           </div>
                                           <div class="tpproduct__descrip">
-                                             <ul>
-                                                <li>Type: Organic</li>
-                                                <li>MFG: August 4.2021</li>
-                                                <li>LIFE: 60 days</li>
-                                             </ul>
+                                         <ul>
+    <li>Loại: Hữu cơ</li>
+    <li>Ngày sản xuất: 4 tháng 8, 2021</li>
+    <li>Hạn sử dụng: 60 ngày</li>
+</ul>
                                           </div>
                                        </div>
                                     </div>
@@ -452,14 +460,14 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, {name:'Cửa hàng'
                                        </div>
                                        <div class="tpproduct__hover-text">
                                           <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
-                                             <a class="tp-btn-2" href="cart.html">Add to cart</a>
+                                             <a class="tp-btn-2" href="cart.html">Thêm vào giỏ hàng</a>
                                           </div>
                                           <div class="tpproduct__descrip">
-                                             <ul>
-                                                <li>Type: Organic</li>
-                                                <li>MFG: August 4.2021</li>
-                                                <li>LIFE: 60 days</li>
-                                             </ul>
+                                         <ul>
+    <li>Loại: Hữu cơ</li>
+    <li>Ngày sản xuất: 4 tháng 8, 2021</li>
+    <li>Hạn sử dụng: 60 ngày</li>
+</ul>
                                           </div>
                                        </div>
                                     </div>
@@ -500,14 +508,14 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, {name:'Cửa hàng'
                                        </div>
                                        <div class="tpproduct__hover-text">
                                           <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
-                                             <a class="tp-btn-2" href="cart.html">Add to cart</a>
+                                             <a class="tp-btn-2" href="cart.html">Thêm vào giỏ hàng</a>
                                           </div>
                                           <div class="tpproduct__descrip">
-                                             <ul>
-                                                <li>Type: Organic</li>
-                                                <li>MFG: August 4.2021</li>
-                                                <li>LIFE: 60 days</li>
-                                             </ul>
+                                         <ul>
+    <li>Loại: Hữu cơ</li>
+    <li>Ngày sản xuất: 4 tháng 8, 2021</li>
+    <li>Hạn sử dụng: 60 ngày</li>
+</ul>
                                           </div>
                                        </div>
                                     </div>
@@ -548,14 +556,14 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, {name:'Cửa hàng'
                                        </div>
                                        <div class="tpproduct__hover-text">
                                           <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
-                                             <a class="tp-btn-2" href="cart.html">Add to cart</a>
+                                             <a class="tp-btn-2" href="cart.html">Thêm vào giỏ hàng</a>
                                           </div>
                                           <div class="tpproduct__descrip">
-                                             <ul>
-                                                <li>Type: Organic</li>
-                                                <li>MFG: August 4.2021</li>
-                                                <li>LIFE: 60 days</li>
-                                             </ul>
+                                         <ul>
+    <li>Loại: Hữu cơ</li>
+    <li>Ngày sản xuất: 4 tháng 8, 2021</li>
+    <li>Hạn sử dụng: 60 ngày</li>
+</ul>
                                           </div>
                                        </div>
                                     </div>
@@ -596,14 +604,14 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, {name:'Cửa hàng'
                                        </div>
                                        <div class="tpproduct__hover-text">
                                           <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
-                                             <a class="tp-btn-2" href="cart.html">Add to cart</a>
+                                             <a class="tp-btn-2" href="cart.html">Thêm vào giỏ hàng</a>
                                           </div>
                                           <div class="tpproduct__descrip">
-                                             <ul>
-                                                <li>Type: Organic</li>
-                                                <li>MFG: August 4.2021</li>
-                                                <li>LIFE: 60 days</li>
-                                             </ul>
+                                         <ul>
+    <li>Loại: Hữu cơ</li>
+    <li>Ngày sản xuất: 4 tháng 8, 2021</li>
+    <li>Hạn sử dụng: 60 ngày</li>
+</ul>
                                           </div>
                                        </div>
                                     </div>
@@ -644,14 +652,14 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, {name:'Cửa hàng'
                                        </div>
                                        <div class="tpproduct__hover-text">
                                           <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
-                                             <a class="tp-btn-2" href="cart.html">Add to cart</a>
+                                             <a class="tp-btn-2" href="cart.html">Thêm vào giỏ hàng</a>
                                           </div>
                                           <div class="tpproduct__descrip">
-                                             <ul>
-                                                <li>Type: Organic</li>
-                                                <li>MFG: August 4.2021</li>
-                                                <li>LIFE: 60 days</li>
-                                             </ul>
+                                         <ul>
+    <li>Loại: Hữu cơ</li>
+    <li>Ngày sản xuất: 4 tháng 8, 2021</li>
+    <li>Hạn sử dụng: 60 ngày</li>
+</ul>
                                           </div>
                                        </div>
                                     </div>
@@ -691,14 +699,14 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, {name:'Cửa hàng'
                                        </div>
                                        <div class="tpproduct__hover-text">
                                           <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
-                                             <a class="tp-btn-2" href="cart.html">Add to cart</a>
+                                             <a class="tp-btn-2" href="cart.html">Thêm vào giỏ hàng</a>
                                           </div>
                                           <div class="tpproduct__descrip">
-                                             <ul>
-                                                <li>Type: Organic</li>
-                                                <li>MFG: August 4.2021</li>
-                                                <li>LIFE: 60 days</li>
-                                             </ul>
+                                         <ul>
+    <li>Loại: Hữu cơ</li>
+    <li>Ngày sản xuất: 4 tháng 8, 2021</li>
+    <li>Hạn sử dụng: 60 ngày</li>
+</ul>
                                           </div>
                                        </div>
                                     </div>
@@ -738,14 +746,14 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, {name:'Cửa hàng'
                                        </div>
                                        <div class="tpproduct__hover-text">
                                           <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
-                                             <a class="tp-btn-2" href="cart.html">Add to cart</a>
+                                             <a class="tp-btn-2" href="cart.html">Thêm vào giỏ hàng</a>
                                           </div>
                                           <div class="tpproduct__descrip">
-                                             <ul>
-                                                <li>Type: Organic</li>
-                                                <li>MFG: August 4.2021</li>
-                                                <li>LIFE: 60 days</li>
-                                             </ul>
+                                         <ul>
+    <li>Loại: Hữu cơ</li>
+    <li>Ngày sản xuất: 4 tháng 8, 2021</li>
+    <li>Hạn sử dụng: 60 ngày</li>
+</ul>
                                           </div>
                                        </div>
                                     </div>
@@ -786,14 +794,14 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, {name:'Cửa hàng'
                                        </div>
                                        <div class="tpproduct__hover-text">
                                           <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
-                                             <a class="tp-btn-2" href="cart.html">Add to cart</a>
+                                             <a class="tp-btn-2" href="cart.html">Thêm vào giỏ hàng</a>
                                           </div>
                                           <div class="tpproduct__descrip">
-                                             <ul>
-                                                <li>Type: Organic</li>
-                                                <li>MFG: August 4.2021</li>
-                                                <li>LIFE: 60 days</li>
-                                             </ul>
+                                         <ul>
+    <li>Loại: Hữu cơ</li>
+    <li>Ngày sản xuất: 4 tháng 8, 2021</li>
+    <li>Hạn sử dụng: 60 ngày</li>
+</ul>
                                           </div>
                                        </div>
                                     </div>
@@ -833,14 +841,14 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, {name:'Cửa hàng'
                                        </div>
                                        <div class="tpproduct__hover-text">
                                           <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
-                                             <a class="tp-btn-2" href="cart.html">Add to cart</a>
+                                             <a class="tp-btn-2" href="cart.html">Thêm vào giỏ hàng</a>
                                           </div>
                                           <div class="tpproduct__descrip">
-                                             <ul>
-                                                <li>Type: Organic</li>
-                                                <li>MFG: August 4.2021</li>
-                                                <li>LIFE: 60 days</li>
-                                             </ul>
+                                         <ul>
+    <li>Loại: Hữu cơ</li>
+    <li>Ngày sản xuất: 4 tháng 8, 2021</li>
+    <li>Hạn sử dụng: 60 ngày</li>
+</ul>
                                           </div>
                                        </div>
                                     </div>
@@ -886,14 +894,14 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, {name:'Cửa hàng'
                                        </div>
                                        <div class="tpproduct__hover-text">
                                           <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
-                                             <a class="tp-btn-2" href="cart.html">Add to cart</a>
+                                             <a class="tp-btn-2" href="cart.html">Thêm vào giỏ hàng</a>
                                           </div>
                                           <div class="tpproduct__descrip">
-                                             <ul>
-                                                <li>Type: Organic</li>
-                                                <li>MFG: August 4.2021</li>
-                                                <li>LIFE: 60 days</li>
-                                             </ul>
+                                         <ul>
+    <li>Loại: Hữu cơ</li>
+    <li>Ngày sản xuất: 4 tháng 8, 2021</li>
+    <li>Hạn sử dụng: 60 ngày</li>
+</ul>
                                           </div>
                                        </div>
                                     </div>
@@ -933,14 +941,14 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, {name:'Cửa hàng'
                                        </div>
                                        <div class="tpproduct__hover-text">
                                           <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
-                                             <a class="tp-btn-2" href="cart.html">Add to cart</a>
+                                             <a class="tp-btn-2" href="cart.html">Thêm vào giỏ hàng</a>
                                           </div>
                                           <div class="tpproduct__descrip">
-                                             <ul>
-                                                <li>Type: Organic</li>
-                                                <li>MFG: August 4.2021</li>
-                                                <li>LIFE: 60 days</li>
-                                             </ul>
+                                         <ul>
+    <li>Loại: Hữu cơ</li>
+    <li>Ngày sản xuất: 4 tháng 8, 2021</li>
+    <li>Hạn sử dụng: 60 ngày</li>
+</ul>
                                           </div>
                                        </div>
                                     </div>
@@ -980,14 +988,14 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, {name:'Cửa hàng'
                                        </div>
                                        <div class="tpproduct__hover-text">
                                           <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
-                                             <a class="tp-btn-2" href="cart.html">Add to cart</a>
+                                             <a class="tp-btn-2" href="cart.html">Thêm vào giỏ hàng</a>
                                           </div>
                                           <div class="tpproduct__descrip">
-                                             <ul>
-                                                <li>Type: Organic</li>
-                                                <li>MFG: August 4.2021</li>
-                                                <li>LIFE: 60 days</li>
-                                             </ul>
+                                         <ul>
+    <li>Loại: Hữu cơ</li>
+    <li>Ngày sản xuất: 4 tháng 8, 2021</li>
+    <li>Hạn sử dụng: 60 ngày</li>
+</ul>
                                           </div>
                                        </div>
                                     </div>
@@ -1028,14 +1036,14 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, {name:'Cửa hàng'
                                        </div>
                                        <div class="tpproduct__hover-text">
                                           <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
-                                             <a class="tp-btn-2" href="cart.html">Add to cart</a>
+                                             <a class="tp-btn-2" href="cart.html">Thêm vào giỏ hàng</a>
                                           </div>
                                           <div class="tpproduct__descrip">
-                                             <ul>
-                                                <li>Type: Organic</li>
-                                                <li>MFG: August 4.2021</li>
-                                                <li>LIFE: 60 days</li>
-                                             </ul>
+                                         <ul>
+    <li>Loại: Hữu cơ</li>
+    <li>Ngày sản xuất: 4 tháng 8, 2021</li>
+    <li>Hạn sử dụng: 60 ngày</li>
+</ul>
                                           </div>
                                        </div>
                                     </div>
@@ -1076,14 +1084,14 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, {name:'Cửa hàng'
                                        </div>
                                        <div class="tpproduct__hover-text">
                                           <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
-                                             <a class="tp-btn-2" href="cart.html">Add to cart</a>
+                                             <a class="tp-btn-2" href="cart.html">Thêm vào giỏ hàng</a>
                                           </div>
                                           <div class="tpproduct__descrip">
-                                             <ul>
-                                                <li>Type: Organic</li>
-                                                <li>MFG: August 4.2021</li>
-                                                <li>LIFE: 60 days</li>
-                                             </ul>
+                                         <ul>
+    <li>Loại: Hữu cơ</li>
+    <li>Ngày sản xuất: 4 tháng 8, 2021</li>
+    <li>Hạn sử dụng: 60 ngày</li>
+</ul>
                                           </div>
                                        </div>
                                     </div>
@@ -1124,14 +1132,14 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, {name:'Cửa hàng'
                                        </div>
                                        <div class="tpproduct__hover-text">
                                           <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
-                                             <a class="tp-btn-2" href="cart.html">Add to cart</a>
+                                             <a class="tp-btn-2" href="cart.html">Thêm vào giỏ hàng</a>
                                           </div>
                                           <div class="tpproduct__descrip">
-                                             <ul>
-                                                <li>Type: Organic</li>
-                                                <li>MFG: August 4.2021</li>
-                                                <li>LIFE: 60 days</li>
-                                             </ul>
+                                         <ul>
+    <li>Loại: Hữu cơ</li>
+    <li>Ngày sản xuất: 4 tháng 8, 2021</li>
+    <li>Hạn sử dụng: 60 ngày</li>
+</ul>
                                           </div>
                                        </div>
                                     </div>
@@ -1171,14 +1179,14 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, {name:'Cửa hàng'
                                        </div>
                                        <div class="tpproduct__hover-text">
                                           <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
-                                             <a class="tp-btn-2" href="cart.html">Add to cart</a>
+                                             <a class="tp-btn-2" href="cart.html">Thêm vào giỏ hàng</a>
                                           </div>
                                           <div class="tpproduct__descrip">
-                                             <ul>
-                                                <li>Type: Organic</li>
-                                                <li>MFG: August 4.2021</li>
-                                                <li>LIFE: 60 days</li>
-                                             </ul>
+                                         <ul>
+    <li>Loại: Hữu cơ</li>
+    <li>Ngày sản xuất: 4 tháng 8, 2021</li>
+    <li>Hạn sử dụng: 60 ngày</li>
+</ul>
                                           </div>
                                        </div>
                                     </div>
@@ -1218,14 +1226,14 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, {name:'Cửa hàng'
                                        </div>
                                        <div class="tpproduct__hover-text">
                                           <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
-                                             <a class="tp-btn-2" href="cart.html">Add to cart</a>
+                                             <a class="tp-btn-2" href="cart.html">Thêm vào giỏ hàng</a>
                                           </div>
                                           <div class="tpproduct__descrip">
-                                             <ul>
-                                                <li>Type: Organic</li>
-                                                <li>MFG: August 4.2021</li>
-                                                <li>LIFE: 60 days</li>
-                                             </ul>
+                                         <ul>
+    <li>Loại: Hữu cơ</li>
+    <li>Ngày sản xuất: 4 tháng 8, 2021</li>
+    <li>Hạn sử dụng: 60 ngày</li>
+</ul>
                                           </div>
                                        </div>
                                     </div>
@@ -1266,14 +1274,14 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, {name:'Cửa hàng'
                                        </div>
                                        <div class="tpproduct__hover-text">
                                           <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
-                                             <a class="tp-btn-2" href="cart.html">Add to cart</a>
+                                             <a class="tp-btn-2" href="cart.html">Thêm vào giỏ hàng</a>
                                           </div>
                                           <div class="tpproduct__descrip">
-                                             <ul>
-                                                <li>Type: Organic</li>
-                                                <li>MFG: August 4.2021</li>
-                                                <li>LIFE: 60 days</li>
-                                             </ul>
+                                         <ul>
+    <li>Loại: Hữu cơ</li>
+    <li>Ngày sản xuất: 4 tháng 8, 2021</li>
+    <li>Hạn sử dụng: 60 ngày</li>
+</ul>
                                           </div>
                                        </div>
                                     </div>
@@ -1313,14 +1321,14 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, {name:'Cửa hàng'
                                        </div>
                                        <div class="tpproduct__hover-text">
                                           <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
-                                             <a class="tp-btn-2" href="cart.html">Add to cart</a>
+                                             <a class="tp-btn-2" href="cart.html">Thêm vào giỏ hàng</a>
                                           </div>
                                           <div class="tpproduct__descrip">
-                                             <ul>
-                                                <li>Type: Organic</li>
-                                                <li>MFG: August 4.2021</li>
-                                                <li>LIFE: 60 days</li>
-                                             </ul>
+                                         <ul>
+    <li>Loại: Hữu cơ</li>
+    <li>Ngày sản xuất: 4 tháng 8, 2021</li>
+    <li>Hạn sử dụng: 60 ngày</li>
+</ul>
                                           </div>
                                        </div>
                                     </div>
@@ -1362,14 +1370,14 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, {name:'Cửa hàng'
                                        </div>
                                        <div class="tpproduct__hover-text">
                                           <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
-                                             <a class="tp-btn-2" href="cart.html">Add to cart</a>
+                                             <a class="tp-btn-2" href="cart.html">Thêm vào giỏ hàng</a>
                                           </div>
                                           <div class="tpproduct__descrip">
-                                             <ul>
-                                                <li>Type: Organic</li>
-                                                <li>MFG: August 4.2021</li>
-                                                <li>LIFE: 60 days</li>
-                                             </ul>
+                                         <ul>
+    <li>Loại: Hữu cơ</li>
+    <li>Ngày sản xuất: 4 tháng 8, 2021</li>
+    <li>Hạn sử dụng: 60 ngày</li>
+</ul>
                                           </div>
                                        </div>
                                     </div>
@@ -1409,14 +1417,14 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, {name:'Cửa hàng'
                                        </div>
                                        <div class="tpproduct__hover-text">
                                           <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
-                                             <a class="tp-btn-2" href="cart.html">Add to cart</a>
+                                             <a class="tp-btn-2" href="cart.html">Thêm vào giỏ hàng</a>
                                           </div>
                                           <div class="tpproduct__descrip">
-                                             <ul>
-                                                <li>Type: Organic</li>
-                                                <li>MFG: August 4.2021</li>
-                                                <li>LIFE: 60 days</li>
-                                             </ul>
+                                         <ul>
+    <li>Loại: Hữu cơ</li>
+    <li>Ngày sản xuất: 4 tháng 8, 2021</li>
+    <li>Hạn sử dụng: 60 ngày</li>
+</ul>
                                           </div>
                                        </div>
                                     </div>
@@ -1446,18 +1454,19 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, {name:'Cửa hàng'
                                              <a href="#"><i class="icon-star_outline1"></i></a>
                                           </div>
                                           <ul class="tplist__content-info">
-                                             <li>Delicous Non-Dairy cheese sauce</li>
-                                             <li>Vegan &amp; Allergy Friendly</li>
-                                             <li>Smooth, velvety Dairy free cheese sauce</li>
-                                          </ul>
+    <li>Nước sốt phô mai không sữa thơm ngon</li>
+    <li>Thân thiện với người ăn chay và không gây dị ứng</li>
+    <li>Nước sốt phô mai không sữa mịn màng, mượt mà</li>
+</ul>
+
                                        </div>
                                        <div class="tplist__price justify-content-end">
-                                          <h4 class="tplist__instock">Availability: <span>92 in stock</span> </h4>
+                                          <h4 class="tplist__instock">Số lượng còn lại: <span>92 in stock</span> </h4>
                                           <h3 class="tplist__count mb-15">$56.00</h3>
-                                          <button class="tp-btn-2 mb-10">Add to cart</button>
+                                          <button class="tp-btn-2 mb-10">Thêm vào giỏ hàng</button>
                                           <div class="tplist__shopping">
-                                             <a href="#"><i class="icon-heart icons"></i> wishlist</a>
-                                             <a href="#"><i class="icon-layers"></i>Compare</a>
+                                             <a href="#"><i class="icon-heart icons"></i> Danh sách ưa thích</a>
+                                             <a href="#"><i class="icon-layers"></i>So Sánh</a>
                                           </div>
                                        </div>
                                     </div>
@@ -1485,18 +1494,19 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, {name:'Cửa hàng'
                                              <a href="#"><i class="icon-star_outline1"></i></a>
                                           </div>
                                           <ul class="tplist__content-info">
-                                             <li>Delicous Non-Dairy cheese sauce</li>
-                                             <li>Vegan &amp; Allergy Friendly</li>
-                                             <li>Smooth, velvety Dairy free cheese sauce</li>
-                                          </ul>
+    <li>Nước sốt phô mai không sữa thơm ngon</li>
+    <li>Thân thiện với người ăn chay và không gây dị ứng</li>
+    <li>Nước sốt phô mai không sữa mịn màng, mượt mà</li>
+</ul>
+
                                        </div>
                                        <div class="tplist__price justify-content-end">
-                                          <h4 class="tplist__instock">Availability: <span>92 in stock</span> </h4>
+                                          <h4 class="tplist__instock">Số lượng còn lại: <span>92 in stock</span> </h4>
                                           <h3 class="tplist__count mb-15">$56.00</h3>
-                                          <button class="tp-btn-2 mb-10">Add to cart</button>
+                                          <button class="tp-btn-2 mb-10">Thêm vào giỏ hàng</button>
                                           <div class="tplist__shopping">
-                                             <a href="#"><i class="icon-heart icons"></i> wishlist</a>
-                                             <a href="#"><i class="icon-layers"></i>Compare</a>
+                                             <a href="#"><i class="icon-heart icons"></i> Danh sách ưa thích</a>
+                                             <a href="#"><i class="icon-layers"></i>So Sánh</a>
                                           </div>
                                        </div>
                                     </div>
@@ -1524,18 +1534,19 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, {name:'Cửa hàng'
                                              <a href="#"><i class="icon-star_outline1"></i></a>
                                           </div>
                                           <ul class="tplist__content-info">
-                                             <li>Delicous Non-Dairy cheese sauce</li>
-                                             <li>Vegan &amp; Allergy Friendly</li>
-                                             <li>Smooth, velvety Dairy free cheese sauce</li>
-                                          </ul>
+    <li>Nước sốt phô mai không sữa thơm ngon</li>
+    <li>Thân thiện với người ăn chay và không gây dị ứng</li>
+    <li>Nước sốt phô mai không sữa mịn màng, mượt mà</li>
+</ul>
+
                                        </div>
                                        <div class="tplist__price justify-content-end">
-                                          <h4 class="tplist__instock">Availability: <span>92 in stock</span> </h4>
+                                          <h4 class="tplist__instock">Số lượng còn lại: <span>92 in stock</span> </h4>
                                           <h3 class="tplist__count mb-15">$56.00</h3>
-                                          <button class="tp-btn-2 mb-10">Add to cart</button>
+                                          <button class="tp-btn-2 mb-10">Thêm vào giỏ hàng</button>
                                           <div class="tplist__shopping">
-                                             <a href="#"><i class="icon-heart icons"></i> wishlist</a>
-                                             <a href="#"><i class="icon-layers"></i>Compare</a>
+                                             <a href="#"><i class="icon-heart icons"></i> Danh sách ưa thích</a>
+                                             <a href="#"><i class="icon-layers"></i>So Sánh</a>
                                           </div>
                                        </div>
                                     </div>
@@ -1563,18 +1574,19 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, {name:'Cửa hàng'
                                              <a href="#"><i class="icon-star_outline1"></i></a>
                                           </div>
                                           <ul class="tplist__content-info">
-                                             <li>Delicous Non-Dairy cheese sauce</li>
-                                             <li>Vegan &amp; Allergy Friendly</li>
-                                             <li>Smooth, velvety Dairy free cheese sauce</li>
-                                          </ul>
+    <li>Nước sốt phô mai không sữa thơm ngon</li>
+    <li>Thân thiện với người ăn chay và không gây dị ứng</li>
+    <li>Nước sốt phô mai không sữa mịn màng, mượt mà</li>
+</ul>
+
                                        </div>
                                        <div class="tplist__price justify-content-end">
-                                          <h4 class="tplist__instock">Availability: <span>92 in stock</span> </h4>
+                                          <h4 class="tplist__instock">Số lượng còn lại: <span>92 in stock</span> </h4>
                                           <h3 class="tplist__count mb-15">$56.00</h3>
-                                          <button class="tp-btn-2 mb-10">Add to cart</button>
+                                          <button class="tp-btn-2 mb-10">Thêm vào giỏ hàng</button>
                                           <div class="tplist__shopping">
-                                             <a href="#"><i class="icon-heart icons"></i> wishlist</a>
-                                             <a href="#"><i class="icon-layers"></i>Compare</a>
+                                             <a href="#"><i class="icon-heart icons"></i> Danh sách ưa thích</a>
+                                             <a href="#"><i class="icon-layers"></i>So Sánh</a>
                                           </div>
                                        </div>
                                     </div>
@@ -1602,18 +1614,19 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, {name:'Cửa hàng'
                                              <a href="#"><i class="icon-star_outline1"></i></a>
                                           </div>
                                           <ul class="tplist__content-info">
-                                             <li>Delicous Non-Dairy cheese sauce</li>
-                                             <li>Vegan &amp; Allergy Friendly</li>
-                                             <li>Smooth, velvety Dairy free cheese sauce</li>
-                                          </ul>
+    <li>Nước sốt phô mai không sữa thơm ngon</li>
+    <li>Thân thiện với người ăn chay và không gây dị ứng</li>
+    <li>Nước sốt phô mai không sữa mịn màng, mượt mà</li>
+</ul>
+
                                        </div>
                                        <div class="tplist__price justify-content-end">
-                                          <h4 class="tplist__instock">Availability: <span>92 in stock</span> </h4>
+                                          <h4 class="tplist__instock">Số lượng còn lại: <span>92 in stock</span> </h4>
                                           <h3 class="tplist__count mb-15">$56.00</h3>
-                                          <button class="tp-btn-2 mb-10">Add to cart</button>
+                                          <button class="tp-btn-2 mb-10">Thêm vào giỏ hàng</button>
                                           <div class="tplist__shopping">
-                                             <a href="#"><i class="icon-heart icons"></i> wishlist</a>
-                                             <a href="#"><i class="icon-layers"></i>Compare</a>
+                                             <a href="#"><i class="icon-heart icons"></i> Danh sách ưa thích</a>
+                                             <a href="#"><i class="icon-layers"></i>So Sánh</a>
                                           </div>
                                        </div>
                                     </div>
@@ -1641,18 +1654,19 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, {name:'Cửa hàng'
                                              <a href="#"><i class="icon-star_outline1"></i></a>
                                           </div>
                                           <ul class="tplist__content-info">
-                                             <li>Delicous Non-Dairy cheese sauce</li>
-                                             <li>Vegan &amp; Allergy Friendly</li>
-                                             <li>Smooth, velvety Dairy free cheese sauce</li>
-                                          </ul>
+    <li>Nước sốt phô mai không sữa thơm ngon</li>
+    <li>Thân thiện với người ăn chay và không gây dị ứng</li>
+    <li>Nước sốt phô mai không sữa mịn màng, mượt mà</li>
+</ul>
+
                                        </div>
                                        <div class="tplist__price justify-content-end">
-                                          <h4 class="tplist__instock">Availability: <span>92 in stock</span> </h4>
+                                          <h4 class="tplist__instock">Số lượng còn lại: <span>92 in stock</span> </h4>
                                           <h3 class="tplist__count mb-15">$56.00</h3>
-                                          <button class="tp-btn-2 mb-10">Add to cart</button>
+                                          <button class="tp-btn-2 mb-10">Thêm vào giỏ hàng</button>
                                           <div class="tplist__shopping">
-                                             <a href="#"><i class="icon-heart icons"></i> wishlist</a>
-                                             <a href="#"><i class="icon-layers"></i>Compare</a>
+                                             <a href="#"><i class="icon-heart icons"></i> Danh sách ưa thích</a>
+                                             <a href="#"><i class="icon-layers"></i>So Sánh</a>
                                           </div>
                                        </div>
                                     </div>
@@ -1680,18 +1694,19 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, {name:'Cửa hàng'
                                              <a href="#"><i class="icon-star_outline1"></i></a>
                                           </div>
                                           <ul class="tplist__content-info">
-                                             <li>Delicous Non-Dairy cheese sauce</li>
-                                             <li>Vegan &amp; Allergy Friendly</li>
-                                             <li>Smooth, velvety Dairy free cheese sauce</li>
-                                          </ul>
+    <li>Nước sốt phô mai không sữa thơm ngon</li>
+    <li>Thân thiện với người ăn chay và không gây dị ứng</li>
+    <li>Nước sốt phô mai không sữa mịn màng, mượt mà</li>
+</ul>
+
                                        </div>
                                        <div class="tplist__price justify-content-end">
-                                          <h4 class="tplist__instock">Availability: <span>92 in stock</span> </h4>
+                                          <h4 class="tplist__instock">Số lượng còn lại: <span>92 in stock</span> </h4>
                                           <h3 class="tplist__count mb-15">$56.00</h3>
-                                          <button class="tp-btn-2 mb-10">Add to cart</button>
+                                          <button class="tp-btn-2 mb-10">Thêm vào giỏ hàng</button>
                                           <div class="tplist__shopping">
-                                             <a href="#"><i class="icon-heart icons"></i> wishlist</a>
-                                             <a href="#"><i class="icon-layers"></i>Compare</a>
+                                             <a href="#"><i class="icon-heart icons"></i> Danh sách ưa thích</a>
+                                             <a href="#"><i class="icon-layers"></i>So Sánh</a>
                                           </div>
                                        </div>
                                     </div>
@@ -1719,18 +1734,19 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, {name:'Cửa hàng'
                                              <a href="#"><i class="icon-star_outline1"></i></a>
                                           </div>
                                           <ul class="tplist__content-info">
-                                             <li>Delicous Non-Dairy cheese sauce</li>
-                                             <li>Vegan &amp; Allergy Friendly</li>
-                                             <li>Smooth, velvety Dairy free cheese sauce</li>
-                                          </ul>
+    <li>Nước sốt phô mai không sữa thơm ngon</li>
+    <li>Thân thiện với người ăn chay và không gây dị ứng</li>
+    <li>Nước sốt phô mai không sữa mịn màng, mượt mà</li>
+</ul>
+
                                        </div>
                                        <div class="tplist__price justify-content-end">
-                                          <h4 class="tplist__instock">Availability: <span>92 in stock</span> </h4>
+                                          <h4 class="tplist__instock">Số lượng còn lại: <span>92 in stock</span> </h4>
                                           <h3 class="tplist__count mb-15">$56.00</h3>
-                                          <button class="tp-btn-2 mb-10">Add to cart</button>
+                                          <button class="tp-btn-2 mb-10">Thêm vào giỏ hàng</button>
                                           <div class="tplist__shopping">
-                                             <a href="#"><i class="icon-heart icons"></i> wishlist</a>
-                                             <a href="#"><i class="icon-layers"></i>Compare</a>
+                                             <a href="#"><i class="icon-heart icons"></i> Danh sách ưa thích</a>
+                                             <a href="#"><i class="icon-layers"></i>So Sánh</a>
                                           </div>
                                        </div>
                                     </div>
@@ -1932,5 +1948,20 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, {name:'Cửa hàng'
     background-color: var(--tp-common-white);
     border-radius: 10px;
     border: 1px solid var(--tp-common-white);
+}
+.tplist__content {
+    margin-left: -140px;
+}
+.tp-shop-option{
+   cursor: pointer;
+    font-weight: 400;
+    line-height: 40px;
+    list-style: none;
+    min-height: 40px;
+    outline: none;
+    padding: 10px 29px 10px 18px;
+    text-align: left;
+    -webkit-transition: all 0.2s;
+    transition: all 0.2s;
 }
 </style>

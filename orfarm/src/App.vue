@@ -17,7 +17,7 @@ watch(route, () => {
   <main>
     <router-view></router-view>
   </main>
-  <Footer></Footer>
+  <Footer :isHomePage="isHomePage"></Footer>
 </template>
 
 <style scoped>
