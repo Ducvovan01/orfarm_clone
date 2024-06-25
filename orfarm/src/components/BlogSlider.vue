@@ -6,88 +6,89 @@ import { Swiper, SwiperSlide } from "swiper/vue";
 
 </script>
 <template>
-    <section class="blog-area pt-30">
-        <div class="container-fluid tpblog_slider">
-         <swiper :modules="[Virtual]" :slides-per-view="3" :space-between="50" virtual>
-        
-            <swiper-slide>      
-            <div class="tpblog__single p-relative">
+   <section class="blog-area pt-30">
+       <div class="container-fluid tpblog_slider">
+           <swiper :modules="[Virtual]" :slides-per-view="3" :space-between="50" virtual>
+               <swiper-slide>      
+                   <div class="tpblog__single p-relative">
                        <div class="tpblog__single-img">
-                          <img src="../assets/img/blog/blog-single-1.jpg" alt="">
+                           <img src="../assets/img/blog/blog-single-1.jpg" alt="">
                        </div>
                        <div class="tpblog__single-text text-center">
-                          <div class="tpblog__entry-wap">
-                             <span class="cat-links"><a href="shop-details.html">Lifestyle</a></span>
-                             <span class="author-by"><a href="#">Admin</a></span>
-                             <span class="post-data"><a href="#">SEP 15. 2022</a></span>
-                          </div>
-                          <h4 class="tpblog__single-title mb-20">
-                             <a href="blog-details.html">Popular Reasons You Must Drinks <br> Juice Everyday</a>
-                          </h4>
-                          <a href="blog-details.html">Continue reading</a>
+                           <div class="tpblog__entry-wap">
+                               <span class="cat-links"><a href="shop-details.html">Lối Sống</a></span>
+                               <span class="author-by"><a href="#">Quản Trị Viên</a></span>
+                               <span class="post-data"><a href="#">15 THÁNG 9, 2022</a></span>
+                           </div>
+                           <h4 class="tpblog__single-title mb-20">
+                               <a href="blog-details.html">Những Lý Do Phổ Biến Bạn Phải Uống Nước Ép Hàng Ngày</a>
+                           </h4>
+                           <a href="blog-details.html">Tiếp tục đọc</a>
                        </div>
-            </div>
-                  </swiper-slide>  
+                   </div>
+               </swiper-slide>  
 
-                  <swiper-slide>  
-                    <div class="tpblog__single p-relative">
-                       <div class="tpblog__single-img">
-                          <img src="../assets/img/blog/blog-single-2.jpg" alt="">
-                       </div>
-                       <div class="tpblog__single-text text-center">
-                          <div class="tpblog__entry-wap">
-                             <span class="cat-links"><a href="shop-details.html">Lifestyle</a></span>
-                             <span class="author-by"><a href="#">Admin</a></span>
-                             <span class="post-data"><a href="#">SEP 15. 2022</a></span>
-                          </div>
-                          <h4 class="tpblog__single-title mb-20">
-                             <a href="blog-details.html">Popular Reasons You Must Drinks <br> Juice Everyday</a>
-                          </h4>
-                          <a href="blog-details.html">Continue reading</a>
-                       </div>
-                 </div>
-               </swiper-slide>  
                <swiper-slide>  
-                    <div class="tpblog__single p-relative">
+                   <div class="tpblog__single p-relative">
                        <div class="tpblog__single-img">
-                          <img src="../assets/img/blog/blog-single-3.jpg" alt="">
+                           <img src="../assets/img/blog/blog-single-2.jpg" alt="">
                        </div>
                        <div class="tpblog__single-text text-center">
-                          <div class="tpblog__entry-wap">
-                             <span class="cat-links"><a href="shop-details.html">Lifestyle</a></span>
-                             <span class="author-by"><a href="#">Admin</a></span>
-                             <span class="post-data"><a href="#">SEP 15. 2022</a></span>
-                          </div>
-                          <h4 class="tpblog__single-title mb-20">
-                             <a href="blog-details.html">Popular Reasons You Must Drinks <br> Juice Everyday</a>
-                          </h4>
-                          <a href="blog-details.html">Continue reading</a>
+                           <div class="tpblog__entry-wap">
+                               <span class="cat-links"><a href="shop-details.html">Lối Sống</a></span>
+                               <span class="author-by"><a href="#">Quản Trị Viên</a></span>
+                               <span class="post-data"><a href="#">15 THÁNG 9, 2022</a></span>
+                           </div>
+                           <h4 class="tpblog__single-title mb-20">
+                               <a href="blog-details.html">Những Lý Do Phổ Biến Bạn Phải Uống Nước Ép Hàng Ngày</a>
+                           </h4>
+                           <a href="blog-details.html">Tiếp tục đọc</a>
                        </div>
-                    </div>
-                  </swiper-slide>  
-                  <swiper-slide>  
-                    <div class="tpblog__single p-relative">
-                       <div class="tpblog__single-img">
-                          <img src="../assets/img/blog/blog-single-1.jpg" alt="">
-                       </div>
-                       <div class="tpblog__single-text text-center">
-                          <div class="tpblog__entry-wap">
-                             <span class="cat-links"><a href="shop-details.html">Lifestyle</a></span>
-                             <span class="author-by"><a href="#">Admin</a></span>
-                             <span class="post-data"><a href="#">SEP 15. 2022</a></span>
-                          </div>
-                          <h4 class="tpblog__single-title mb-20">
-                             <a href="blog-details.html">Popular Reasons You Must Drinks <br> Juice Everyday</a>
-                          </h4>
-                          <a href="blog-details.html">Continue reading</a>
-                       </div>
-                 </div>
+                   </div>
                </swiper-slide>  
-               </swiper>
-            
+
+               <swiper-slide>  
+                   <div class="tpblog__single p-relative">
+                       <div class="tpblog__single-img">
+                           <img src="../assets/img/blog/blog-single-3.jpg" alt="">
+                       </div>
+                       <div class="tpblog__single-text text-center">
+                           <div class="tpblog__entry-wap">
+                               <span class="cat-links"><a href="shop-details.html">Lối Sống</a></span>
+                               <span class="author-by"><a href="#">Quản Trị Viên</a></span>
+                               <span class="post-data"><a href="#">15 THÁNG 9, 2022</a></span>
+                           </div>
+                           <h4 class="tpblog__single-title mb-20">
+                               <a href="blog-details.html">Những Lý Do Phổ Biến Bạn Phải Uống Nước Ép Hàng Ngày</a>
+                           </h4>
+                           <a href="blog-details.html">Tiếp tục đọc</a>
+                       </div>
+                   </div>
+               </swiper-slide>  
+
+               <swiper-slide>  
+                   <div class="tpblog__single p-relative">
+                       <div class="tpblog__single-img">
+                           <img src="../assets/img/blog/blog-single-1.jpg" alt="">
+                       </div>
+                       <div class="tpblog__single-text text-center">
+                           <div class="tpblog__entry-wap">
+                               <span class="cat-links"><a href="shop-details.html">Lối Sống</a></span>
+                               <span class="author-by"><a href="#">Quản Trị Viên</a></span>
+                               <span class="post-data"><a href="#">15 THÁNG 9, 2022</a></span>
+                           </div>
+                           <h4 class="tpblog__single-title mb-20">
+                               <a href="blog-details.html">Những Lý Do Phổ Biến Bạn Phải Uống Nước Ép Hàng Ngày</a>
+                           </h4>
+                           <a href="blog-details.html">Tiếp tục đọc</a>
+                       </div>
+                   </div>
+               </swiper-slide>  
+           </swiper>
+       
            <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
-        </div>
-     </section>
+       </div>
+   </section>
 </template>
 <style scoped>
 .tpblog_slider{
