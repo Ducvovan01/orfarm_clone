@@ -209,4 +209,9 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, { name: 'Đăng Nh�
 .tpsign__account > a {
   color: inherit;
 }
+@media (max-width: 767px) {
+  .tptrack__content {
+      padding: 20px 15px;
+  }
+}
 </style>
