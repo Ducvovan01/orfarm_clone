@@ -41,6 +41,12 @@ import bannerImage from '@/assets/img/banner/tpbanner-1.jpg';
     background-repeat: no-repeat;
     border-radius: 10px;
 }
+/* Responsive */
+@media (max-width: 767.98px) {
+    .tpbannertwo p {
+       padding:0 15px;
+}
+}
 </style>
 
 

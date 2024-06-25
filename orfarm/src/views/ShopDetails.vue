@@ -926,4 +926,52 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, { route:'shop', nam
     font-weight: 400;
     font-size: 14px;
 }
+/* Responsive */
+@media (max-width: 767.98px) {
+    .tpdetails__area{
+        margin-right:0;
+    }
+    .tpdetails__title{
+        font-size:24px;
+    }
+    .tpdetails__brand{
+        padding:0;
+    }
+    .product__details{
+        padding-top:20px;
+    }
+    .product__details-quantity{
+        display:block !important;
+        justify-content:center;
+        align-items:center;
+    }
+    .product__details-btn a{
+        padding:13px 40px;
+        margin-left:20%;
+        margin-top:30px;
+    }
+    .tpdetails__product{
+        padding: 20px 20px 16px 20px;
+    }
+    .tpdetails__brand li{
+        padding-right:0;
+        margin:0;
+    }
+    .tpdescription__box-center .nav-tabs .nav-link {
+        margin: 0 8px 10px 8px;
+        font-size: 13px;
+    }
+    .tpdescription__box {
+        padding: 20px 20px 16px 20px;
+    }
+    .tpdescription__product-wrapper {
+        flex-wrap: wrap;
+    }
+    .tpsidebar {
+        margin-left: 0;
+    }
+    .tpsidebar__banner img{
+        width:100%;
+    }
+}
 </style>

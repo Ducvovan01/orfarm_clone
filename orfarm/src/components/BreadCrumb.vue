@@ -71,4 +71,10 @@ const props = defineProps({
     color: var(--tp-heading-secondary);
 }
 
+/* Responsive */
+@media (max-width: 767.98px) {
+  .tp-breadcrumb__list span{
+    font-size:14px;
+  }
+}
 </style>

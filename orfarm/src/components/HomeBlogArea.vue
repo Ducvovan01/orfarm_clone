@@ -25,7 +25,16 @@ const options = ref({
                     </div>
                 </div>
             </div>
-            <swiper   :slides-per-view="4" :space-between="20" :autoplay="options.autoplay" :modules="[Autoplay]"  v-bind="options" class=" tpblog-active">
+            <swiper   :breakpoints="{
+                640: {
+                    slidesPerView: 2,
+                    spaceBetween: 10,
+                  },
+                768: {
+                  slidesPerView: slideOnShow,
+                  spaceBetween: 20
+                }
+              }" :autoplay="options.autoplay" :modules="[Autoplay]"  v-bind="options" class=" tpblog-active">
     
                 <swiper-slide>
                 
@@ -220,5 +229,11 @@ const options = ref({
     font-weight: 700;
     font-size: 18px;
     color: var(--tp-theme-1);
+}
+/* Responsive */
+@media (max-width: 767.98px) {
+    .tpsection{
+        margin-bottom:0;
+    }
 }
 </style>

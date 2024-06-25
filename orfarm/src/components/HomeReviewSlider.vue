@@ -192,11 +192,6 @@ const options = ref({
     top:40%;
 }
 
-@media screen and (max-width: 768px) {
-    .tptestimonial-arrow {
-      display: none;
-    }
-  }
 .icon-chevron-right:before {
     content: "\f053";
     margin-right:4px;
@@ -205,4 +200,14 @@ const options = ref({
 .testi-arrow i:hover {
     opacity: 1;
 }   
+
+@media screen and (max-width: 768px) {
+    .tptestimonial-arrow {
+      display: none;
+    }
+    .testimonial__shape img{
+        display:none;
+    }
+  }
+
 </style>
