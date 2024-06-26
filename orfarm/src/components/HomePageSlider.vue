@@ -186,9 +186,6 @@ const options = ref({
 
 /* Responsive */
 @media (max-width: 767.98px) {
-    .slider-area{
-        top:0;
-    }
     .tpslider__sub-title{
         font-size:13px;
     }   

@@ -2,6 +2,7 @@
 import { ref, watch } from 'vue';
 import Footer from '@/components/Footer.vue';
 import Header from '@/components/Header.vue';
+import HeaderMobile from '@/components/HeaderMobile.vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
@@ -14,6 +15,7 @@ watch(route, () => {
 </script>
 
 <template>
+  <HeaderMobile ></HeaderMobile>
   <Header :isHomePage="isHomePage"></Header>
   <main>
     <router-view></router-view>
