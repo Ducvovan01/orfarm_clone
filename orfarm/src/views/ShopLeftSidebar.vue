@@ -1964,4 +1964,30 @@ const selectOption = (option)=>{
     -webkit-transition: all 0.2s;
     transition: all 0.2s;
 }
+/* Responsive */
+@media (max-width: 767.98px) {
+      .tpshop__top{
+         margin-left:0;
+         padding-top:30px;
+      }
+      .tpshop__leftbar {
+         margin-right: 0;
+      }
+      .tpshop__sidbar-thumb img{
+         width:100%;
+      }
+      .tpshop__banner {
+         background-repeat: no-repeat;
+         background-size: cover;
+     }
+     .product__navtabs{
+      justify-content:center !important;
+     }
+     .tplist__product {
+      flex-wrap: wrap;
+  }
+  .tplist__content {
+   margin-left: 0;
+}
+}
 </style>

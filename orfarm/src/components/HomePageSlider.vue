@@ -183,4 +183,24 @@ const options = ref({
     font-size: 18px;
     margin-bottom: 60px;
 }
+
+/* Responsive */
+@media (max-width: 767.98px) {
+    .tpslider__sub-title{
+        font-size:13px;
+    }   
+    .slider-three .tpslider__title{
+        font-size:36px;
+    }
+    .tpslider__content p {
+        font-size:18px;
+    }
+    .tpslider__content{
+        margin-top:100px;
+    }
+    .slider-area{
+        width:100vw;
+        top:0px;
+    }
+}
 </style>

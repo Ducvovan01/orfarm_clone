@@ -76,7 +76,16 @@ const isValidOption = (option) => {
                   <div class="col-lg-12">
                      <div class="tpnavtab__area pb-40" >
                         <div class="tpproduct__arrow p-relative container" >
-                           <swiper  :slides-per-view="slideOnShow" :space-between="20" :autoplay="true" :modules="[Autoplay]">
+                           <swiper :breakpoints="{
+                            640: {
+                                slidesPerView: 2,
+                                spaceBetween: 10,
+                              },
+                            768: {
+                              slidesPerView: slideOnShow,
+                              spaceBetween: 20
+                            }
+                          }" :autoplay="true" :modules="[Autoplay]">
                             
                               <swiper-slide>  
                                  <div class="tpproduct p-relative tpprogress__hover">
@@ -907,4 +916,17 @@ overflow-x: clip;
     justify-content: end;
 }
 
+/* Responsive */
+@media (max-width: 767.98px) {
+    .brand-product-title{
+        font-size:18px;
+    }
+    .tpnavtab__newitem.tpnavtab__area nav .nav-link {
+        font-size:18px;
+        margin-right:10px;
+    }
+    .tpnavtab__area nav{
+        margin-bottom:0;
+    }
+}
 </style>

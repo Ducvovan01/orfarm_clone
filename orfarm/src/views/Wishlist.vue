@@ -213,4 +213,9 @@ td.product-thumbnail img {
   color: var(--tp-common-white);
   background-color: var(--tp-heading-primary);
 }
+@media (max-width: 767px) {
+  .table-content table {
+      width: 300%;
+  }
+}
 </style>

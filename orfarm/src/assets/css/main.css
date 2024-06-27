@@ -10,6 +10,7 @@
 @import '_section-title.css';
 @import '_product.css';
 @import '_pagination.css';
+@import '_responsive.css';
 
 #app {
   width: 100%;
@@ -63,20 +64,5 @@ a, button {
       background-color: var(--tp-theme-1);
 }
 
-@media (hover:hover) {
-  a:hover {
-  }
-}
 
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-  }
-
-  #app {
-    display: grid;
-    padding: 0;
-    
-  }
-}
 

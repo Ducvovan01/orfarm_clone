@@ -194,4 +194,10 @@
 .tpcartitem__thumb img:hover {
    transform: scale(1.03);
 }
+/* Responsive */
+@media (max-width: 767.98px) {
+    .tpcartitem{
+        display:none;
+    }
+}
 </style>

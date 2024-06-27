@@ -26,7 +26,7 @@ const form = reactive({
             <div class="col-xl-10 col-lg-12 mx-auto">
                 <div class="tp-blog-details__wrapper">
                     <div class="tp-blog-details__content">
-                        <div class="tpblog__entry-wap mb-5">
+                        <div class="tpblog__entry-wap" style="margin-bottom:5px;">
                             <span class="cat-links"><a href="shop-details.html">Phong cách sống</a></span>
                             <span class="author-by"><a href="#">Quản trị viên</a></span>
                             <span class="post-data"><a href="#">15 THÁNG 9, 2022</a></span>
@@ -505,5 +505,37 @@ const form = reactive({
 }
 .tp-blog-details__author-text .author-btn:hover {
     background-color: var(--tp-heading-secondary);
+}
+@media (max-width: 767px) {
+    .tp-blog-details__wrapper {
+        padding: 35px 15px 30px 15px;
+        margin-top: 0;
+    }
+    .tp-blog-details__title {
+        font-size: 18px;
+    }
+    .tp-blog-details__content p {
+        font-size: 16px;
+    }
+    .tp-blog-details__quation {
+        font-size: 17px;
+    }
+    .tagcloud a {
+        padding: 4px 15px;
+    }
+    .postbox__social-tag {
+        text-align: start;
+    }
+    .tp-blog-details__author {
+        flex-wrap: wrap;
+        padding: 40px 15px 40px 15px;
+    }
+    .tp-blog-details__author-img {
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+    .postbox__comment-box {
+        padding-left: 0;
+    }
 }
 </style>
