@@ -73,4 +73,11 @@
 .tperror__btn a:hover {
    background-color: #859A00;
 }
+@media (max-width: 767px) {
+    .tperror__title {
+        font-size: 22px;
+    }
+}
+
+
 </style>
