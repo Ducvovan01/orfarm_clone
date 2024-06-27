@@ -198,5 +198,9 @@ const options = ref({
     .tpslider__content{
         margin-top:100px;
     }
+    .slider-area{
+        width:100vw;
+        top:0px;
+    }
 }
 </style>

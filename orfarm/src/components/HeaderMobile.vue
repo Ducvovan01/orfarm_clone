@@ -1,6 +1,8 @@
 <script setup>
-import { reactive, ref} from 'vue';
+import { reactive, ref, onUnmounted, onMounted} from 'vue';
 const isMenuOpen = ref(false);
+const isCartMenuOpen = ref(false);
+const isHeaderSticky = ref(false);
  const menuState = reactive({
       home: false,
       shop: false,
@@ -15,13 +17,36 @@ const isMenuOpen = ref(false);
     const toggleMainMenu = () =>{
         isMenuOpen.value = !isMenuOpen.value;
     }
+    const toggleCartMenu = () => {
+        isCartMenuOpen.value = !isCartMenuOpen.value;
+    }
+    
+    const closeMenu = () =>{
+        isCartMenuOpen.value = false;
+        isMenuOpen.value = false;
+        
+    }
 
+ const handleScroll = () => {
+  if (window.scrollY > 400) {
+    isHeaderSticky.value = true
+  } else {
+    isHeaderSticky.value = false
+  }
+}
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
+})
 </script>
 <template>
   
-    <div id="header-sticky-2" class="tpmobile-menu d-xl-none">
+    <div id="header-sticky-2" class="tpmobile-menu d-xl-none" :class="{ 'header-sticky': isHeaderSticky }">
         <div class="container-fluid">
-           <div class="row align-items-center">
+           <div class="row align-items-center" >
               <div class="col-lg-4 col-md-4 col-3 col-sm-3">
                  <div class="mobile-menu-icon">
                     <button class="tp-menu-toggle" @click='toggleMainMenu'><i class="icon-menu1"></i></button>
@@ -33,7 +58,7 @@ const isMenuOpen = ref(false);
                  </div>
               </div>
               <div class="col-lg-4 col-md-4 col-3 col-sm-5">
-                 <div class="header__info d-flex align-items-center">
+                 <div class="header__info d-flex align-items-end">
                     <div class="header__info-search tpcolor__purple ml-10 d-none d-sm-block">
                        <button class="tp-search-toggle"><i class="icon-search"></i></button>
                     </div>
@@ -43,7 +68,7 @@ const isMenuOpen = ref(false);
                     <div class="header__info-wishlist tpcolor__greenish ml-10 d-none d-sm-block">
                        <a href="wishlist.html"><i class="icon-heart icons"></i></a>
                     </div>
-                    <div class="header__info-cart tpcolor__oasis ml-10 tp-cart-toggle">
+                    <div class="header__info-cart tpcolor__oasis ml-10 tp-cart-toggle" @click='toggleCartMenu'>
                        <button><i><img src="../assets/img/icon/cart-1.svg" alt=""></i>
                           <span>5</span>
                        </button>
@@ -54,7 +79,88 @@ const isMenuOpen = ref(false);
         </div>
      </div>
 
- <div class="body-overlay" :class="{'opened':isMenuOpen}"></div>
+ <div class="body-overlay" :class="{'opened':isMenuOpen || isCartMenuOpen}" @click="closeMenu"></div>
+
+ <div class="tpcartinfo tp-cart-info-area p-relative" :class="{'tp-sidebar-opened':isCartMenuOpen}">
+    <button class="tpcart__close" @click="toggleCartMenu"><i class="icon-x"></i></button>
+       <div class="tpcart">
+          <h4 class="tpcart__title">Giỏ Hàng của bạn</h4>
+          <div class="tpcart__product">
+             <div class="tpcart__product-list">
+                <ul>
+                   <li>
+                      <div class="tpcart__item">
+                         <div class="tpcart__img">
+                            <img src="../assets/img/product/products1-min.jpg" alt="">
+                            <div class="tpcart__del">
+                               <a href="#"><i class="icon-x-circle"></i></a>
+                            </div>
+                         </div>
+                         <div class="tpcart__content">
+                            <span class="tpcart__content-title"><a href="shop-details.html">Snack Bánh Pita Stacy's vị Phô Mai Parmesan, Tỏi &amp; Thảo Mộc Tự Nhiên</a>
+                            </span>
+                            <div class="tpcart__cart-price">
+                               <span class="quantity">1 x</span>
+                               <span class="new-price">$162.80</span>
+                            </div>
+                         </div>
+                      </div>
+                   </li>
+                   <li>
+                      <div class="tpcart__item">
+                         <div class="tpcart__img">
+                            <img src="../assets/img/product/products12-min.jpg" alt="">
+                            <div class="tpcart__del">
+                               <a href="#"><i class="icon-x-circle"></i></a>
+                            </div>
+                         </div>
+                         <div class="tpcart__content">
+                            <span class="tpcart__content-title"><a href="shop-details.html">Chuối, Đẹp Da, Tốt Cho Sức Khỏe 1Kg</a>
+                            </span>
+                            <div class="tpcart__cart-price">
+                               <span class="quantity">1 x</span>
+                               <span class="new-price">$138.00</span>
+                            </div>
+                         </div>
+                      </div>
+                   </li>
+                   <li>
+                      <div class="tpcart__item">
+                         <div class="tpcart__img">
+                            <img src="../assets/img/product/products3-min.jpg" alt="">
+                            <div class="tpcart__del">
+                               <a href="#"><i class="icon-x-circle"></i></a>
+                            </div>
+                         </div>
+                         <div class="tpcart__content">
+                            <span class="tpcart__content-title"><a href="shop-details.html">Bánh Gạo Nổ Quaker Vị Sôcôla</a>
+                            </span>
+                            <div class="tpcart__cart-price">
+                               <span class="quantity">1 x</span>
+                               <span class="new-price">$162.8</span>
+                            </div>
+                         </div>
+                      </div>
+                   </li>
+                </ul>
+             </div>
+             <div class="tpcart__checkout">
+                <div class="tpcart__total-price d-flex justify-content-between align-items-center">
+                   <span> Tổng Tiền:</span>
+                   <span class="heilight-price"> $300.00</span>
+                </div>
+                <div class="tpcart__checkout-btn">
+                   <a class="tpcart-btn mb-10" href="cart.html">Xem Giỏ Hàng</a>
+                   <a class="tpcheck-btn" href="checkout.html">Thanh Toán</a>
+                </div>
+             </div>
+          </div>
+          <div class="tpcart__free-shipping text-center">
+             <span>Miễn phí ship với đơn hàng <b>dưới 10km</b></span>
+          </div>
+       </div>
+    </div>
+
 
     <div class="tpsideinfo " :class="{'tp-sidebar-opened':isMenuOpen}">
         <button class="tpsideinfo__close" @click="toggleMainMenu">Close<i class="fal fa-times ml-10"></i></button>
@@ -234,6 +340,18 @@ const isMenuOpen = ref(false);
     font-size: 24px;
     color: var(--tp-heading-primary);
 }
+.header-sticky {
+    position: fixed;
+    left: 0;
+    margin: auto;
+    top: 0;
+    width: 100%;
+    box-shadow: 0 0 60px 0 rgba(0, 0, 0, 0.07);
+    z-index: 99999;
+    animation: 300ms ease-in-out 0s normal none 1 running fadeInDown;
+    background: var(--tp-common-white);
+}
+
 .header__info a i, .header__info button i {
     height: 40px;
     width: 40px;
@@ -547,5 +665,167 @@ const isMenuOpen = ref(false);
     visibility: hidden;
     transition: all 0.3s ease-out 0s;
 }
+/* Cart Menu */
+.tp-cart-info-area.tp-sidebar-opened {
+    transform: translateX(0);
+}
 
+.tpcartinfo {
+    background-color: var(--tp-common-white);
+    text-align: start;
+    position: fixed;
+    right: 0;
+    top: 0;
+    height: 100%;
+    box-shadow: rgba(5, 13, 54, 0.05) 5px 15px 30px 0px;
+    transition: all 0.3s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+    z-index: 9999999;
+    width: 380px;
+    transform: translateX(100%);
+}
+@media (max-width: 767px) {
+    .tpcartinfo {
+        width: 280px;
+    }
+}
+.tpcart__close {
+    width: 30px;
+    height: 30px;
+}
+.tpcart__close {
+color: var(--tp-heading-secondary);
+right: 30px;
+font-size: 18px;
+width: 35px;
+height: 35px;
+position: absolute;
+top: 4px;
+z-index: 2;
+}
+.tpcart__title {
+    padding: 16px 30px;
+    background-color: var(--tp-grey-1);
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--tp-heading-primary);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+.tpcart {
+    float: none;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    flex: 1 1 auto;
+    align-items: stretch;
+    flex-direction: column;
+}
+.tpcart__product {
+    position: relative;
+    display: flex;
+    flex: 1 1 auto;
+    align-items: stretch;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+    padding: 0 30px;
+}
+.tpcart ul li {
+    list-style: none;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--tp-border-1);
+}
+.tpcart ul{
+    padding:0;
+}
+.tpcart__item {
+    display: flex;
+    align-items: center;
+}
+@media (max-width: 767px) {
+    .tpcart__img {
+        margin-right: 4px;
+    }
+}
+
+.tpcart__img {
+    margin-right: 20px;
+    position: relative;
+}
+.tpcart__img img {
+    width: 70px;
+    border-radius: 10px;
+}
+.tpcart__del {
+    position: absolute;
+    color: var(--tp-heading-secondary);
+    left: 0;
+    top: 0;
+}
+.icon-x-circle:before {
+    color: var(--tp-heading-secondary);
+    content: "\f057 ";
+    font: normal normal normal 14px/1 FontAwesome;
+    
+}
+.tpcart__content-title a{
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--tp-heading-primary);
+}
+
+.tpcart__cart-price {
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--tp-heading-primary);
+}
+.tpcart__cart-price .new-price {
+    color: var(--tp-heading-secondary);
+}
+.tpcart__total-price {
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: var(--tp-heading-primary);
+    margin-bottom: 25px;
+    padding-top: 25px;
+    border-top: 1px solid var(--tp-border-1);
+}
+.tpcart__total-price .heilight-price {
+    font-size: 18px;
+    font-weight: 700;
+}
+.tpcart__free-shipping {
+    padding: 13px 15px;
+}
+.tpcart__free-shipping span {
+    color: var(--tp-common-white);
+    font-size: 14px;
+}
+.tpcart__free-shipping span b {
+    font-weight: 600;
+    text-transform: uppercase;
+}
+.tpcart__free-shipping {
+    padding: 13px 30px;
+    background-color: var(--tp-theme-5);
+}
+@media (max-width: 767px) {
+    .tpcart__free-shipping {
+        padding: 13px 15px;
+    }
+}
+.tpcart__checkout {
+    margin-bottom: 30px;
+}
+.icon-x:before {
+    content: "\58";
+    font: normal normal normal 14px/1 FontAwesome;
+}
 </style>

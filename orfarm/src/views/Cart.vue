@@ -292,4 +292,21 @@ td.product-thumbnail img {
   color: var(--tp-common-white);
   background: var(--tp-heading-secondary);
 }
+@media (max-width: 767px) {
+  .table-content table {
+      width: 300%;
+  }
+  .coupon {
+    float: none;
+}
+.coupon2 {
+  float: none;
+  margin-top: 15px;
+}
+#coupon_code {
+  margin-bottom: 15px;
+}
+
+}
+
 </style>
