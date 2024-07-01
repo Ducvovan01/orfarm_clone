@@ -6,10 +6,9 @@ import {reactive,ref, onMounted} from 'vue';
 import axios from 'axios';
 const router = useRouter();
 import { config } from '@/config/config';
-import bannerImage4 from '@/assets/img/banner/banner-4.jpg';
 const{loginForm, submitLogin, errors, resultOtp,submitResgiter } = Auth();
 
-const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, { name: 'Đăng Nhập' }];
+const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, { name: 'Đăng Ký Tài Khoản' }];
 
 const formSignup = reactive({
 	phone: "",
@@ -89,7 +88,7 @@ const submitOtp1 = (event) => {
                 </div>
               </div>
               <div class="tpsign__account mb-15">
-                <a href="/register">Đăng kí tài khoản?</a>
+                <a href="#">Đăng kí tài khoản?</a>
               </div>
               <div class="tptrack__btn">
                 <button class="tptrack__submition active" @click="submitLogin">
@@ -100,8 +99,60 @@ const submitOtp1 = (event) => {
           </div>
         </div>
         <div class="col-lg-6 col-sm-12">
-          <div class="tpbanner__auth" data-background="../assets/img/banner/banner-4.jpg" :style="{ backgroundImage: `url(${bannerImage4})` }">
-        </div>
+          <div class="tptrack__product mb-40">
+            <div class="tptrack__content grey-bg">
+              <div class="tptrack__item d-flex mb-20">
+                <div class="tptrack__item-icon">
+                  <i class="fal fa-lock"></i>
+                </div>
+                <div class="tptrack__item-content">
+                  <h4 class="tptrack__item-title">Đăng ký</h4>
+                  <p>
+                    Dữ liệu cá nhân của bạn sẽ được sử dụng để hỗ trợ trải nghiệm của bạn trên trang
+                    web này, để quản lý quyền truy cập vào tài khoản của bạn.
+                  </p>
+                </div>
+              </div>
+              <form >
+                 <div class="form-group tptrack__register mb-10">
+                  <label for="name"><i class="fal fa-user"></i> Họ và tên:</label>
+                  <input v-model="formSignup.name" type="text" id="name" name="name" class="form-control" placeholder="Nhập họ và tên của bạn" required />
+                </div>
+                <div class="form-group tptrack__register mb-10">
+                  <label for="email"><i class="fal fa-envelope"></i> Địa chỉ email:</label>
+                  <input v-model="formSignup.email" type="email" id="email" name="email" class="form-control" placeholder="Nhập địa chỉ email của bạn" required />
+                </div>
+                <div class="form-group tptrack__register mb-10">
+                  <label for="phone"> Số điện thoại:</label>
+                  <input v-model="formSignup.phone" type="text" id="phone" name="phone" class="form-control" placeholder="Nhập số điện thoại của bạn" required />
+                </div>
+                <div class="form-group tptrack__register mb-10">
+                  <label for="password"><i class="fal fa-key"></i> Mật khẩu:</label>
+                  <input v-model="formSignup.password" type="password" id="password" name="password" class="form-control tptrack__email" placeholder="Nhập mật khẩu của bạn" required />
+                </div>
+                <div class="form-group tptrack__register mb-10">
+                  <label for="confirm_password"> Xác nhận mật khẩu:</label>
+                  <input v-model="formSignup.confirmPassword" type="password" id="confirm_password" name="confirm_password" class="form-control" placeholder="Nhập lại mật khẩu" required />
+                </div>
+                <div class="form-group tptrack__register mb-10">
+                  <label for="otp">Mã OTP:</label>
+                  <input v-model="formSignup.otp" type="text" id="otp" name="otp" class="form-control" placeholder="Nhập mã OTP" required />
+                </div>
+                <div class="form-group tptrack__register mb-10">
+                  <label for="referral_code"> Mã giới thiệu:</label>
+                  <input v-model="formSignup.referral_code" type="text" id="referral_code" name="referral_code" class="form-control" placeholder="Nhập mã giới thiệu (nếu có)" />
+                </div>
+              </form>
+              <div class="tpsign__account mb-15">
+                <a href="#">Đã có tài khoản?</a>
+              </div>
+              <div class="tptrack__btn">
+                <button class="tptrack__submition tpsign__reg" @click="handleRegister">
+                  Đăng ký ngay<i class="fal fa-long-arrow-right"></i>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -109,11 +160,6 @@ const submitOtp1 = (event) => {
 </template>
 
 <style scoped>
-.tpbanner__auth{
-  height:800px;
-  object-fit:cover;
-  background-repeat:none; 
-}
 .tptrack__content {
   padding: 50px;
   border-radius: 10px;
