@@ -1,37 +1,21 @@
 <script setup>
 import BreadCrumb from '@/components/BreadCrumb.vue'
 import { computed, ref } from 'vue'
-
+import store from '../stores/global.js';
+import apiURL  from "../connect.js";
+const API_BACK_END = apiURL.URL;
 const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, { name: 'Giỏ Hàng' }]
-const cart = ref([
-  {
-    id: 1,
-    name: 'Bữa sáng Mùa hè Cho Buổi Sáng Khỏe Mạnh',
-    price: 130.0,
-    quantity: 1,
-    subtotal: 130.0,
-    image: '../assets/img/product/products19-min.jpg'
-  },
-  {
-    id: 2,
-    name: 'Những Lợi Ích Tuyệt Vời Nhất Của Thịt Bò Tươi',
-    price: 120.5,
-    quantity: 1,
-    subtotal: 120.5,
-    image: '../assets/img/product/products20-min.jpg'
-  }
-])
 
 const total = computed(() => {
   let totalValue = 0;
-  cart.value.forEach(item => {
+  store.state.cart.forEach(item => {
     totalValue += item.subtotal;
   });
   return totalValue;
 });
 
 const minusQuantity = (item) => {
-  const foundItem = cart.value.find(p => p.id === item.id);
+  const foundItem = store.state.cart.find(p => p.id === item.id);
   if (foundItem && foundItem.quantity > 1) {
     foundItem.quantity--;
     foundItem.subtotal = foundItem.price * foundItem.quantity;
@@ -40,12 +24,26 @@ const minusQuantity = (item) => {
 
 // Function to increase quantity
 const plusQuantity = (item) => {
-  const foundItem = cart.value.find(p => p.id === item.id);
+  const foundItem = store.state.cart.find(p => p.id === item.id);
   if (foundItem) {
     foundItem.quantity++;
     foundItem.subtotal = foundItem.price * foundItem.quantity;
   }
 };
+const getImageUrl = (imagePath) => {
+      return `${API_BACK_END}/${imagePath}`;
+    };
+
+const formatCurrency = (value) => {
+  const formattedNumber = new Intl.NumberFormat('en-VN', {
+        style: 'decimal',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+      }).format(value);
+      return `${formattedNumber} VND`;
+    };
+
+console.log(store.state.cart);
 </script>
 
 <template>
@@ -60,7 +58,7 @@ const plusQuantity = (item) => {
                 <thead>
                   <tr>
                     <th class="product-thumbnail">Hình ảnh</th>
-                    <th class="cart-product-name">Khóa học</th>
+                    <th class="cart-product-name">Sản Phẩm</th>
                     <th class="product-price">Đơn giá</th>
                     <th class="product-quantity">Số lượng</th>
                     <th class="product-subtotal">Tổng cộng</th>
@@ -68,27 +66,27 @@ const plusQuantity = (item) => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="(item, index) in cart" :key="index">
+                  <tr v-for="(item, index) in store.state.cart" :key="index">
                     <td class="product-thumbnail">
-                      <a :href="'shop-details.html?id=' + item.id">
-                        <img src="../assets/img/product/products20-min.jpg" :alt="item.name" />
+                      <a :href="'product-details?id=' + item.product.id">
+                        <img :src="getImageUrl(item.product.images[0].image_path)" :alt="item.product.name" />
                       </a>
                     </td>
                     <td class="product-name">
-                      <a :href="'shop-details.html?id=' + item.id">{{ item.name }}</a>
+                      <a :href="'prodcut-details?id=' + item.product.id">{{ item.product.name }}</a>
                     </td>
                     <td class="product-price">
-                      <span class="amount">${{ item.price.toFixed(2) }}</span>
+                      <span class="amount">{{ formatCurrency(item.product.price) }}</span>
                     </td>
                     <td class="product-quantity">
                       <span class="cart-minus" @click="minusQuantity(item)"
                         >-</span
                       >
-                      <input class="cart-input" type="text" :value="item.quantity" />
+                      <input class="cart-input" type="text" :value="item.amount" />
                       <span class="cart-plus" @click="plusQuantity(item)">+</span>
                     </td>
                     <td class="product-subtotal">
-                      <span class="amount">${{ item.subtotal.toFixed(2) }}</span>
+                      <span class="amount">{{ formatCurrency(item.amount * item.product.price) }}</span>
                     </td>
                     <td class="product-remove">
                       <a href="#"><i class="fa fa-times"></i></a>
@@ -135,10 +133,10 @@ const plusQuantity = (item) => {
                   <h2>Tổng cộng giỏ hàng</h2>
                   <ul class="mb-20">
                     <li>
-                      Tạm tính <span>${{ total.toFixed(2) }}</span>
+                      Tạm tính <span>{{ total.toFixed(2) }}</span>
                     </li>
                     <li>
-                      Tổng cộng <span>${{ total.toFixed(2) }}</span>
+                      Tổng cộng <span>{{ total.toFixed(2) }}</span>
                     </li>
                   </ul>
                   <a href="checkout.html" class="tp-btn tp-color-btn banner-animation"

@@ -4,36 +4,13 @@ import Auth from '@/api/auth/index.js';
 import { useRouter } from "vue-router";
 import {reactive,ref, onMounted} from 'vue';
 import axios from 'axios';
-const router = useRouter();
 import { config } from '@/config/config';
 import bannerImage4 from '@/assets/img/banner/banner-4.jpg';
+import store from '../stores/auth.js';
+const router = useRouter();
 const{loginForm, submitLogin, errors, resultOtp,submitResgiter } = Auth();
 
 const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, { name: 'Đăng Nhập' }];
-
-const formSignup = reactive({
-	phone: "",
-	password: "",
-	confirmPassword: "",
-	referral_code: "",
-	name: "",
-	email: "",
-	otp:"",
-});
-
-const otpValue = ref('');
-const submitOtp = (event) => {
-  event.preventDefault();
-  formSignup.otp = otpValue.value;
-  submitResgiter(formSignup,'sendotp');
-};
-
-const submitOtp1 = (event) => {
-  event.preventDefault();
-  formSignup.otp = otpValue.value;
-  submitResgiter(formSignup,'register');
-};
-
 
 </script>
 

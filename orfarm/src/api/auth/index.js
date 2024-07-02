@@ -54,6 +54,7 @@ export default function Auth() {
 		return error;
 	};
 	const validateFormRegister = async (formSignup) => {
+		console.log(formSignup)
 		let is_flag = true;
 		errors.confirmPassword = '';
 		errors.phone = '';
@@ -103,6 +104,7 @@ export default function Auth() {
 			localStorage.removeItem('user');
 		}
 	}, 300000); //5p
+
 	const submitResgiter = async (formSignup,$type)=>{
 		const status = await validateFormRegister(formSignup);
         if (status == false) {

@@ -1,6 +1,7 @@
 import Vuex from 'vuex';
 import axios from 'axios';
 import apiURL from '../connect';
+
 const store = new Vuex.Store({
     state: {
         authenticated: false,
