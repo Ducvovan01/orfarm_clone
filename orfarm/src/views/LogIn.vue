@@ -1,7 +1,17 @@
 <script setup>
 import BreadCrumb from '@/components/BreadCrumb.vue'
+import Auth from '@/api/auth/index.js';
+import { useRouter } from "vue-router";
+import {reactive,ref, onMounted} from 'vue';
+import axios from 'axios';
+import { config } from '@/config/config';
+import bannerImage4 from '@/assets/img/banner/banner-4.jpg';
+import store from '../stores/auth.js';
+const router = useRouter();
+const{loginForm, submitLogin, errors, resultOtp,submitResgiter } = Auth();
 
-const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, { name: 'Đăng Nhập' }]
+const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, { name: 'Đăng Nhập' }];
+
 </script>
 
 <template>
@@ -25,18 +35,27 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, { name: 'Đăng Nh�
                   </p>
                 </div>
               </div>
-              <div class="tptrack__id mb-10">
-                <form action="#">
-                  <span><i class="fal fa-user"></i></span>
-                  <input type="email" placeholder="Tên đăng nhập / địa chỉ email" />
+              <div class="tptrack__login mb-10">
+                <form action="#" method="POST" >
+                  <div class="tptrack_input">
+                  <label for="name">Email/ Số điện thoại:</label>
+                  <div class="tptrack__email mb-1">
+                    <span><i class="fal fa-user"></i> </span>
+                    <input type="email" placeholder="Tên đăng nhập / địa chỉ email" name="phone"  v-model='loginForm.phone' />
+                  </div>
+                  <span class="text-danger error_message" v-if="errors.phone">{{ errors.phone }}</span>
+                </div>
+                <div class="tptrack_input">
+                    <label for="name">Mật khẩu:</label>
+                  <div class="tptrack__email mb-1">
+                    <span><i class="fal fa-key"></i></span>
+                    <input type="password" placeholder="Mật khẩu" name="password" v-model='loginForm.password'/>
+                  </div>
+                  <span class="text-danger error_message" v-if="errors.password">{{ errors.password }}</span>
+                </div>
                 </form>
               </div>
-              <div class="tptrack__email mb-10">
-                <form action="#">
-                  <span><i class="fal fa-key"></i></span>
-                  <input type="text" placeholder="Mật khẩu" />
-                </form>
-              </div>
+              
               <div class="tpsign__remember d-flex align-items-center justify-content-between mb-15">
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2" />
@@ -46,8 +65,11 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, { name: 'Đăng Nh�
                   <a href="#">Quên mật khẩu ?</a>
                 </div>
               </div>
+              <div class="tpsign__account mb-15">
+                <a href="/register">Đăng kí tài khoản?</a>
+              </div>
               <div class="tptrack__btn">
-                <button class="tptrack__submition active">
+                <button class="tptrack__submition active" @click="submitLogin">
                   Đăng nhập ngay<i class="fal fa-long-arrow-right"></i>
                 </button>
               </div>
@@ -55,42 +77,8 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, { name: 'Đăng Nh�
           </div>
         </div>
         <div class="col-lg-6 col-sm-12">
-          <div class="tptrack__product mb-40">
-            <div class="tptrack__content grey-bg">
-              <div class="tptrack__item d-flex mb-20">
-                <div class="tptrack__item-icon">
-                  <i class="fal fa-lock"></i>
-                </div>
-                <div class="tptrack__item-content">
-                  <h4 class="tptrack__item-title">Đăng ký</h4>
-                  <p>
-                    Dữ liệu cá nhân của bạn sẽ được sử dụng để hỗ trợ trải nghiệm của bạn trên trang
-                    web này, để quản lý quyền truy cập vào tài khoản của bạn.
-                  </p>
-                </div>
-              </div>
-              <div class="tptrack__id mb-10">
-                <form action="#">
-                  <span><i class="fal fa-envelope"></i></span>
-                  <input type="email" placeholder="Địa chỉ email" />
-                </form>
-              </div>
-              <div class="tptrack__email mb-10">
-                <form action="#">
-                  <span><i class="fal fa-key"></i></span>
-                  <input type="text" placeholder="Mật khẩu" />
-                </form>
-              </div>
-              <div class="tpsign__account mb-15">
-                <a href="#">Đã có tài khoản?</a>
-              </div>
-              <div class="tptrack__btn">
-                <button class="tptrack__submition tpsign__reg">
-                  Đăng ký ngay<i class="fal fa-long-arrow-right"></i>
-                </button>
-              </div>
-            </div>
-          </div>
+          <div class="tpbanner__auth" data-background="../assets/img/banner/banner-4.jpg" :style="{ backgroundImage: `url(${bannerImage4})` }">
+        </div>
         </div>
       </div>
     </div>
@@ -98,6 +86,11 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, { name: 'Đăng Nh�
 </template>
 
 <style scoped>
+.tpbanner__auth{
+  height:800px;
+  object-fit:cover;
+  background-repeat:none; 
+}
 .tptrack__content {
   padding: 50px;
   border-radius: 10px;
@@ -125,8 +118,8 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, { name: 'Đăng Nh�
   margin-bottom: 0;
 }
 
-.tptrack__id form,
-.tptrack__email form {
+.tptrack__id ,
+.tptrack__email {
   position: relative;
 }
 .tptrack__id span,
@@ -138,13 +131,21 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, { name: 'Đăng Nh�
   font-size: 16px;
 }
 
-.tptrack__id form input,
-.tptrack__email form input {
+.tptrack__id input,
+.tptrack__email input {
   width: 100%;
   height: 60px;
   border: none;
   background-color: var(--tp-common-white);
   padding: 10px 60px;
+  border-radius: 6px;
+}
+.tptrack__register input {
+  width: 100%;
+  height: 60px;
+  border: none;
+  background-color: var(--tp-common-white);
+  padding: 10px 60px 10px 20px;
   border-radius: 6px;
 }
 .fa-user-unlock:before {
@@ -208,6 +209,9 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, { name: 'Đăng Nh�
 .tpsign__pass > a,
 .tpsign__account > a {
   color: inherit;
+}
+.error_message{
+  font-size:14px;
 }
 @media (max-width: 767px) {
   .tptrack__content {

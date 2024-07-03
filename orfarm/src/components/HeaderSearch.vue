@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps } from 'vue';
+import { defineProps, defineEmits } from 'vue';
 
 const props = defineProps({
   isSearchBarOpened: {
@@ -7,6 +7,8 @@ const props = defineProps({
     required: true,
   },
 });
+
+const emit = defineEmits(['closeSearchBar']);
 
 </script>
 <template>

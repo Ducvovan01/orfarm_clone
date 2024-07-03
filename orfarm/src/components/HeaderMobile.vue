@@ -3,7 +3,7 @@ import { reactive, ref, onUnmounted, onMounted} from 'vue';
 const isMenuOpen = ref(false);
 const isCartMenuOpen = ref(false);
 const isHeaderSticky = ref(false);
- const menuState = reactive({
+const menuState = reactive({
       home: false,
       shop: false,
       blog: false,
@@ -62,7 +62,7 @@ onUnmounted(() => {
                     <div class="header__info-search tpcolor__purple ml-10 d-none d-sm-block">
                        <button class="tp-search-toggle"><i class="icon-search"></i></button>
                     </div>
-                    <div class="header__info-user tpcolor__yellow ml-10 d-none d-sm-block">
+                    <div class="header__info-user tpcolor__yellow ml-10 d-none d-sm-block" @click="openUserDetail">
                        <a href="log-in.html"><i class="icon-user"></i></a>
                     </div>
                     <div class="header__info-wishlist tpcolor__greenish ml-10 d-none d-sm-block">
@@ -187,7 +187,7 @@ onUnmounted(() => {
                              <li class="has-dropdown has-homemenu">
                                 <a href="index.html">Home</a>
                                 <a class="mean-expand" href="#" style="font-size: 18px"  @click="toggleMenu('home')"><i class="fal fa-plus"></i></a>
-                                <ul class="sub-menu home-menu-style" :class="{'menu_height':menuState.home}">
+                                <ul class="sub-menu phone_menu home-menu-style" :class="{'menu_height':menuState.home}">
                                    <li>
                                       <a href="index.html"><img src="../assets/img//header/home1-1.jpg" alt=""> Home Page V1</a>
                                    </li>
@@ -212,7 +212,7 @@ onUnmounted(() => {
                              <li class="has-dropdown has-megamenu">
                                 <a href="course-grid.html">Shop</a>
                                 <a class="mean-expand" href="#" style="font-size: 18px"   @click="toggleMenu('shop')"><i class="fal fa-plus"></i></a></li>
-                                <ul class="sub-menu mega-menu" :class="{'menu_height':menuState.shop}" data-background="../assets/img/banner/mega-menu-shop-1.jpg" style="background-image: url(&quot;../assets/img/banner/mega-menu-shop-1.jpg&quot;);" >
+                                <ul class="sub-menu phone_menu mega-menu" :class="{'menu_height':menuState.shop}" data-background="../assets/img/banner/mega-menu-shop-1.jpg" style="background-image: url(&quot;../assets/img/banner/mega-menu-shop-1.jpg&quot;);" >
                                    <li>
                                       <a class="mega-menu-title">Shop layout</a>
                                       <a class="mean-expand" href="#" style="font-size: 18px"><i class="fal fa-plus"></i></a></li>
@@ -265,7 +265,7 @@ onUnmounted(() => {
                              <li class="has-dropdown">
                                 <a href="blog.html">Blog</a>
                                 <a class="mean-expand" href="#" style="font-size: 18px" @click="toggleMenu('blog')"><i class="fal fa-plus"></i></a></li>
-                                <ul class="sub-menu" :class="{'menu_height':menuState.blog}">
+                                <ul class="sub-menu phone_menu" :class="{'menu_height':menuState.blog}">
                                    <li><a href="blog.html">Big image</a></li>
                                    <li><a href="blog-right-sidebar.html">Right sidebar</a></li>
                                    <li><a href="blog-left-sidebar.html">Left sidebar</a></li>
@@ -275,7 +275,7 @@ onUnmounted(() => {
                              <li class="has-dropdown">
                                 <a href="about.html">Pages</a>
                                 <a class="mean-expand" href="#" style="font-size: 18px" @click="toggleMenu('pages')"><i class="fal fa-plus"></i></a></li>
-                                <ul class="sub-menu" :class="{'menu_height':menuState.pages}">
+                                <ul class="sub-menu phone_menu" :class="{'menu_height':menuState.pages}">
                                    <li><a href="shop-location.html">Shop Location One</a></li>
                                    <li><a href="shop-location-2.html">Shop Location Two</a></li>
                                    <li><a href="faq.html">FAQs</a></li>
@@ -633,18 +633,19 @@ onUnmounted(() => {
     width: 100%;
     margin-bottom: 5px;
 }
+
 .mean-container .mean-nav ul li a:hover img {
     transform: scale(0.92);
 }
 .mean-container .mean-nav ul li a:hover {
     color: var(--tp-heading-secondary);
 }
-.sub-menu{
+.sub-menu.phone_menu{
     max-height:0;
     overflow:hidden;
     transition: max-height 1s ease-in-out; 
 }
-.sub-menu.menu_height{
+.sub-menu.phone_menu.menu_height{
     max-height:fit-content;
 }
 
@@ -765,8 +766,8 @@ z-index: 2;
 .tpcart__del {
     position: absolute;
     color: var(--tp-heading-secondary);
-    left: 0;
-    top: 0;
+    right: 20px;
+    top: 10px;
 }
 .icon-x-circle:before {
     color: var(--tp-heading-secondary);

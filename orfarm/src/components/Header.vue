@@ -2,11 +2,18 @@
 import HeaderSearch from './HeaderSearch.vue'
 import { ref, computed } from 'vue'
 import { defineProps,onMounted, onUnmounted  } from 'vue';
-
+import store from '../stores/global.js';
+import auth from '../stores/auth.js'
+import { useRouter } from "vue-router";
+import apiURL  from "../connect.js";
+store.dispatch('getCart');
+const router = useRouter();
+const API_BACK_END = apiURL.URL;
+const isMenuOpen = ref(false);
 const props = defineProps({
   isHomePage: Boolean
 });
-
+const isCartMenuOpen = ref(false);
 const isHeaderSticky = ref(false)
 const isSearchBarOpened = ref(false)
 const isTopPriceOpened = ref(false)
@@ -21,7 +28,7 @@ const languages = [
 ]
 
 const language = ref('en')
-const selectedCurrency = ref('USD')
+const selectedCurrency = ref('USD');
 
 const currentLanguage = computed(() => {
   const foundLanguage = languages.find((item) => item.code === language.value)
@@ -54,6 +61,35 @@ const handleScroll = () => {
     isHeaderSticky.value = false
   }
 }
+const closeMenu = () =>{
+        isCartMenuOpen.value = false;
+        isMenuOpen.value = false;
+        
+}
+
+const toggleCartMenu = () => {
+        isCartMenuOpen.value = !isCartMenuOpen.value;
+}
+ 
+const openUserDetail = () => {
+  
+    if(!store.state.user){
+      router.push({ name: 'login' });
+    }
+}
+
+const getImageUrl = (imagePath) => {
+      return `${API_BACK_END}/${imagePath}`;
+    };
+const formatCurrency = (value) => {
+  const formattedNumber = new Intl.NumberFormat('en-VN', {
+        style: 'decimal',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+      }).format(value);
+      return `${formattedNumber} VND`;
+    };
+
 
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
@@ -128,15 +164,15 @@ onUnmounted(() => {
                            <div class="header__info-search tpcolor__purple ml-10">
                               <button class="tp-search-toggle"  @click="openSearchBar" ><i class="icon-search"></i></button>
                            </div>
-                           <div class="header__info-user tpcolor__yellow ml-10">
+                           <div class="header__info-user tpcolor__yellow ml-10" @click="openUserDetail">
                               <a href="#"><i class="icon-user"></i></a>
                            </div>
                            <div class="header__info-wishlist tpcolor__greenish ml-10">
                               <a href="#"><i class="icon-heart icons"></i></a>
                            </div>
-                           <div class="header__info-cart tpcolor__oasis ml-10 tp-cart-toggle">
+                           <div class="header__info-cart tpcolor__oasis ml-10 tp-cart-toggle" @click='toggleCartMenu'>
                               <button><i><img src="../assets/img/icon/cart-1.svg" alt=""></i>
-                                 <span>5</span>
+                                 <span>{{store.state.cart.length??'0'}}</span>
                               </button>
                            </div>
                         </div>
@@ -411,7 +447,7 @@ onUnmounted(() => {
                     <i class="icon-search"></i>
                   </button>
                 </div>
-                <div class="header__info-user tpcolor__yellow ml-10">
+                <div class="header__info-user tpcolor__yellow ml-10" @click="openUserDetail">
                   <a href="log-in.html"><i class="icon-user"></i></a>
                 </div>
                 <div class="header__info-wishlist tpcolor__greenish ml-10">
@@ -420,7 +456,7 @@ onUnmounted(() => {
                 <div class="header__info-cart tpcolor__oasis ml-10 tp-cart-toggle">
                   <button class="header__info-button">
                     <i><img src="../assets/img/icon/cart-1.svg" alt="" /></i>
-                    <span>5</span>
+                    <span>{{store.state.cart.length??'0'}}</span>
                   </button>
                 </div>
               </div>
@@ -431,6 +467,53 @@ onUnmounted(() => {
       </div>
     </div>
     <HeaderSearch :isSearchBarOpened="isSearchBarOpened" @closeSearchBar="closeSearchBar" />
+  <div class="body-overlay" :class="{'opened': isCartMenuOpen}" @click="closeMenu"></div>
+
+ <div class="tpcartinfo tp-cart-info-area p-relative" :class="{'tp-sidebar-opened':isCartMenuOpen}">
+    <button class="tpcart__close" @click="toggleCartMenu"><i class="icon-x"></i></button>
+       <div class="tpcart">
+          <h4 class="tpcart__title">Giỏ Hàng của bạn</h4>
+          <div class="tpcart__product">
+             <div class="tpcart__product-list">
+              <ul>
+                <li v-for="item in store.state.cart" :key="item.id">
+                  <div class="tpcart__item">
+                    <div class="tpcart__img">
+                      <img :src="getImageUrl(item.product.images[0].image_path)" alt="" />
+                    </div>
+                    <div class="tpcart__content">
+                      <span class="tpcart__content-title">
+                        <a href="shop-details.html">{{ item.product.name }}</a>
+                      </span>
+                      <div class="tpcart__cart-price">
+                        <span class="quantity">{{ item.amount }} x </span>
+                        <span class="new-price">{{ formatCurrency(item.product.price) }}</span>
+                      </div>
+                      <div class="tpcart__del">
+                        <a href="#"><i class="icon-x-circle"></i></a>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+             </div>
+             <div class="tpcart__checkout">
+                <div class="tpcart__total-price d-flex justify-content-between align-items-center">
+                   <span> Tổng Tiền:</span>
+                   <span class="heilight-price"> {{ formatCurrency(60000) }}</span>
+                </div>
+                <div class="tpcart__checkout-btn">
+                   <a class="tpcart-btn mb-10" href="/cart">Xem Giỏ Hàng</a>
+                   <a class="tpcheck-btn" href="/checkout">Thanh Toán</a>
+                </div>
+             </div>
+          </div>
+          <div class="tpcart__free-shipping text-center">
+             <span>Miễn phí ship với đơn hàng <b>dưới 10km</b></span>
+          </div>
+       </div>
+    </div>
+
   </header>
 </template>
 

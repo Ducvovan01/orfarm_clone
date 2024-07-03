@@ -7,6 +7,7 @@ import HomeBrandProduct from '@/components/HomeBrandProduct.vue'
 import HomeReviewSlider from '@/components/HomeReviewSlider.vue'
 import HomeCartArea from '@/components/HomeCartArea.vue'
 import HomeBlogArea from '@/components/HomeBlogArea.vue'
+
 </script>
 
 <template>
@@ -79,7 +80,7 @@ import HomeBlogArea from '@/components/HomeBlogArea.vue'
    </div>
 </section>
  <!-- HomePage Weekly Product -->
- <ProductSlider title='Weekly Food Offers' option='View All' fullscreen='' :hasProcess="true" :slideOnShow='5'/>
+         <ProductSlider title='Weekly Food Offers' option='View All' fullscreen='' :hasProcess="true" :slideOnShow='5'/>
          <HomeBannerSection/>
          <ProductSlider title='New Arrivals\Features\Best Rate' option='View All' fullscreen='':hasProcess="true" :slideOnShow='5'/>
          <ProductSlider title='Top Trending Product' option='All\Sea Food\Vegetables\Beans & Peas' fullscreen='' :hasProcess="true" :slideOnShow='5'/>
