@@ -6,7 +6,7 @@ import store from '../stores/global.js';
 import auth from '../stores/auth.js'
 import { useRouter } from "vue-router";
 import apiURL  from "../connect.js";
-store.dispatch('getCart');
+
 const router = useRouter();
 const API_BACK_END = apiURL.URL;
 const isMenuOpen = ref(false);
@@ -72,8 +72,7 @@ const toggleCartMenu = () => {
 }
  
 const openUserDetail = () => {
-  
-    if(!store.state.user){
+    if(!auth.state.user){
       router.push({ name: 'login' });
     }
 }
@@ -448,12 +447,12 @@ onUnmounted(() => {
                   </button>
                 </div>
                 <div class="header__info-user tpcolor__yellow ml-10" @click="openUserDetail">
-                  <a href="log-in.html"><i class="icon-user"></i></a>
+                  <a href="#"><i class="icon-user"></i></a>
                 </div>
                 <div class="header__info-wishlist tpcolor__greenish ml-10">
                   <a href="wishlist.html"><i class="icon-heart icons"></i></a>
                 </div>
-                <div class="header__info-cart tpcolor__oasis ml-10 tp-cart-toggle">
+                <div class="header__info-cart tpcolor__oasis ml-10 tp-cart-toggle"  @click='toggleCartMenu'>
                   <button class="header__info-button">
                     <i><img src="../assets/img/icon/cart-1.svg" alt="" /></i>
                     <span>{{store.state.cart.length??'0'}}</span>

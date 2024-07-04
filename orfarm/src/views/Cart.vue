@@ -2,23 +2,26 @@
 import BreadCrumb from '@/components/BreadCrumb.vue'
 import { computed, ref } from 'vue'
 import store from '../stores/global.js';
+import { mapState } from 'vuex';
 import apiURL  from "../connect.js";
 const API_BACK_END = apiURL.URL;
 const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, { name: 'Giỏ Hàng' }]
 
+const globalStore = ref(store.state);
 const total = computed(() => {
   let totalValue = 0;
-  store.state.cart.forEach(item => {
-    totalValue += item.subtotal;
+  globalStore.value.cart.forEach(item => {
+    totalValue += item.product.price * item.amount;
   });
   return totalValue;
 });
+console.log(total);
 
 const minusQuantity = (item) => {
   const foundItem = store.state.cart.find(p => p.id === item.id);
-  if (foundItem && foundItem.quantity > 1) {
-    foundItem.quantity--;
-    foundItem.subtotal = foundItem.price * foundItem.quantity;
+  if (foundItem && foundItem.amount > 1) {
+    foundItem.amount--;
+   
   }
 };
 
@@ -26,8 +29,8 @@ const minusQuantity = (item) => {
 const plusQuantity = (item) => {
   const foundItem = store.state.cart.find(p => p.id === item.id);
   if (foundItem) {
-    foundItem.quantity++;
-    foundItem.subtotal = foundItem.price * foundItem.quantity;
+    foundItem.amount++;
+  
   }
 };
 const getImageUrl = (imagePath) => {
@@ -42,8 +45,18 @@ const formatCurrency = (value) => {
       }).format(value);
       return `${formattedNumber} VND`;
     };
+const updateAllCarts = async (event) => {
+    event.preventDefault();
+    const carts = globalStore.value.cart;
+    for (const cart of carts) {
+        await store.dispatch('updateCart', { id: cart.id, amount: cart.amount });
+    }
+    store.dispatch('getCart');
+}
 
-console.log(store.state.cart);
+const deleteCart = (cartId) => {
+  store.dispatch('deleteCart', cartId);
+}
 </script>
 
 <template>
@@ -88,7 +101,7 @@ console.log(store.state.cart);
                     <td class="product-subtotal">
                       <span class="amount">{{ formatCurrency(item.amount * item.product.price) }}</span>
                     </td>
-                    <td class="product-remove">
+                    <td class="product-remove" @click="deleteCart(item.id)">
                       <a href="#"><i class="fa fa-times"></i></a>
                     </td>
                   </tr>
@@ -110,7 +123,6 @@ console.log(store.state.cart);
                     <button
                       class="tp-btn tp-color-btn banner-animation"
                       name="apply_coupon"
-                      type="submit"
                     >
                       Áp dụng mã giảm giá
                     </button>
@@ -118,8 +130,8 @@ console.log(store.state.cart);
                   <div class="coupon2">
                     <button
                       class="tp-btn tp-color-btn banner-animation"
-                      name="update_cart"
-                      type="submit"
+                      name="update_cart" 
+                     @click="updateAllCarts($event)"
                     >
                       Cập nhật giỏ hàng
                     </button>
@@ -133,14 +145,11 @@ console.log(store.state.cart);
                   <h2>Tổng cộng giỏ hàng</h2>
                   <ul class="mb-20">
                     <li>
-                      Tạm tính <span>{{ total.toFixed(2) }}</span>
-                    </li>
-                    <li>
-                      Tổng cộng <span>{{ total.toFixed(2) }}</span>
+                      Tổng cộng <span>{{formatCurrency( total) }}</span>
                     </li>
                   </ul>
-                  <a href="checkout.html" class="tp-btn tp-color-btn banner-animation"
-                    >Tiến hành thanh toán</a
+                  <a href="/checkout" class="tp-btn tp-color-btn banner-animation"
+                    >Tiến hành thanh toán</a  
                   >
                 </div>
               </div>
@@ -186,6 +195,9 @@ console.log(store.state.cart);
 }
 td.product-thumbnail img {
   width: 125px;
+  height: 125px;
+  object-fit:cover;
+  border-radius: 5px; 
 }
 .table-content table td.product-name {
   font-size: 16px;
@@ -196,11 +208,13 @@ td.product-thumbnail img {
   vertical-align: middle;
 }
 .table-content .product-quantity {
+  user-select: none;
   float: none;
 }
 
 .product-quantity .cart-plus,
 .product-quantity .cart-minus {
+  user-select: none;
   width: 25px;
   height: 30px;
   border: 1px solid var(--tp-border-1);
