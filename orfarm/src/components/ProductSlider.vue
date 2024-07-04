@@ -1,6 +1,8 @@
 <script setup>
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Autoplay } from 'swiper/modules';
+import apiURL  from "../connect.js";
+const API_BACK_END = apiURL.URL;
 const props = defineProps({
     title: {
     type: String,
@@ -17,10 +19,11 @@ const props = defineProps({
   },
   slideOnShow:{
    type:Number,
+  },
+  products:{
+    type:Array,
   }
 });
-
-
 
 const haveMultiOption = (param)=>{
     if(param.includes('\\')){
@@ -32,6 +35,27 @@ const haveMultiOption = (param)=>{
 const isValidOption = (option) => {
   return option && Object.keys(option).length > 0;
 };
+
+const discountPrice = (price, discount) => {
+  if (discount < 0 || discount > 100) {
+    throw new Error('Discount must be between 0 and 100');
+  }
+  
+  const discountedPrice = price - (price * (discount / 100));
+  return discountedPrice;
+};
+
+const formatCurrency = (value) => {
+  const formattedNumber = new Intl.NumberFormat('en-VN', {
+        style: 'decimal',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+      }).format(value);
+      return `${formattedNumber} VND`;
+    };
+    const getImageUrl = (imagePath) => {
+      return `${API_BACK_END}/${imagePath}`;
+    };
 
 </script>
    <template>
@@ -56,20 +80,20 @@ const isValidOption = (option) => {
                   <div class="col-md-6">
                      
                      <div v-if="isValidOption(option)">
-    <div class="tpnavtab__area tp-navtab-style-2" v-if="haveMultiOption(option)">
-      <nav>
-        <div class="nav nav-tabs" role="tablist">
-          <button class="nav-link active" id="nav-all-tab" data-bs-toggle="tab" data-bs-target="#nav-all" type="button" role="tab" aria-controls="nav-all" aria-selected="true">All</button>
-          <button class="nav-link" id="nav-meat-tab" data-bs-toggle="tab" data-bs-target="#nav-meat" type="button" role="tab" aria-controls="nav-meat" aria-selected="false" tabindex="-1">Sea Food</button>
-          <button class="nav-link" id="nav-vegetables-tab" data-bs-toggle="tab" data-bs-target="#nav-vegetables" type="button" role="tab" aria-controls="nav-vegetables" aria-selected="false" tabindex="-1">Vegetables</button>
-          <button class="nav-link" id="nav-snacks-tab" data-bs-toggle="tab" data-bs-target="#nav-snacks" type="button" role="tab" aria-controls="nav-snacks" aria-selected="false" tabindex="-1">Beans &amp; Peas</button>
-        </div>
-      </nav>
-    </div>
-    <div class="tpproduct__all-item" v-else>
-      <a href="#">View All <i class="icon-chevron-right"></i></a>
-    </div>
-  </div>
+                <div class="tpnavtab__area tp-navtab-style-2" v-if="haveMultiOption(option)">
+                <nav>
+                    <div class="nav nav-tabs" role="tablist">
+                    <button class="nav-link active" id="nav-all-tab" data-bs-toggle="tab" data-bs-target="#nav-all" type="button" role="tab" aria-controls="nav-all" aria-selected="true">All</button>
+                    <button class="nav-link" id="nav-meat-tab" data-bs-toggle="tab" data-bs-target="#nav-meat" type="button" role="tab" aria-controls="nav-meat" aria-selected="false" tabindex="-1">Sea Food</button>
+                    <button class="nav-link" id="nav-vegetables-tab" data-bs-toggle="tab" data-bs-target="#nav-vegetables" type="button" role="tab" aria-controls="nav-vegetables" aria-selected="false" tabindex="-1">Vegetables</button>
+                    <button class="nav-link" id="nav-snacks-tab" data-bs-toggle="tab" data-bs-target="#nav-snacks" type="button" role="tab" aria-controls="nav-snacks" aria-selected="false" tabindex="-1">Beans &amp; Peas</button>
+                    </div>
+                </nav>
+                </div>
+                <div class="tpproduct__all-item" v-else>
+                <a href="#">Xem tất cả <i class="icon-chevron-right"></i></a>
+                </div>
+            </div>
                   </div>
                </div>
                <div class="row">
@@ -87,11 +111,11 @@ const isValidOption = (option) => {
                             }
                           }" :autoplay="true" :modules="[Autoplay]">
                             
-                              <swiper-slide>  
+                              <swiper-slide v-for="product in products">  
                                  <div class="tpproduct p-relative tpprogress__hover">
                                     <div class="tpproduct__thumb p-relative text-center">
-                                        <a href="#"><img src="../assets/img/product/products29-min.jpg" alt=""></a>
-                                        <a class="tpproduct__thumb-img" href="shop-details.html"><img src="../assets/img/product/products30-min.jpg" alt=""></a>
+                                        <a href="#"><img :src="getImageUrl(product.images[0].image_path)" alt=""></a>
+                                        <a class="tpproduct__thumb-img" href="shop-details.html"><img :src="getImageUrl(product.images[0].image_path)" alt=""></a>
                                         <div class="tpproduct__info bage">
                                             <span class="tpproduct__info-discount bage__discount">-50%</span>
                                             <span class="tpproduct__info-hot bage__hot">HOT</span>
@@ -104,10 +128,10 @@ const isValidOption = (option) => {
                                     </div>
                                     <div class="tpproduct__content">
                                         <span class="tpproduct__content-weight">
-                                            <a href="shop-details.html">Thịt tươi</a>
+                                            <a href="shop-details.html">{{product.brands.name}}</a>
                                         </span>
                                         <h4 class="tpproduct__title">
-                                            <a href="shop-details-top-.html">Măng cụt hữu cơ từ Việt Nam</a>
+                                            <a href="shop-details-top-.html">{{product.name}}</a>
                                         </h4>
                                         <div class="tpproduct__rating">
                                             <a href="#"><i class="icon-star_outline1"></i></a>
@@ -117,14 +141,14 @@ const isValidOption = (option) => {
                                             <a href="#"><i class="icon-star_outline1"></i></a>
                                         </div>
                                         <div class="tpproduct__price">
-                                            <span>$56.00</span>
-                                            <del>$19.00</del>
+                                            <span class="mr-2">{{formatCurrency(discountPrice(product.price,30))}}</span> 
+                                            <del>{{formatCurrency(product.price)}}</del>
                                         </div>
                                         <div class="tpproduct__progress" v-if="hasProcess">
                                             <div class="progress">
                                                 <div class="progress-bar w-25" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
                                             </div>
-                                            <span>Bán được: <b>16/60</b></span>
+                                            <span>Bán được: <b>16/{{product.quantity}}</b></span>
                                         </div>
                                     </div>
                                     <div class="tpproduct__hover-text">
@@ -133,7 +157,7 @@ const isValidOption = (option) => {
                                         </div>
                                         <div class="tpproduct__descrip">
                                             <ul>
-                                                <li>Loại: Hữu cơ</li>
+                                                <li>Loại: {{product.category.name}}</li>
                                                 <li>NSX: 4 Tháng 8 năm 2021</li>
                                                 <li>Hạn sử dụng: 60 ngày</li>
                                             </ul>
@@ -141,440 +165,6 @@ const isValidOption = (option) => {
                                     </div>
                                 </div>
                                 
-                                 </swiper-slide>  
-                                 <swiper-slide >  
-                                    <div class="tpproduct p-relative tpprogress__hover">
-                                       <div class="tpproduct__thumb p-relative text-center">
-                                           <a href="#"><img src="../assets/img/product/products9-min.jpg" alt=""></a>
-                                           <a class="tpproduct__thumb-img" href="shop-details.html"><img src="../assets/img/product/products10-min.jpg" alt=""></a>
-                                           <div class="tpproduct__info bage">
-                                               <span class="tpproduct__info-discount bage__discount">-40%</span>
-                                           </div>
-                                           <div class="tpproduct__shopping">
-                                               <a class="tpproduct__shopping-wishlist" href="wishlist.html"><i class="icon-heart icons"></i></a>
-                                               <a class="tpproduct__shopping-wishlist" href="#"><i class="icon-layers"></i></a>
-                                               <a class="tpproduct__shopping-cart" href="#"><i class="icon-eye"></i></a>
-                                           </div>
-                                       </div>
-                                       <div class="tpproduct__content">
-                                           <span class="tpproduct__content-weight">
-                                               <a href="shop-details.html">Thịt tươi</a>
-                                           </span>
-                                           <h4 class="tpproduct__title">
-                                               <a href="shop-details.html">Máy làm nước soda (Màu vàng hồng)</a>
-                                           </h4>
-                                           <div class="tpproduct__rating">
-                                               <a href="#"><i class="icon-star_outline1"></i></a>
-                                               <a href="#"><i class="icon-star_outline1"></i></a>
-                                               <a href="#"><i class="icon-star_outline1"></i></a>
-                                               <a href="#"><i class="icon-star_outline1"></i></a>
-                                               <a href="#"><i class="icon-star_outline1"></i></a>
-                                           </div>
-                                           <div class="tpproduct__price">
-                                               <span>$56.00</span>
-                                               <del>$19.00</del>
-                                           </div>
-                                           <div class="tpproduct__progress" v-if="hasProcess">
-                                               <div class="progress">
-                                                   <div class="progress-bar w-25" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                               </div>
-                                               <span>Bán được: <b>20/80</b></span>
-                                           </div>
-                                       </div>
-                                       <div class="tpproduct__hover-text">
-                                           <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
-                                               <a class="tp-btn-2" href="cart.html">Thêm vào giỏ </a>
-                                           </div>
-                                           <div class="tpproduct__descrip">
-                                               <ul>
-                                                   <li>Loại: Hữu cơ</li>
-                                                   <li>NSX: 4 Tháng 8 năm 2021</li>
-                                                   <li>Hạn sử dụng: 60 ngày</li>
-                                               </ul>
-                                           </div>
-                                       </div>
-                                   </div>
-                                   
-                                 </swiper-slide>  
-                                 <swiper-slide>  
-                                    <div class="tpproduct p-relative tpprogress__hover">
-                                       <div class="tpproduct__thumb p-relative text-center">
-                                           <a href="#"><img src="../assets/img/product/products13-min.jpg" alt=""></a>
-                                           <a class="tpproduct__thumb-img" href="shop-details.html"><img src="../assets/img/product/products35-min.jpg" alt=""></a>
-                                           <div class="tpproduct__info bage">
-                                               <span class="tpproduct__info-discount bage__discount">-10%</span>
-                                           </div>
-                                           <div class="tpproduct__shopping">
-                                               <a class="tpproduct__shopping-wishlist" href="wishlist.html"><i class="icon-heart icons"></i></a>
-                                               <a class="tpproduct__shopping-wishlist" href="#"><i class="icon-layers"></i></a>
-                                               <a class="tpproduct__shopping-cart" href="#"><i class="icon-eye"></i></a>
-                                           </div>
-                                       </div>
-                                       <div class="tpproduct__content">
-                                           <span class="tpproduct__content-weight">
-                                               <a href="shop-details-3.html">Trái cây tươi</a>
-                                           </span>
-                                           <h4 class="tpproduct__title">
-                                               <a href="shop-details.html">NÓNG - Rau sống, trái cây và rau quả</a>
-                                           </h4>
-                                           <div class="tpproduct__rating">
-                                               <a href="#"><i class="icon-star_outline1"></i></a>
-                                               <a href="#"><i class="icon-star_outline1"></i></a>
-                                               <a href="#"><i class="icon-star_outline1"></i></a>
-                                               <a href="#"><i class="icon-star_outline1"></i></a>
-                                               <a href="#"><i class="icon-star_outline1"></i></a>
-                                           </div>
-                                           <div class="tpproduct__price">
-                                               <span>$56.00</span>
-                                               <del>$19.00</del>
-                                           </div>
-                                           <div class="tpproduct__progress" v-if="hasProcess">
-                                               <div class="progress">
-                                                   <div class="progress-bar w-75" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                               </div>
-                                               <span>Bán được: <b>40/70</b></span>
-                                           </div>
-                                       </div>
-                                       <div class="tpproduct__hover-text">
-                                           <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
-                                               <a class="tp-btn-2" href="cart.html">Thêm vào giỏ</a>
-                                           </div>
-                                           <div class="tpproduct__descrip">
-                                               <ul>
-                                                   <li>Loại: Hữu cơ</li>
-                                                   <li>NSX: 4 Tháng 8 năm 2021</li>
-                                                   <li>Hạn sử dụng: 60 ngày</li>
-                                               </ul>
-                                           </div>
-                                       </div>
-                                   </div>
-                                   
-                                 </swiper-slide>  
-                                 <swiper-slide >  
-                                    <div class="tpproduct p-relative tpprogress__hover">
-                                       <div class="tpproduct__thumb p-relative text-center">
-                                           <a href="#"><img src="../assets/img/product/products27-min.jpg" alt=""></a>
-                                           <a class="tpproduct__thumb-img" href="shop-details.html"><img src="../assets/img/product/products14-min.jpg" alt=""></a>
-                                           <div class="tpproduct__info bage">
-                                               <span class="tpproduct__info-discount bage__discount">-90%</span>
-                                               <span class="tpproduct__info-hot bage__hot">HOT</span>
-                                           </div>
-                                           <div class="tpproduct__shopping">
-                                               <a class="tpproduct__shopping-wishlist" href="wishlist.html"><i class="icon-heart icons"></i></a>
-                                               <a class="tpproduct__shopping-wishlist" href="#"><i class="icon-layers"></i></a>
-                                               <a class="tpproduct__shopping-cart" href="#"><i class="icon-eye"></i></a>
-                                           </div>
-                                       </div>
-                                       <div class="tpproduct__content">
-                                           <span class="tpproduct__content-weight">
-                                               <a href="shop-details-3.html">Trái cây tươi</a>
-                                           </span>
-                                           <h4 class="tpproduct__title">
-                                               <a href="shop-details-grid.html">Bò bằng hữu cơ Ireland Pure Irish Organic Beef Quarter Pounder Burgers</a>
-                                           </h4>
-                                           <div class="tpproduct__rating">
-                                               <a href="#"><i class="icon-star_outline1"></i></a>
-                                               <a href="#"><i class="icon-star_outline1"></i></a>
-                                               <a href="#"><i class="icon-star_outline1"></i></a>
-                                               <a href="#"><i class="icon-star_outline1"></i></a>
-                                               <a href="#"><i class="icon-star_outline1"></i></a>
-                                           </div>
-                                           <div class="tpproduct__price">
-                                               <span>$56.00</span>
-                                               <del>$19.00</del>
-                                           </div>
-                                           <div class="tpproduct__progress" v-if="hasProcess">
-                                               <div class="progress">
-                                                   <div class="progress-bar w-25" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                               </div>
-                                               <span>Đã bán: <b>16/60</b></span>
-                                           </div>
-                                       </div>
-                                       <div class="tpproduct__hover-text">
-                                           <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
-                                               <a class="tp-btn-2" href="cart.html">Thêm vào giỏ</a>
-                                           </div>
-                                           <div class="tpproduct__descrip">
-                                               <ul>
-                                                   <li>Loại: Hữu cơ</li>
-                                                   <li>NSX: 4 Tháng 8 năm 2021</li>
-                                                   <li>Hạn sử dụng: 60 ngày</li>
-                                               </ul>
-                                           </div>
-                                       </div>
-                                   </div>
-                                   
-                                 </swiper-slide>  
-                                 <swiper-slide >  
-                                    <div class="tpproduct p-relative tpprogress__hover">
-                                       <div class="tpproduct__thumb p-relative text-center">
-                                           <a href="#"><img src="../assets/img/product/products15-min.jpg" alt=""></a>
-                                           <a class="tpproduct__thumb-img" href="shop-details.html"><img src="../assets/img/product/products32-min.jpg" alt=""></a>
-                                           <div class="tpproduct__info bage">
-                                               <span class="tpproduct__info-discount bage__discount">-50%</span>
-                                           </div>
-                                           <div class="tpproduct__shopping">
-                                               <a class="tpproduct__shopping-wishlist" href="wishlist.html"><i class="icon-heart icons"></i></a>
-                                               <a class="tpproduct__shopping-wishlist" href="#"><i class="icon-layers"></i></a>
-                                               <a class="tpproduct__shopping-cart" href="#"><i class="icon-eye"></i></a>
-                                           </div>
-                                       </div>
-                                       <div class="tpproduct__content">
-                                           <span class="tpproduct__content-weight">
-                                               <a href="shop-details-3.html">Rau củ</a>
-                                           </span>
-                                           <h4 class="tpproduct__title">
-                                               <a href="shop-details-3.html">Gừng tươi nguyên củ hữu cơ - 250 gram</a>
-                                           </h4>
-                                           <div class="tpproduct__rating">
-                                               <a href="#"><i class="icon-star_outline1"></i></a>
-                                               <a href="#"><i class="icon-star_outline1"></i></a>
-                                               <a href="#"><i class="icon-star_outline1"></i></a>
-                                               <a href="#"><i class="icon-star_outline1"></i></a>
-                                               <a href="#"><i class="icon-star_outline1"></i></a>
-                                           </div>
-                                           <div class="tpproduct__price">
-                                               <span>$56.00</span>
-                                               <del>$19.00</del>
-                                           </div>
-                                           <div class="tpproduct__progress" v-if="hasProcess">
-                                               <div class="progress">
-                                                   <div class="progress-bar w-25" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                               </div>
-                                               <span>Đã bán: <b>16/60</b></span>
-                                           </div>
-                                       </div>
-                                       <div class="tpproduct__hover-text">
-                                           <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
-                                               <a class="tp-btn-2" href="cart.html">Thêm vào giỏ</a>
-                                           </div>
-                                           <div class="tpproduct__descrip">
-                                               <ul>
-                                                   <li>Loại: Hữu cơ</li>
-                                                   <li>NSX: 4 Tháng 8 năm 2021</li>
-                                                   <li>Hạn sử dụng: 60 ngày</li>
-                                               </ul>
-                                           </div>
-                                       </div>
-                                   </div>
-                                   
-                                 </swiper-slide>  
-                                 <swiper-slide >  
-                                    <div class="tpproduct p-relative tpprogress__hover">
-                                       <div class="tpproduct__thumb p-relative text-center">
-                                           <a href="#"><img src="../assets/img/product/products9-min.jpg" alt=""></a>
-                                           <a class="tpproduct__thumb-img" href="shop-details.html"><img src="../assets/img/product/products10-min.jpg" alt=""></a>
-                                           <div class="tpproduct__info bage">
-                                               <span class="tpproduct__info-discount bage__discount">-40%</span>
-                                           </div>
-                                           <div class="tpproduct__shopping">
-                                               <a class="tpproduct__shopping-wishlist" href="wishlist.html"><i class="icon-heart icons"></i></a>
-                                               <a class="tpproduct__shopping-wishlist" href="#"><i class="icon-layers"></i></a>
-                                               <a class="tpproduct__shopping-cart" href="#"><i class="icon-eye"></i></a>
-                                           </div>
-                                       </div>
-                                       <div class="tpproduct__content">
-                                           <span class="tpproduct__content-weight">
-                                               <a href="shop-details.html">Thịt tươi sống</a>
-                                           </span>
-                                           <h4 class="tpproduct__title">
-                                               <a href="shop-details.html">Máy làm nước soda (màu vàng hồng)</a>
-                                           </h4>
-                                           <div class="tpproduct__rating">
-                                               <a href="#"><i class="icon-star_outline1"></i></a>
-                                               <a href="#"><i class="icon-star_outline1"></i></a>
-                                               <a href="#"><i class="icon-star_outline1"></i></a>
-                                               <a href="#"><i class="icon-star_outline1"></i></a>
-                                               <a href="#"><i class="icon-star_outline1"></i></a>
-                                           </div>
-                                           <div class="tpproduct__price">
-                                               <span>$56.00</span>
-                                               <del>$19.00</del>
-                                           </div>
-                                           <div class="tpproduct__progress" v-if="hasProcess">
-                                               <div class="progress">
-                                                   <div class="progress-bar w-25" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                               </div>
-                                               <span>Đã bán: <b>20/80</b></span>
-                                           </div>
-                                       </div>
-                                       <div class="tpproduct__hover-text">
-                                           <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
-                                               <a class="tp-btn-2" href="cart.html">Thêm vào giỏ</a>
-                                           </div>
-                                           <div class="tpproduct__descrip">
-                                               <ul>
-                                                   <li>Loại: Hữu cơ</li>
-                                                   <li>NSX: 4 Tháng 8 năm 2021</li>
-                                                   <li>Hạn sử dụng: 60 ngày</li>
-                                               </ul>
-                                           </div>
-                                       </div>
-                                   </div>
-                                   
-                                 </swiper-slide>  
-                                 <swiper-slide>  
-                                    <div class="tpproduct p-relative tpprogress__hover">
-                                       <div class="tpproduct__thumb p-relative text-center">
-                                           <a href="#"><img src="../assets/img/product/products13-min.jpg" alt=""></a>
-                                           <a class="tpproduct__thumb-img" href="shop-details.html"><img src="../assets/img/product/products35-min.jpg" alt=""></a>
-                                           <div class="tpproduct__info bage">
-                                               <span class="tpproduct__info-discount bage__discount">-10%</span>
-                                           </div>
-                                           <div class="tpproduct__shopping">
-                                               <a class="tpproduct__shopping-wishlist" href="wishlist.html"><i class="icon-heart icons"></i></a>
-                                               <a class="tpproduct__shopping-wishlist" href="#"><i class="icon-layers"></i></a>
-                                               <a class="tpproduct__shopping-cart" href="#"><i class="icon-eye"></i></a>
-                                           </div>
-                                       </div>
-                                       <div class="tpproduct__content">
-                                           <span class="tpproduct__content-weight">
-                                               <a href="shop-details-3.html">Trái cây tươi</a>
-                                           </span>
-                                           <h4 class="tpproduct__title">
-                                               <a href="shop-details.html">HOT - Rau xanh tươi sản xuất từ trái cây rau</a>
-                                           </h4>
-                                           <div class="tpproduct__rating">
-                                               <a href="#"><i class="icon-star_outline1"></i></a>
-                                               <a href="#"><i class="icon-star_outline1"></i></a>
-                                               <a href="#"><i class="icon-star_outline1"></i></a>
-                                               <a href="#"><i class="icon-star_outline1"></i></a>
-                                               <a href="#"><i class="icon-star_outline1"></i></a>
-                                           </div>
-                                           <div class="tpproduct__price">
-                                               <span>$56.00</span>
-                                               <del>$19.00</del>
-                                           </div>
-                                           <div class="tpproduct__progress" v-if="hasProcess">
-                                               <div class="progress">
-                                                   <div class="progress-bar w-75" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                               </div>
-                                               <span>Đã bán: <b>40/70</b></span>
-                                           </div>
-                                       </div>
-                                       <div class="tpproduct__hover-text">
-                                           <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
-                                               <a class="tp-btn-2" href="cart.html">Thêm vào giỏ</a>
-                                           </div>
-                                           <div class="tpproduct__descrip">
-                                               <ul>
-                                                   <li>Loại: Hữu cơ</li>
-                                                   <li>NSX: 4 Tháng 8 năm 2021</li>
-                                                   <li>Hạn sử dụng: 60 ngày</li>
-                                               </ul>
-                                           </div>
-                                       </div>
-                                   </div>
-                                   
-                                 </swiper-slide>  
-                                 <swiper-slide >  
-                                    <div class="tpproduct p-relative tpprogress__hover">
-                                       <div class="tpproduct__thumb p-relative text-center">
-                                           <a href="#"><img src="../assets/img/product/products27-min.jpg" alt=""></a>
-                                           <a class="tpproduct__thumb-img" href="shop-details.html"><img src="../assets/img/product/products14-min.jpg" alt=""></a>
-                                           <div class="tpproduct__info bage">
-                                               <span class="tpproduct__info-discount bage__discount">-90%</span>
-                                               <span class="tpproduct__info-hot bage__hot">HOT</span>
-                                           </div>
-                                           <div class="tpproduct__shopping">
-                                               <a class="tpproduct__shopping-wishlist" href="wishlist.html"><i class="icon-heart icons"></i></a>
-                                               <a class="tpproduct__shopping-wishlist" href="#"><i class="icon-layers"></i></a>
-                                               <a class="tpproduct__shopping-cart" href="#"><i class="icon-eye"></i></a>
-                                           </div>
-                                       </div>
-                                       <div class="tpproduct__content">
-                                           <span class="tpproduct__content-weight">
-                                               <a href="shop-details-3.html">Trái cây tươi</a>
-                                           </span>
-                                           <h4 class="tpproduct__title">
-                                               <a href="shop-details-grid.html">Burger Bò Hữu Cơ Ireland Thịt Nguyên Phần</a>
-                                           </h4>
-                                           <div class="tpproduct__rating">
-                                               <a href="#"><i class="icon-star_outline1"></i></a>
-                                               <a href="#"><i class="icon-star_outline1"></i></a>
-                                               <a href="#"><i class="icon-star_outline1"></i></a>
-                                               <a href="#"><i class="icon-star_outline1"></i></a>
-                                               <a href="#"><i class="icon-star_outline1"></i></a>
-                                           </div>
-                                           <div class="tpproduct__price">
-                                               <span>$56.00</span>
-                                               <del>$19.00</del>
-                                           </div>
-                                           <div class="tpproduct__progress" v-if="hasProcess">
-                                               <div class="progress">
-                                                   <div class="progress-bar w-25" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                               </div>
-                                               <span>Đã bán: <b>16/60</b></span>
-                                           </div>
-                                       </div>
-                                       <div class="tpproduct__hover-text">
-                                           <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
-                                               <a class="tp-btn-2" href="cart.html">Thêm vào giỏ</a>
-                                           </div>
-                                           <div class="tpproduct__descrip">
-                                               <ul>
-                                                   <li>Loại: Hữu cơ</li>
-                                                   <li>NSX: 4 Tháng 8 năm 2021</li>
-                                                   <li>Hạn sử dụng: 60 ngày</li>
-                                               </ul>
-                                           </div>
-                                       </div>
-                                   </div>
-                                   
-                                 </swiper-slide>  
-                                 <swiper-slide >  
-                                    <div class="tpproduct p-relative tpprogress__hover">
-                                       <div class="tpproduct__thumb p-relative text-center">
-                                           <a href="#"><img src="../assets/img/product/products15-min.jpg" alt=""></a>
-                                           <a class="tpproduct__thumb-img" href="shop-details.html"><img src="../assets/img/product/products32-min.jpg" alt=""></a>
-                                           <div class="tpproduct__info bage">
-                                               <span class="tpproduct__info-discount bage__discount">-50%</span>
-                                           </div>
-                                           <div class="tpproduct__shopping">
-                                               <a class="tpproduct__shopping-wishlist" href="wishlist.html"><i class="icon-heart icons"></i></a>
-                                               <a class="tpproduct__shopping-wishlist" href="#"><i class="icon-layers"></i></a>
-                                               <a class="tpproduct__shopping-cart" href="#"><i class="icon-eye"></i></a>
-                                           </div>
-                                       </div>
-                                       <div class="tpproduct__content">
-                                           <span class="tpproduct__content-weight">
-                                               <a href="shop-details-3.html">Rau củ</a>
-                                           </span>
-                                           <h4 class="tpproduct__title">
-                                               <a href="shop-details-3.html">Gừng Tươi, Nguyên Củ, Hữu Cơ - 250 gram</a>
-                                           </h4>
-                                           <div class="tpproduct__rating">
-                                               <a href="#"><i class="icon-star_outline1"></i></a>
-                                               <a href="#"><i class="icon-star_outline1"></i></a>
-                                               <a href="#"><i class="icon-star_outline1"></i></a>
-                                               <a href="#"><i class="icon-star_outline1"></i></a>
-                                               <a href="#"><i class="icon-star_outline1"></i></a>
-                                           </div>
-                                           <div class="tpproduct__price">
-                                               <span>$56.00</span>
-                                               <del>$19.00</del>
-                                           </div>
-                                           <div class="tpproduct__progress" v-if="hasProcess">
-                                               <div class="progress">
-                                                   <div class="progress-bar w-25" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                               </div>
-                                               <span>Đã bán: <b>16/60</b></span>
-                                           </div>
-                                       </div>
-                                       <div class="tpproduct__hover-text">
-                                           <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
-                                               <a class="tp-btn-2" href="cart.html">Thêm vào giỏ</a>
-                                           </div>
-                                           <div class="tpproduct__descrip">
-                                               <ul>
-                                                   <li>Loại: Hữu cơ</li>
-                                                   <li>NSX: 4 Tháng 8 năm 2021</li>
-                                                   <li>Hạn sử dụng: 60 ngày</li>
-                                               </ul>
-                                           </div>
-                                       </div>
-                                   </div>
-                                   
                                  </swiper-slide>  
                               </swiper>
                            <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
@@ -636,6 +226,8 @@ const isValidOption = (option) => {
  }
  .tpproduct__thumb img {
     width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit:cover;
  }
  .tpproduct__thumb-img {
     position: absolute;
@@ -754,6 +346,9 @@ const isValidOption = (option) => {
     display: -webkit-box;
     word-break: break-word;
     overflow: hidden;
+    line-height: 1.5;
+    height: 3em; 
+    white-space: pre-wrap;
  }
  .tpproduct__rating a i {
     margin-right: -5px;

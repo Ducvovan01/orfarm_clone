@@ -7,6 +7,7 @@ import HomeBrandProduct from '@/components/HomeBrandProduct.vue'
 import HomeReviewSlider from '@/components/HomeReviewSlider.vue'
 import HomeCartArea from '@/components/HomeCartArea.vue'
 import HomeBlogArea from '@/components/HomeBlogArea.vue'
+import store from '../stores/global.js';
 
 </script>
 
@@ -80,10 +81,9 @@ import HomeBlogArea from '@/components/HomeBlogArea.vue'
    </div>
 </section>
  <!-- HomePage Weekly Product -->
-         <ProductSlider title='Weekly Food Offers' option='View All' fullscreen='' :hasProcess="true" :slideOnShow='5'/>
+         <ProductSlider title='Sản phẩm Hot' option='Xem tất cả' fullscreen='' :hasProcess="true" :slideOnShow='5' :products='store.state.product'/>
          <HomeBannerSection/>
-         <ProductSlider title='New Arrivals\Features\Best Rate' option='View All' fullscreen='':hasProcess="true" :slideOnShow='5'/>
-         <ProductSlider title='Top Trending Product' option='All\Sea Food\Vegetables\Beans & Peas' fullscreen='' :hasProcess="true" :slideOnShow='5'/>
+         <ProductSlider title='Sản phẩm theo thương hiệu' option='Tất cả\Herbest' fullscreen='' :hasProcess="true" :slideOnShow='5' :products='store.state.product'/>
          <HomeBigBannerSection/>
          <HomeBrandProduct/>
          <HomeReviewSlider/>

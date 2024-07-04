@@ -31,7 +31,7 @@ const options = ref({
                     spaceBetween: 10,
                   },
                 768: {
-                  slidesPerView: slideOnShow,
+                  slidesPerView: 5,
                   spaceBetween: 20
                 }
               }" :autoplay="options.autoplay" :modules="[Autoplay]"  v-bind="options" class=" tpblog-active">

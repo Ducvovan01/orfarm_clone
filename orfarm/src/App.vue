@@ -4,6 +4,7 @@ import Footer from '@/components/Footer.vue';
 import Header from '@/components/Header.vue';
 import HeaderMobile from '@/components/HeaderMobile.vue';
 import { useRoute } from 'vue-router';
+import store from './stores/global.js';
 
 const route = useRoute();
 const isHomePage = ref(route.path === '/');
@@ -12,6 +13,9 @@ watch(route, () => {
   isHomePage.value = route.path === '/';
   isGrey.value = route.path === '/shop-left-sidebar';
 });
+
+store.dispatch('getProduct');
+store.dispatch('getCart');
 </script>
 
 <template>
