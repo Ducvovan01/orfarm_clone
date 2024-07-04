@@ -148,8 +148,8 @@ const deleteCart = (cartId) => {
                       Tổng cộng <span>{{formatCurrency( total) }}</span>
                     </li>
                   </ul>
-                  <a href="checkout.html" class="tp-btn tp-color-btn banner-animation"
-                    >Tiến hành thanh toán</a
+                  <a href="/checkout" class="tp-btn tp-color-btn banner-animation"
+                    >Tiến hành thanh toán</a  
                   >
                 </div>
               </div>
