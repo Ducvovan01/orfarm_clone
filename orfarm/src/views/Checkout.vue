@@ -1,12 +1,18 @@
 <script setup>
 import BreadCrumb from '@/components/BreadCrumb.vue'
-import {reactive,  ref } from 'vue'
+import {reactive,  ref, onMounted, computed} from 'vue'
+import auth from '../stores/auth.js'
+import store from '../stores/global.js';
+import axios from 'axios';
 
 const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, { name: 'Thanh toán' }]
 
 const isShowLogin = ref(false);
 const isShowCoupon = ref(false);
-
+const cities = ref([]);
+    const districts = ref([]);
+    const wards = ref([]);
+    const globalStore = ref(store.state);
 const form = reactive({
   login: {
     username: '',
@@ -15,15 +21,12 @@ const form = reactive({
   },
   coupon: '',
   billingDetails: {
-    country: 'United States',
+    province: 'Hà Nội',
+    district: '',
+    ward: '',
     firstName: '',
     lastName: '',
-    companyName: '',
     address: '',
-    apartment: '',
-    city: '',
-    state: '',
-    zip: '',
     email: '',
     phone: '',
     createAccount: false,
@@ -48,12 +51,60 @@ const form = reactive({
   paymentMethod: '',
 });
 
+const fetchLocationData = async () => {
+      try {
+        const response = await axios({
+          url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
+          method: "GET",
+        });
+        cities.value = response.data;
+      
+      } catch (error) {
+        console.error("Error fetching location data:", error);
+      }
+};
+
+
 const toggleFormLogin = ()=>{
     isShowLogin.value = !isShowLogin.value;
 }
 const toggleFormCoupon = ()=>{
     isShowCoupon.value = !isShowCoupon.value;
 }
+
+const onProvinceChange = (event) => {
+      const selectedProvinceName = event.target.value;
+      const selectedProvince = cities.value.find(province => province.Name === selectedProvinceName);
+      form.billingDetails.district = null;
+      form.billingDetails.ward = null;
+      districts.value = selectedProvince ? selectedProvince.Districts : [];
+      wards.value = [];
+};
+
+const onDistrictChange = (event) => {
+      const selectedDistrictName = event.target.value;
+      const selectedDistrict = districts.value.find(district => district.Name === selectedDistrictName);
+      form.billingDetails.ward = null;
+      wards.value = selectedDistrict ? selectedDistrict.Wards : [];
+};
+const formatCurrency = (value) => {
+  const formattedNumber = new Intl.NumberFormat('en-VN', {
+        style: 'decimal',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+      }).format(value);
+      return `${formattedNumber} VND`;
+    };
+
+    const total = computed(() => {
+  let totalValue = 0;
+  globalStore.value.cart.forEach(item => {
+    totalValue += item.product.price * item.amount;
+  });
+  return totalValue;
+});
+
+onMounted(fetchLocationData);
 </script>
 
 <template>
@@ -62,7 +113,7 @@ const toggleFormCoupon = ()=>{
   <div class="container">
     <div class="row">
       <div class="col-md-6">
-        <div class="coupon-accordion">
+        <div class="coupon-accordion" v-if="!auth.state.user">
           <!-- ACCORDION START -->
           <h3>Đã có tài khoản? <span id="showlogin" @click="toggleFormLogin()">Nhấn vào đây để đăng nhập</span></h3>
           <div id="checkout-login" class="coupon-content" :class="{ open: isShowLogin }">
@@ -122,20 +173,6 @@ const toggleFormCoupon = ()=>{
           <div class="checkbox-form">
             <h3>Chi tiết thanh toán</h3>
             <div class="row">
-              <div class="col-md-12">
-                <div class="country-select">
-                  <label>Quốc gia <span class="required">*</span></label>
-                  <select v-model="form.billingDetails.country">
-                    <option value="United States">Hoa Kỳ</option>
-                    <option value="Algeria">Algeria</option>
-                    <option value="Canada">Canada</option>
-                    <option value="Germany">Đức</option>
-                    <option value="England">Anh</option>
-                    <option value="Qatar">Qatar</option>
-                    <option value="Dominican Republic">Cộng hòa Dominica</option>
-                  </select>
-                </div>
-              </div>
               <div class="col-md-6">
                 <div class="checkout-form-list">
                   <label>Tên <span class="required">*</span></label>
@@ -149,38 +186,33 @@ const toggleFormCoupon = ()=>{
                 </div>
               </div>
               <div class="col-md-12">
-                <div class="checkout-form-list">
-                  <label>Tên công ty</label>
-                  <input type="text" v-model="form.billingDetails.companyName">
+                <div class="country-select">
+                  <label>Tỉnh/Thành Phố <span class="required">*</span></label>
+                  <select v-model="form.billingDetails.province" @change="onProvinceChange($event)">
+                    <option v-for="province in cities" :value="province.Name" :data="province">{{province.Name}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="country-select">
+                  <label>Quận/Huyện <span class="required">*</span></label>
+                  <select v-model="form.billingDetails.district"   @change="onDistrictChange($event)">
+                    <option v-for="district in districts" :value="district.Name">{{district.Name}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="country-select">
+                  <label>Phường/Xã <span class="required">*</span></label>
+                  <select v-model="form.billingDetails.ward" >
+                    <option v-for="ward in wards" :value="ward.Name">{{ward.Name}}</option>
+                  </select>
                 </div>
               </div>
               <div class="col-md-12">
                 <div class="checkout-form-list">
                   <label>Địa chỉ <span class="required">*</span></label>
                   <input type="text" placeholder="Địa chỉ đường" v-model="form.billingDetails.address">
-                </div>
-              </div>
-              <div class="col-md-12">
-                <div class="checkout-form-list">
-                  <input type="text" placeholder="Căn hộ, suite, đơn vị, v.v. (tùy chọn)" v-model="form.billingDetails.apartment">
-                </div>
-              </div>
-              <div class="col-md-12">
-                <div class="checkout-form-list">
-                  <label>Thành phố <span class="required">*</span></label>
-                  <input type="text" placeholder="Thành phố" v-model="form.billingDetails.city">
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="checkout-form-list">
-                  <label>Bang / Hạt <span class="required">*</span></label>
-                  <input type="text" v-model="form.billingDetails.state">
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="checkout-form-list">
-                  <label>Mã bưu điện <span class="required">*</span></label>
-                  <input type="text" placeholder="Mã bưu điện" v-model="form.billingDetails.zip">
                 </div>
               </div>
               <div class="col-md-6">
@@ -207,7 +239,7 @@ const toggleFormCoupon = ()=>{
                 </div>
               </div>
             </div>
-            <div class="different-address">
+            <!-- <div class="different-address">
               <div class="ship-different-title">
                 <h3>
                   <label>Giao hàng đến địa chỉ khác?</label>
@@ -295,12 +327,12 @@ const toggleFormCoupon = ()=>{
                   <div class="order-notes">
                     <div class="checkout-form-list checkout-form-list-2">
                       <label>Ghi chú đơn hàng</label>
-                      <textarea id="checkout-mess" cols="30" rows="10" placeholder="Notes about your order, e.g. special notes for delivery." v-model="form.orderNotes"></textarea>
+                      <textarea id="checkout-mess" cols="30" rows="10" placeholder="Lưu ý về đơn đặt hàng của bạn, ví dụ: ghi chú đặc biệt để giao hàng." v-model="form.orderNotes"></textarea>
                     </div>
                   </div>
-                </div>
+                </div> -->
               </div>
-            </div>
+            </div> 
             <div class="col-lg-6 col-md-12">
                 <div class="your-order mb-30 ">
                               <h3>Đơn hàng của bạn</h3>
@@ -308,33 +340,22 @@ const toggleFormCoupon = ()=>{
                                     <table>
                                        <thead>
                                           <tr>
-                                             <th class="product-name">Sản phẩm</th>
-                                             <th class="product-total">Tổng cộng</th>
+                                             <th class="product-name"> <strong>Sản phẩm</strong></th>
+                                             <th class="product-total"><strong>Giá tiền</strong></th>
                                           </tr>
                                        </thead>
                                        <tbody>
-                                          <tr class="cart_item">
-                                                <td class="product-name">
-                                                   Vestibulum suscipit <strong class="product-quantity"> × 1</strong>
-                                                </td>
-                                                <td class="product-total">
-                                                   <span class="amount">$165.00</span>
-                                                </td>
-                                          </tr>
-                                          <tr class="cart_item">
-                                                <td class="product-name">
-                                                   Vestibulum dictum magna <strong class="product-quantity"> × 1</strong>
-                                                </td>
-                                                <td class="product-total">
-                                                   <span class="amount">$50.00</span>
-                                                </td>
-                                          </tr>
-                                       </tbody>
+                                        <tr v-for="(item, index) in store.state.cart" :key="index" class="cart_item">
+                                          <td class="product-name">
+                                            {{ item.product.name }} <strong class="product-quantity"> × {{ item.amount }}</strong>
+                                          </td>
+                                          <td class="product-total">
+                                            <span class="amount">{{ formatCurrency(item.amount*item.product.price) }}</span>
+                                          </td>
+                                        </tr>
+                                      </tbody>
                                        <tfoot>
-                                          <tr class="cart-subtotal">
-                                                <th>Tổng phụ của giỏ hàng</th>
-                                                <td><span class="amount">$215.00</span></td>
-                                          </tr>
+                                       
                                           <tr class="shipping">
                                                 <th>Giao hàng</th>
                                                 <td>
@@ -347,14 +368,14 @@ const toggleFormCoupon = ()=>{
                                                       </li>
                                                       <li>
                                                             <input type="radio" name="shipping" :v-model='form.shippingMethod'>
-                                                            <label>Miễn phí giao hàng:</label>
+                                                            <label>Miễn phí giao hàng</label>
                                                       </li>
                                                    </ul>
                                                 </td>
                                           </tr>
                                           <tr class="order-total">
-                                                <th>Tổng đơn hàng</th>
-                                                <td><strong><span class="amount">$215.00</span></strong>
+                                                <th>Tổng tiền</th>
+                                                <td><strong><span class="amount">{{total}}</span></strong>
                                                 </td>
                                           </tr>
                                        </tfoot>
