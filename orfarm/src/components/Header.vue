@@ -72,10 +72,10 @@ const toggleCartMenu = () => {
 }
  
 const openUserDetail = () => {
-    if(!auth.state.user){
-      router.push({ name: 'login' });
-    }
-}
+  if (!auth.state.user || Object.keys(auth.state.user).length === 0) {
+    router.push({ name: 'login' });
+  }
+};
 
 const getImageUrl = (imagePath) => {
       return `${API_BACK_END}/${imagePath}`;
@@ -445,7 +445,7 @@ onUnmounted(() => {
                   <button class="tp-search-toggle" @click="openSearchBar">
                     <i class="icon-search"></i>
                   </button>
-                </div>
+                </div>  
                 <div class="header__info-user tpcolor__yellow ml-10" @click="openUserDetail">
                   <a href="#"><i class="icon-user"></i></a>
                 </div>
