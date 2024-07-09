@@ -12,12 +12,12 @@ const  productByCategory = ref('');
 const productId = new URLSearchParams(window.location.search).get('product');
 const cart = ref({
     id: productId,
-    quantity: 0,
+    quantity: 1,
     userId: store.state.user,
 })
 
 const minusQuantity = () => {
-    if (cart.value.quantity > 0) {
+    if (cart.value.quantity > 1) {
         cart.value.quantity--;
     }
 };
@@ -70,8 +70,6 @@ const formatCurrency = (value) => {
 onMounted(async () => {
     productInfor.value = await fetchProduct();
     productByCategory.value = await fetchProductByCategory(); 
-    console.log(productInfor.value);
-    console.log( productByCategory.value );
 });
 
 

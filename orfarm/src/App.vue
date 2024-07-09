@@ -15,7 +15,6 @@ watch(route, () => {
 });
 
 store.dispatch('getProduct');
-store.dispatch('getCart');
 </script>
 
 <template>
