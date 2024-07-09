@@ -15,7 +15,7 @@ const total = computed(() => {
   });
   return totalValue;
 });
-console.log(total);
+
 
 const minusQuantity = (item) => {
   const foundItem = store.state.cart.find(p => p.id === item.id);

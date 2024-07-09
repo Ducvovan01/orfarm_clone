@@ -1,11 +1,11 @@
 <script setup>
 import BreadCrumb from '@/components/BreadCrumb.vue'
+import SideBannerAuth from '@/components/SideBannerAuth.vue'
 import Auth from '@/api/auth/index.js';
 import { useRouter } from "vue-router";
 import {reactive,ref, onMounted} from 'vue';
 import axios from 'axios';
 import { config } from '@/config/config';
-import bannerImage4 from '@/assets/img/banner/banner-4.jpg';
 import store from '../stores/auth.js';
 const router = useRouter();
 const{loginForm, submitLogin, errors, resultOtp,submitResgiter } = Auth();
@@ -62,7 +62,7 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, { name: 'Đăng Nh�
                   <label class="form-check-label" for="flexCheckDefault2">Ghi nhớ đăng nhập</label>
                 </div>
                 <div class="tpsign__pass">
-                  <a href="#">Quên mật khẩu ?</a>
+                  <a href="/forgotpassword">Quên mật khẩu ?</a>
                 </div>
               </div>
               <div class="tpsign__account mb-15">
@@ -77,8 +77,7 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, { name: 'Đăng Nh�
           </div>
         </div>
         <div class="col-lg-6 col-sm-12">
-          <div class="tpbanner__auth" data-background="../assets/img/banner/banner-4.jpg" :style="{ backgroundImage: `url(${bannerImage4})` }">
-        </div>
+          <SideBannerAuth/>
         </div>
       </div>
     </div>
@@ -86,11 +85,7 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, { name: 'Đăng Nh�
 </template>
 
 <style scoped>
-.tpbanner__auth{
-  height:800px;
-  object-fit:cover;
-  background-repeat:none; 
-}
+
 .tptrack__content {
   padding: 50px;
   border-radius: 10px;

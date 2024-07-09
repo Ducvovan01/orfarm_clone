@@ -11,6 +11,7 @@ import Wishlist from '../views/Wishlist.vue';
 import NotFound from '../views/NotFound.vue';
 import Home from '../views/Home.vue';
 import Register from '../views/Register.vue';
+import ForgotPassword from '../views/ForgotPassword.vue';
 import store from '../stores/auth.js';
 import { useStore} from "vuex"
 
@@ -56,6 +57,11 @@ const routes = [
     component: Register
   },
   {
+    path:'/forgotpassword',
+    name:'forgotpassword',
+    component:ForgotPassword,
+  },
+  {
     path: '/cart',
     name: 'cart',
     component: Cart,
@@ -84,20 +90,6 @@ function isAuthenticated() {
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes
-});
-
-router.beforeEach( async (to, from, next) => {
-	const store = useStore();
-	const users = store.getters["user"];
-	if (to.meta.requiresAdmin && (localStorage.getItem('token') === '' || localStorage.getItem('token') === null))
-	{
-	    next('/login');
-	} else {
-		if (!users || Object.keys(users).length === 0) {
-			await store.dispatch('getUser');
-		}
-	  	next();
-	}
 });
 
 export default router;
