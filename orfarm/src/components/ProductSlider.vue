@@ -114,8 +114,8 @@ const formatCurrency = (value) => {
                               <swiper-slide v-for="product in products">  
                                  <div class="tpproduct p-relative tpprogress__hover">
                                     <div class="tpproduct__thumb p-relative text-center">
-                                        <a href="#"><img :src="getImageUrl(product.images[0].image_path)" alt=""></a>
-                                        <a class="tpproduct__thumb-img" href="shop-details.html"><img :src="getImageUrl(product.images[0].image_path)" alt=""></a>
+                                        <a href="#"><img :src="getImageUrl(product.images[0]?.image_path)" alt=""></a>
+                                        <a class="tpproduct__thumb-img"  :href="'shop-details?product=' + product.id" ><img :src="getImageUrl(product.images[0]?.image_path)" alt=""></a>
                                         <div class="tpproduct__info bage">
                                             <span class="tpproduct__info-discount bage__discount">-50%</span>
                                             <span class="tpproduct__info-hot bage__hot">HOT</span>

@@ -125,7 +125,7 @@ onUnmounted(() => {
                      </div>
                      <div class="col-xl-4">
                         <div class="header__logo text-center">
-                           <a href="index.html"><img src="../assets/img/logo/logo.png" alt="logo"></a>
+                           <a href="/"><img src="../assets/img/logo/logo.png" alt="logo"></a>
                         </div>
                      </div>
                      <div class="col-xl-4">
@@ -153,20 +153,20 @@ onUnmounted(() => {
                 <nav id="mobile-menu" style="display: block" >
                   <ul>
                     <li class="has-dropdown has-homemenu">
-                      <a href="index.html">Trang chủ <i class="fa fa-chevron-down icon"></i></a>
+                      <a href="/">Trang chủ <i class="fa fa-chevron-down icon"></i></a>
                       <ul class="sub-menu home-menu-style">
                         <li>
-                          <a href="index.html"
+                          <a href="/"
                             ><img src="../assets/img/header/home1-1.jpg" alt="" /> Trang chủ V1</a
                           >
                         </li>
                         <li>
-                          <a href="index-2.html"
+                          <a href="/"
                             ><img src="../assets/img/header/home2-1.jpg" alt="" /> Trang chủ V2</a
                           >
                         </li>
                         <li>
-                          <a href="index-3.html"
+                          <a href="/"
                             ><img src="../assets/img/header/home3-1.jpg" alt="" /> Trang chủ V3</a
                           >
                         </li>
@@ -280,7 +280,7 @@ onUnmounted(() => {
           <div class="row align-items-center" :class="{ 'header-sticky': isHeaderSticky }">
             <div class="col-xl-3">
               <div class="header__logo">
-                <a href="index.html"><img src="../assets/img/logo/logo.png" alt="logo" /></a>
+                <a href="/"><img src="../assets/img/logo/logo.png" alt="logo" /></a>
               </div>
             </div>
             <div class="col-xl-6">
@@ -288,10 +288,10 @@ onUnmounted(() => {
                 <nav id="mobile-menu" style="display: block">
                   <ul>
                     <li class="has-dropdown has-homemenu">
-                      <a href="index.html">Trang chủ <i class="fa fa-chevron-down icon"></i></a>
+                      <a href="/">Trang chủ <i class="fa fa-chevron-down icon"></i></a>
                       <ul class="sub-menu home-menu-style">
                         <li>
-                          <a href="index.html"
+                          <a href="/"
                             ><img src="../assets/img/header/home1-1.jpg" alt="" /> Trang chủ V1</a
                           >
                         </li>

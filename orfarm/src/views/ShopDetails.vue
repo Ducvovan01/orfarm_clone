@@ -1,12 +1,83 @@
 <script setup>
 import BreadCrumb from '@/components/BreadCrumb.vue'
 import ProductSlider from '@/components/ProductSlider.vue'
+import { defineProps,onMounted,ref } from 'vue';
+import axios from 'axios';
+import apiURL  from "../connect.js";
+import store from '../stores/auth.js';
+const API_BACK_END = apiURL.baseURL;
+const API_BACK_END_SUB = apiURL.URL;
+const productInfor = ref('');
+const  productByCategory = ref('');
+const productId = new URLSearchParams(window.location.search).get('product');
+const cart = ref({
+    id: productId,
+    quantity: 0,
+    userId: store.state.user,
+})
 
-const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, { route:'shop', name: 'Bữa sáng & Sữa' },{name:'Măng Cụt Tươi 100% Hữu Cơ Từ Việt Nam'}]
+const minusQuantity = () => {
+    if (cart.value.quantity > 0) {
+        cart.value.quantity--;
+    }
+};
+
+const plusQuantity = (item) => {
+    cart.value.quantity++;
+};
+
+const fetchProduct = async () => {
+    try {
+        const response = await axios.get(`${API_BACK_END}products/${productId}`);
+        if (response.data.status === 'success') {
+            return response.data.data;
+        } else {
+            console.error('Failed to fetch product data');
+            return null;
+        }
+    } catch (error) {
+        console.error('Error fetching product data:', error);
+        return null;
+    }
+};
+
+const fetchProductByCategory = async () => {
+    try {
+        const response = await axios.post(`${API_BACK_END}products/bycategory/6`,{id:6});
+        if (response.data.status === 'success') {
+            return response.data.data;
+        } else {
+            console.error('Failed to fetch product data');
+            return null;
+        }
+    } catch (error) {
+        console.error('Error fetching product data:', error);
+        return null;
+    }
+};
+
+
+
+const formatCurrency = (value) => {
+  const formattedNumber = new Intl.NumberFormat('en-VN', {
+        style: 'decimal',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+      }).format(value);
+      return `${formattedNumber} VND`;
+};
+
+onMounted(async () => {
+    productInfor.value = await fetchProduct();
+    productByCategory.value = await fetchProductByCategory(); 
+    console.log(productInfor.value);
+    console.log( productByCategory.value );
+});
+
 
 </script>
 <template>
-<BreadCrumb :breadCrumbPath="breadCrumbPath" :isGrey='true'/>
+<BreadCrumb :breadCrumbPath="[{ route: '/', name: 'Trang chủ' }, { route:'shop', name: productInfor?.category?.name },{name: productInfor?.name}]" :isGrey='true'/>
 <section class="shopdetails-area grey-bg pb-50">
             <div class="container">
                <div class="row">
@@ -14,9 +85,9 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, { route:'shop', nam
                      <div class="tpdetails__area mr-60 pb-30">
                         <div class="tpdetails__product mb-30">
                            <div class="tpdetails__title-box">
-                              <h3 class="tpdetails__title">Bánh Burger Thịt Bò Hữu Cơ Ireland Nguyên Chất 4 Miếng - 1Kg</h3>
+                              <h3 class="tpdetails__title">{{productInfor?.name}}</h3>
                               <ul class="tpdetails__brand">
-                                 <li> Nhãn hàng: <a href="#">ORFARM</a> </li>
+                                 <li> Nhãn hàng: <a href="#">{{productInfor?.brands?.name}}</a> </li>
                                  <li>
                                     <i class="icon-star_outline1"></i>
                                     <i class="icon-star_outline1"></i>
@@ -33,99 +104,88 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, { route:'shop', nam
                            <div class="tpdetails__box">
                               <div class="row">
                                  <div class="col-lg-6">
-                                    <div class="tpproduct-details__nab">
-                                       <div class="tab-content" id="nav-tabContents">
-                                          <div class="tab-pane fade show active w-img" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
-                                             <img src="../assets/img/product/product-details-1.png" alt="">
-                                             <div class="tpproduct__info bage">
+                                        <div class="tpproduct-details__nab">
+                                          <div class="tab-content" id="nav-tabContents">
+                                            <div v-for="(image, index) in productInfor?.images" :key="image?.id" class="tab-pane fade w-img" :class="{ 'show active': index === 0 }" :id="`nav-${index}`" role="tabpanel" :aria-labelledby="`nav-tab-${index}`" tabindex="0">
+                                              <img :src="`${API_BACK_END_SUB}/${image?.image_path}`" :alt="image?.description" class='tpproduct-details__nab--image'>
+                                              <div class="tpproduct__info bage">
                                                 <span class="tpproduct__info-hot bage__hot">HOT</span>
-                                             </div>
+                                                <span class="tpproduct__info-discount bage__discount" style='margin-left:5px;'>-90%</span>
+                                              </div>
+                                            </div>
                                           </div>
-                                          <div class="tab-pane fade w-img" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
-                                             <img src="../assets/img/product/product-details-2.png" alt="">
-                                             <div class="tpproduct__info bage">
-                                                <span class="tpproduct__info-discount bage__discount">-90%</span>
-                                                <span class="tpproduct__info-hot bage__hot">HOT</span>
-                                             </div>
-                                          </div>
-                                          <div class="tab-pane fade w-img" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab" tabindex="0">
-                                             <img src="../assets/img/product/product-details-3.png" alt="">
-                                             <div class="tpproduct__info bage">
-                                                <span class="tpproduct__info-hot bage__hot">HOT</span>
-                                             </div>
-                                          </div>
-                                       </div> 
-                                       <nav>
-                                          <div class="nav nav-tabs justify-content-center" id="nav-tab" role="tablist">
-                                            <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">
-                                             <img src="../assets/img/product/product-detaisl-item1.png" alt="">
-                                            </button>
-                                            <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false" tabindex="-1">
-                                             <img src="../assets/img/product/product-detaisl-item2.png" alt="">
-                                            </button>
-                                            <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false" tabindex="-1">
-                                             <img src="../assets/img/product/product-detaisl-item3.png" alt="">
-                                            </button>
-                                          </div>
-                                        </nav>                 
-                                    </div>
+                                          <nav>
+                                            <div class="nav nav-tabs justify-content-center" id="nav-tab" role="tablist">
+                                              <button v-for="(image, index) in productInfor?.images" :key="image?.id" class="nav-link" :class="{ active: index === 0 }" :id="`nav-tab-${index}`" data-bs-toggle="tab" :data-bs-target="`#nav-${index}`" type="button" role="tab" :aria-controls="`nav-${index}`" :aria-selected="index === 0">
+                                                <img :src="`${API_BACK_END_SUB}/${image?.image_path}`" alt="">
+                                              </button>
+                                            </div>
+                                          </nav>
+                                        </div>
                                  </div>
                                  <div class="col-lg-6">
-              <div class="product__details">
-                <div class="product__details-price-box">
-                  <h5 class="product__details-price">$56.00</h5>
-                  <ul class="product__details-info-list">
-                    <li>Nước sốt phô mai không sữa ngon</li>
-                    <li>Thân thiện với người ăn chay & dị ứng</li>
-                    <li>Nước sốt phô mai không sữa mịn màng, mượt mà</li>
-                  </ul>
-                </div>
-                <div class="product__details-cart">
-                  <div class="product__details-quantity d-flex align-items-center mb-15">
-                    <b>Số lượng:</b>
-                    <div class="product__details-count mr-10">
-                      <span class="cart-minus"><i class="far fa-minus"></i></span>
-                      <input class="tp-cart-input" type="text" value="1">
-                      <span class="cart-plus"><i class="far fa-plus"></i></span>
-                    </div>
-                    <div class="product__details-btn">
-                      <a href="cart.html">Thêm vào giỏ</a>
-                    </div>
-                  </div>
-                  <ul class="product__details-check">
-                    <li>
-                      <a href="#"><i class="icon-heart icons"></i> Thêm vào danh sách yêu thích</a>
-                    </li>
-                    <li>
-                      <a href="#"><i class="icon-layers"></i> Thêm vào So Sánh</a>
-                    </li>
-                    <li>
-                      <a href="#"><i class="icon-share-2"></i> Chia sẻ</a>
-                    </li>
-                  </ul>
-                </div>
-                <div class="product__details-stock mb-25">
-                  <ul>
-                    <li>Tình trạng: <i>54 Còn hàng</i></li>
-                    <li>Danh mục: <span>Rau củ, Thịt & Trứng, Đồ uống trái cây</span></li>
-                    <li>Tags: <span>Gà, Tự nhiên, Hữu cơ</span></li>
-                  </ul>
-                </div>
-                <div class="product__details-payment text-center">
-                  <img src="../assets/img/shape/payment-2.png" alt="">
-                  <span>Đảm bảo thanh toán an toàn & Bảo mật</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+                                <div class="product__details">
+                                    <div class="product__details-price-box">
+                                    <h5 class="product__details-price">{{formatCurrency(productInfor?.price)}}</h5>
+                                    <ul class="product__details-info-list">
+                                        <li>Nước sốt phô mai không sữa ngon</li>
+                                        <li>Thân thiện với người ăn chay & dị ứng</li>
+                                        <li>Nước sốt phô mai không sữa mịn màng, mượt mà</li>
+                                    </ul>
+                                    </div>
+                                    <div class="product__details-cart">
+                                    <div class="product__details-quantity d-flex align-items-center mb-15">
+                                        <b>Số lượng:</b>
+                                        <div class="product__details-count mr-10">
+                                        <span class="cart-minus" @click="minusQuantity"><i class="far fa-minus"></i></span>
+                                        <input class="tp-cart-input" type="text" :value="cart.quantity">
+                                        <span class="cart-plus" @click="plusQuantity"><i class="far fa-plus"></i></span>
+                                        </div>
+                                        <div class="product__details-btn">
+                                        <a href="cart.html">Thêm vào giỏ</a>
+                                        </div>
+                                    </div>
+                                    <ul class="product__details-check">
+                                        <li>
+                                        <a href="#"><i class="icon-heart icons"></i> Thêm vào danh sách yêu thích</a>
+                                        </li>
+                                        <li>
+                                        <a href="#"><i class="icon-layers"></i> Thêm vào So Sánh</a>
+                                        </li>
+                                        <li>
+                                        <a href="#"><i class="icon-share-2"></i> Chia sẻ</a>
+                                        </li>
+                                    </ul>
+                                    </div>
+                                    <div class="product__details-stock mb-25">
+                                    <ul>
+                                        <li>Tình trạng: <i>{{productInfor?.quantity}} Còn hàng</i></li>
+                                        <li>Danh mục: <span>{{productInfor?.category?.name}}</span></li>
+                                        <li>
+                                            Tình trạng: 
+                                            <span v-if="productInfor && productInfor?.status === 'published'">
+                                              Đang bày bán
+                                            </span>
+                                            <span v-else>
+                                              Ngừng bày bán
+                                            </span>
+                                          </li>
+                                    </ul>
+                                    </div>
+                                    <div class="product__details-payment text-center">
+                                    <img src="../assets/img/shape/payment-2.png" alt="">
+                                    <span>Đảm bảo thanh toán an toàn & Bảo mật</span>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
                         <div class="tpdescription__box">
                            <div class="tpdescription__box-center d-flex align-items-center justify-content-center">
                               <nav>
                                  <div class="nav nav-tabs" role="tablist">
                                    <button class="nav-link active" id="nav-description-tab" data-bs-toggle="tab" data-bs-target="#nav-description" type="button" role="tab" aria-controls="nav-description" aria-selected="true">Mô tả Sản Phẩm</button>
-                                   <button class="nav-link" id="nav-info-tab" data-bs-toggle="tab" data-bs-target="#nav-information" type="button" role="tab" aria-controls="nav-information" aria-selected="false" tabindex="-1">Thông tin thêm</button>
                                    <button class="nav-link" id="nav-review-tab" data-bs-toggle="tab" data-bs-target="#nav-review" type="button" role="tab" aria-controls="nav-review" aria-selected="false" tabindex="-1">Đánh giá (1)</button>
                                  </div>
                                </nav>
@@ -133,270 +193,123 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, { route:'shop', nam
                            <div class="tab-content" id="nav-tabContent">
                               <div class="tab-pane fade active show" id="nav-description" role="tabpanel" aria-labelledby="nav-description-tab" tabindex="0">
                                  <div class="tpdescription__content">
-                                    <p>Thiết kế bởi Puik vào năm 1949 như một trong những mô hình đầu tiên được tạo ra đặc biệt cho Carl Hansen & Son, và được sản xuất từ năm 1950. Cuối cùng trong một loạt các ghế Wegner thiết kế dựa trên cảm hứng từ ghế tay cổ Trung Quốc. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, quae ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
-                                 </div>
-                                 <div class="tpdescription__product-wrapper mt-30 mb-30 d-flex justify-content-between align-items-center">
-                                    <div class="tpdescription__product-info">
-                                       <h5 class="tpdescription__product-title">Chi tiết Sản Phẩm</h5>
-                                       <ul class="tpdescription__product-info">
-                                          <li>Chất liệu: Nhựa, Gỗ</li>
-                  <li>Chân: Gỗ sồi sơn mài và sơn đen</li>
-                  <li>Kích thước và Trọng lượng: Chiều cao: 80 cm, Trọng lượng: 5.3 kg</li>
-                  <li>Chiều dài: 48cm</li>
-                  <li>Chiều sâu: 52 cm</li>
-                                       </ul>
-                                       <p>Lemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut <br> fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem <br> sequi nesciunt.</p>
-                                    </div>
-                                    <div class="tpdescription__product-thumb">
-                                       <img src="../assets/img/product/product-single-1.png" alt="">
-                                    </div>
-                                 </div>
-                                 <div class="tpdescription__video">
-                                    <h5 class="tpdescription__product-title">Chi tiết Sản Phẩm</h5>
-                                    <p>Form is an armless modern chair with a minimalistic expression. With a simple and contemporary design Form Chair has a soft and welcoming ilhouette and a distinctly residential look. The legs appear almost as if they are growing out of the shell. This gives the design flexibility and makes it possible to vary the frame. Unika is a mouth blown series of small, glass pendant lamps, originally designed for the Restaurant Gronbech. Est eum itaque maiores qui blanditiis architecto. Eligendi saepe rem ut. Cumque quia earum eligendi. </p>
-                                    <div class="tpdescription__video-wrapper p-relative mt-30 mb-35 w-img">
-                                       <img src="../assets/img/product/product-video1.jpg" alt="">
-                                       <div class="tpvideo__video-btn">
-                                          <a class="tpvideo__video-icon popup-video" href="https://www.youtube.com/watch?v=rLrV5Tel7zw">
-                                             <i>
-                                                <svg width="20" height="22" viewBox="0 0 20 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M15.6499 6.58886L15.651 6.58953C17.8499 7.85553 18.7829 9.42511 18.7829 10.8432C18.7829 12.2613 17.8499 13.8308 15.651 15.0968L15.6499 15.0975L12.0218 17.195L8.3948 19.2919C8.3946 19.292 8.3944 19.2921 8.3942 19.2922C6.19546 20.558 4.36817 20.5794 3.13833 19.8697C1.9087 19.1602 1.01562 17.5694 1.01562 15.0382V10.8432V6.64818C1.01562 4.10132 1.90954 2.51221 3.13721 1.80666C4.36609 1.1004 6.1936 1.12735 8.3942 2.39416C8.3944 2.39428 8.3946 2.3944 8.3948 2.39451L12.0218 4.49135L15.6499 6.58886Z" stroke="white" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                </svg>
-                                             </i>
-                                          </a>
-                                       </div>
-                                    </div>
-                                    <h5 class="tpdescription__product-title">SẢN PHẨM CHẤT LƯỢNG TUYỆT VỜI</h5>
-                                    <p>Form is an armless modern chair with a minimalistic expression. With a simple and contemporary design Form Chair has a soft and welcoming ilhouette and a distinctly residential look. The legs appear almost as if they are growing out of the shell. This gives the design flexibility and makes it possible to vary the frame. Unika is a mouth blown series of small, glass pendant lamps, originally designed for the Restaurant Gronbech. Est eum itaque maiores qui blanditiis architecto. Eligendi saepe rem ut. Cumque quia earum eligendi. </p>
-                                    <p>Duis semper erat mauris, sed egestas purus commodo. Cras imperdiet est in nunc tristique lacinia. Nullam aliquam mauris eu accumsan tincidunt. Suspendisse velit ex, aliquet vel ornare vel, dignissim a tortor. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate.</p>
+                                    <p v-html="productInfor?.description"> </p>
                                  </div>
                               </div>
-                              <div class="tab-pane fade" id="nav-information" role="tabpanel" aria-labelledby="nav-info-tab" tabindex="0">
-                                 <div class="tpdescription__content">
-                                    <p>Designed by Puik in 1949 as one of the first models created especially for Carl Hansen &amp; Son, and produced since 1950. The last of a series of chairs wegner designed based on inspiration from antique chinese armchairs. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia eserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, aque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
-                                 </div>
-                                 <div class="tpdescription__product-wrapper mt-30 mb-30 d-flex justify-content-between align-items-center">
-                                    <div class="tpdescription__product-info">
-                                       <h5 class="tpdescription__product-title">Chi tiết Sản Phẩm</h5>
-                                       <ul class="tpdescription__product-info">
-                                          <li>Chất liệu: Nhựa, Gỗ</li>
-                  <li>Chân: Gỗ sồi sơn mài và sơn đen</li>
-                  <li>Kích thước và Trọng lượng: Chiều cao: 80 cm, Trọng lượng: 5.3 kg</li>
-                  <li>Chiều dài: 48cm</li>
-                  <li>Chiều sâu: 52 cm</li>
-                                       </ul>
-                                       <p>Lemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut <br> fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem <br> sequi nesciunt.</p>
-                                    </div>
-                                    <div class="tpdescription__product-thumb">
-                                       <img src="../assets/img/product/product-single-1.png" alt="">
-                                    </div>
-                                 </div>
-                                 <div class="tpdescription__video">
-                                    <h5 class="tpdescription__product-title">Chi tiết Sản Phẩm</h5>
-                                    <p>Form is an armless modern chair with a minimalistic expression. With a simple and contemporary design Form Chair has a soft and welcoming ilhouette and a distinctly residential look. The legs appear almost as if they are growing out of the shell. This gives the design flexibility and makes it possible to vary the frame. Unika is a mouth blown series of small, glass pendant lamps, originally designed for the Restaurant Gronbech. Est eum itaque maiores qui blanditiis architecto. Eligendi saepe rem ut. Cumque quia earum eligendi. </p>
-                                 </div>
-                              </div>
-
-
 
 
                               <div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab" tabindex="0">
-    <div class="tpreview__wrapper">
-        <h4 class="tpreview__wrapper-title">1 đánh giá cho Gà tươi ngon rẻ</h4>
-        <div class="tpreview__comment">
-            <div class="tpreview__comment-img mr-20">
-                <img src="../assets/img/testimonial/test-avata-1.png" alt="">
-            </div>
-            <div class="tpreview__comment-text">
-                <div class="tpreview__comment-autor-info d-flex align-items-center justify-content-between">
-                    <div class="tpreview__comment-author">
-                        <span>admin</span>
-                    </div>
-                    <div class="tpreview__comment-star">
-                        <i class="icon-star_outline1"></i>
-                        <i class="icon-star_outline1"></i>
-                        <i class="icon-star_outline1"></i>
-                        <i class="icon-star_outline1"></i>
-                        <i class="icon-star_outline1"></i>
-                    </div>
-                </div>
-                <span class="date mb-20">--Ngày 9 tháng 4 năm 2022: </span>
-                <p>rất tốt</p>
-            </div>
-        </div>
-        <div class="tpreview__form">
-            <h4 class="tpreview__form-title mb-25">Thêm đánh giá </h4>
-            <form action="#">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="tpreview__input mb-30">
-                            <input type="text" placeholder="Tên">
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="tpreview__input mb-30">
-                            <input type="email" placeholder="Email">
-                        </div>
-                    </div>
-                    <div class="col-lg-12">
-                        <div class="tpreview__star mb-20">
-                            <h4 class="title">Đánh giá của bạn</h4>
-                            <div class="tpreview__star-icon">
-                                <a href="#"><i class="icon-star_outline1"></i></a>
-                                <a href="#"><i class="icon-star_outline1"></i></a>
-                                <a href="#"><i class="icon-star_outline1"></i></a>
-                                <a href="#"><i class="icon-star_outline1"></i></a>
-                                <a href="#"><i class="icon-star_outline1"></i></a>
-                            </div>
-                        </div>
-                        <div class="tpreview__input mb-30">
-                            <textarea name="text" placeholder="Tin nhắn"></textarea>
-                            <div class="tpreview__submit mt-30">
-                                <button class="tp-btn">Gửi</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
+                            <div class="tpreview__wrapper">
+                                <h4 class="tpreview__wrapper-title">1 đánh giá cho Gà tươi ngon rẻ</h4>
+                                <div class="tpreview__comment">
+                                    <div class="tpreview__comment-img mr-20">
+                                        <img src="../assets/img/testimonial/test-avata-1.png" alt="">
                                     </div>
-                                 </div>
-                              </div>
-                           </div>   
+                                    <div class="tpreview__comment-text">
+                                        <div class="tpreview__comment-autor-info d-flex align-items-center justify-content-between">
+                                            <div class="tpreview__comment-author">
+                                                <span>admin</span>
+                                            </div>
+                                            <div class="tpreview__comment-star">
+                                                <i class="icon-star_outline1"></i>
+                                                <i class="icon-star_outline1"></i>
+                                                <i class="icon-star_outline1"></i>
+                                                <i class="icon-star_outline1"></i>
+                                                <i class="icon-star_outline1"></i>
+                                            </div>
+                                        </div>
+                                        <span class="date mb-20">--Ngày 9 tháng 4 năm 2022: </span>
+                                        <p>rất tốt</p>
+                                    </div>
+                                </div>
+                                <div class="tpreview__form">
+                                    <h4 class="tpreview__form-title mb-25">Thêm đánh giá </h4>
+                                    <form action="#">
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="tpreview__input mb-30">
+                                                    <input type="text" placeholder="Tên">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="tpreview__input mb-30">
+                                                    <input type="email" placeholder="Email">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="tpreview__star mb-20">
+                                                    <h4 class="title">Đánh giá của bạn</h4>
+                                                    <div class="tpreview__star-icon">
+                                                        <a href="#"><i class="icon-star_outline1"></i></a>
+                                                        <a href="#"><i class="icon-star_outline1"></i></a>
+                                                        <a href="#"><i class="icon-star_outline1"></i></a>
+                                                        <a href="#"><i class="icon-star_outline1"></i></a>
+                                                        <a href="#"><i class="icon-star_outline1"></i></a>
+                                                    </div>
+                                                </div>
+                                                <div class="tpreview__input mb-30">
+                                                    <textarea name="text" placeholder="Tin nhắn"></textarea>
+                                                    <div class="tpreview__submit mt-30">
+                                                        <button class="tp-btn">Gửi</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>   
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-12">
+                                            <div class="tpsidebar pb-30">
+                                                <div class="tpsidebar__warning mb-30">
+                            <ul>
+                                <li>
+                                    <div class="tpsidebar__warning-item">
+                                        <div class="tpsidebar__warning-icon">
+                                            <i class="icon-package"></i>
+                                        </div>
+                                        <div class="tpsidebar__warning-text">
+                                            <p>Miễn phí vận chuyển áp dụng <br> cho tất cả các đơn hàng trên $90</p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="tpsidebar__warning-item">
+                                        <div class="tpsidebar__warning-icon">
+                                            <i class="icon-shield"></i>
+                                        </div>
+                                        <div class="tpsidebar__warning-text">
+                                            <p>Đảm bảo 100% hữu cơ <br> từ các trang trại tự nhiên</p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="tpsidebar__warning-item">
+                                        <div class="tpsidebar__warning-icon">
+                                            <i class="icon-package"></i>
+                                        </div>
+                                        <div class="tpsidebar__warning-text">
+                                            <p>Hoàn trả trong vòng 60 ngày <br> nếu bạn thay đổi ý định</p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
                         </div>
-                     </div>
-                  </div>
-                  <div class="col-lg-2 col-md-12">
-                     <div class="tpsidebar pb-30">
-                        <div class="tpsidebar__warning mb-30">
-    <ul>
-        <li>
-            <div class="tpsidebar__warning-item">
-                <div class="tpsidebar__warning-icon">
-                    <i class="icon-package"></i>
-                </div>
-                <div class="tpsidebar__warning-text">
-                    <p>Miễn phí vận chuyển áp dụng <br> cho tất cả các đơn hàng trên $90</p>
-                </div>
-            </div>
-        </li>
-        <li>
-            <div class="tpsidebar__warning-item">
-                <div class="tpsidebar__warning-icon">
-                    <i class="icon-shield"></i>
-                </div>
-                <div class="tpsidebar__warning-text">
-                    <p>Đảm bảo 100% hữu cơ <br> từ các trang trại tự nhiên</p>
-                </div>
-            </div>
-        </li>
-        <li>
-            <div class="tpsidebar__warning-item">
-                <div class="tpsidebar__warning-icon">
-                    <i class="icon-package"></i>
-                </div>
-                <div class="tpsidebar__warning-text">
-                    <p>Hoàn trả trong vòng 60 ngày <br> nếu bạn thay đổi ý định</p>
-                </div>
-            </div>
-        </li>
-    </ul>
-</div>
 
                         <div class="tpsidebar__banner mb-30">
                            <img src="../assets/img/shape/sidebar-product-1.png" alt="">
                         </div>
-                        <div class="tpsidebar__product">
-    <h4 class="tpsidebar__title mb-15">Sản phẩm gần đây</h4>
-    <div class="tpsidebar__product-item">
-        <div class="tpsidebar__product-thumb p-relative">
-            <img src="../assets/img/product/sidebar-pro-1.jpg" alt="">
-            <div class="tpsidebar__info bage">
-                <span class="tpproduct__info-hot bage__hot">HOT</span>
-            </div>
-        </div>
-        <div class="tpsidebar__product-content">
-            <span class="tpproduct__product-category">
-                <a href="shop-details-3.html">Trái cây tươi</a>
-            </span>
-            <h4 class="tpsidebar__product-title">
-                <a href="shop-details-3.html">Măng cụt tươi 100% hữu cơ từ Việt Nam</a>
-            </h4>
-            <div class="tpproduct__rating" style="margin:5px;">
-                <a href="#"><i class="icon-star_outline1"></i></a>
-                <a href="#"><i class="icon-star_outline1"></i></a>
-                <a href="#"><i class="icon-star_outline1"></i></a>
-                <a href="#"><i class="icon-star_outline1"></i></a>
-                <a href="#"><i class="icon-star_outline1"></i></a>
-            </div>
-            <div class="tpproduct__price">
-                <span>$56.00</span>
-                <del>$19.00</del>
-            </div>
-        </div>
-    </div>
-    <div class="tpsidebar__product-item">
-        <div class="tpsidebar__product-thumb p-relative">
-            <img src="../assets/img/product/sidebar-pro-2.jpg" alt="">
-            <div class="tpsidebar__info bage">
-                <span class="tpproduct__info-hot bage__hot">HOT</span>
-            </div>
-        </div>
-        <div class="tpsidebar__product-content">
-            <span class="tpproduct__product-category">
-                <a href="shop-details-3.html">Trái cây tươi</a>
-            </span>
-            <h4 class="tpsidebar__product-title">
-                <a href="shop-details-3.html">Măng cụt tươi 100% hữu cơ từ Việt Nam</a>
-            </h4>
-            <div class="tpproduct__rating" style="margin:5px;">
-                <a href="#"><i class="icon-star_outline1"></i></a>
-                <a href="#"><i class="icon-star_outline1"></i></a>
-                <a href="#"><i class="icon-star_outline1"></i></a>
-                <a href="#"><i class="icon-star_outline1"></i></a>
-                <a href="#"><i class="icon-star_outline1"></i></a>
-            </div>
-            <div class="tpproduct__price">
-                <span>$56.00</span>
-                <del>$19.00</del>
-            </div>
-        </div>
-    </div>
-    <div class="tpsidebar__product-item">
-        <div class="tpsidebar__product-thumb p-relative">
-            <img src="../assets/img/product/sidebar-pro-3.jpg" alt="">
-            <div class="tpsidebar__info bage">
-                <span class="tpproduct__info-hot bage__hot">HOT</span>
-            </div>
-        </div>
-        <div class="tpsidebar__product-content">
-            <span class="tpproduct__product-category">
-                <a href="shop-details-3.html">Trái cây tươi</a>
-            </span>
-            <h4 class="tpsidebar__product-title">
-                <a href="shop-details-grid.html">Măng cụt tươi 100% hữu cơ từ Việt Nam</a>
-            </h4>
-            <div class="tpproduct__rating" style="margin:5px;">
-                <a href="#"><i class="icon-star_outline1"></i></a>
-                <a href="#"><i class="icon-star_outline1"></i></a>
-                <a href="#"><i class="icon-star_outline1"></i></a>
-                <a href="#"><i class="icon-star_outline1"></i></a>
-                <a href="#"><i class="icon-star_outline1"></i></a>
-            </div>
-            <div class="tpproduct__price">
-                <span>$56.00</span>
-                <del>$19.00</del>
-            </div>
-        </div>
-    </div>
-</div>
-
                      </div>
                   </div>
                </div>
             </div>
          </section>
 
-        <ProductSlider title='Related Products' option='' fullscreen='true' :hasProcess="false" :slideOnShow='6'/>
+        <ProductSlider title='Sản phẩm tương tự' option='' fullscreen='true' :hasProcess="false" :slideOnShow='5' :products='productByCategory'/>
 </template>
 <style scoped>
 .tpdetails__product {
@@ -569,7 +482,7 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, { route:'shop', nam
     border-radius: 30px;
     display: inline-block;
     border: 1px solid #EBEFF4;
-    padding: 10px 29px;
+    padding: 10px 10px;
     color: var(--tp-text-body);
     cursor: pointer;
 }
@@ -583,8 +496,13 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, { route:'shop', nam
     font: normal normal normal 14px/1 FontAwesome;
     margin-left:5px;
 }
+.cart-minus,.cart-plus{
+    padding:10px;
+   
+}
 
 .product__details-count input {
+    user-select: none;
     background-color: #F3F3F9;
     border: none;
     width: 25px;
@@ -973,5 +891,11 @@ const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, { route:'shop', nam
     .tpsidebar__banner img{
         width:100%;
     }
+}
+
+.tpproduct-details__nab--image{
+    height:430px;
+    object-fit:cover;
+    margin-bottom:40px;
 }
 </style>
