@@ -8,6 +8,14 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 export default function Auth() {
 	const API_BACK_END = apiURL.baseURL;
+	const otpSent = ref(false); 
+	const resetPasswordForm = ref(false);
+	const forgotPasswordForm = reactive({
+        email: '',
+		otp:'',
+		password:'',
+		confirmPassword:'',
+    });
 	const loginForm = reactive({
         phone: '',
         password: '',
@@ -25,7 +33,8 @@ export default function Auth() {
 		confirmPassword: '',
 		referral_code: '',
 		name: '',
-		email: ''
+		email: '',
+		otp:'',
 	});
 	const {
 		checkNumber,
@@ -120,6 +129,7 @@ export default function Auth() {
 				const otp = Math.floor(Math.random() * 900000);
 				const formSignupWithOTP = { ...formSignup, otp };	
 				const response = await axios.post(`${API_BACK_END}send-otp`, formSignupWithOTP);
+				console.log(response.data);
 				if(response.data.status === 'success'){
 					var userJSON = JSON.stringify(response.data.data);
 					var encodedData = btoa(userJSON);
@@ -149,8 +159,8 @@ export default function Auth() {
 					const response = await axios.post(`${API_BACK_END}register`, formSignup);
 					if(response.data.status === 'success'){
 						showErrorPopup('success','Đăng ký thành công',true);
-					//	await router.push({ name: 'login' })
-						window.location.href = 'http://localhost:5173/login';
+						await router.push({ name: 'login' })
+						// window.location.href = 'http://localhost:5173/login';
 					} 
 				} catch (error) {
 					resultOtp.status = false;
@@ -191,9 +201,7 @@ export default function Auth() {
             return;
         }
 		try {
-			console.log('1');
 			const response = await axios.post(`${API_BACK_END}login`, loginForm);
-			console.log(response.data.role);
 			if(response.data.status === 'error'||
 				response.data.role === "Admin"
 			)
@@ -206,16 +214,15 @@ export default function Auth() {
 			// 	token: response.data.accessToken,
 			// });
 			if (response.data.status == 'success') {
-				console.log(response.data);
 				
 				await store.dispatch('setTokenUser', { 'token': response.data.accessToken })
 				await store.dispatch('getUser')
 				await  Swal.fire({
-					position: 'top-end',
+
 					icon: 'success',
 					title: 'Đăng nhập thành công!',
 					showConfirmButton: false,
-					timer: 1500
+					timer: 1000
 				  });
 				
 				await router.push({ name: 'home' })
@@ -226,6 +233,158 @@ export default function Auth() {
 			console.error(error)
 		}
 	}
+	const validateFormForgotPassword = async (forgotPasswordForm) => {
+		let is_flag = true;
+		const re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+		errors.email = '';
+
+		if (forgotPasswordForm.email == "") {
+			errors.email = 'Email không để trống!';
+			is_flag = false;
+		} else if (!re.test(forgotPasswordForm.email)) {
+			errors.email = 'Email không đúng định dạng!';
+			is_flag = false;
+		}
+		
+		
+		return is_flag;
+	}
+
+	const submitForgotPassword = async () => {
+		const status = await validateFormForgotPassword(forgotPasswordForm);
+        if (status == false) {
+            return;
+        }
+		try {
+			const response = await axios.post(`${API_BACK_END}send-otp-user`, forgotPasswordForm);
+			if(response.data.status === 'error'||
+				response.data.role === "Admin"
+			)
+			{
+				showErrorPopup('error','Thông tin không chính xác',true);
+				return;
+			}
+
+			if (response.data.status == 'success') {
+				otpSent.value = true;
+				
+				await  Swal.fire({
+					icon: 'success',
+					title: 'Gửi OTP về email của bạn thành công!',
+					showConfirmButton: false,
+					timer: 1000
+				});
+			}
+			
+		} catch (error) {
+			console.error(error)
+		}
+	}
+
+	const validateFormOTP = async (forgotPasswordForm) => {
+		let is_flag = true;
+		const re = /^[0-9]{6}$/;
+		errors.otp = '';
+
+		if (forgotPasswordForm.otp == "") {
+			errors.email = 'OTP không để trống!';
+			is_flag = false;
+		} else if (!re.test(forgotPasswordForm.otp)) {
+			errors.otp = 'OTP không đúng định dạng!';
+			is_flag = false;
+		}
+		
+		
+		return is_flag;
+	}
+
+	const submitOtp = async () => {
+		const status = await validateFormOTP(forgotPasswordForm);
+        if (status == false) {
+            return;
+        }
+		try {
+			const response = await axios.post(`${API_BACK_END}check-otp`, forgotPasswordForm);
+			if(response.data.status === 'error'||
+				response.data.role === "Admin"
+			)
+			{
+				showErrorPopup('error','Thông tin không chính xác',true);
+				return;
+			}
+
+			if (response.data.status == 'success') {
+				
+				await  Swal.fire({
+					icon: 'success',
+					title: 'Xác thực OTP thành công!',
+					showConfirmButton: false,
+					timer: 1000
+				});
+				resetPasswordForm.value = true;
+			}
+			
+		} catch (error) {
+			console.error(error)
+		}
+	}
+
+	const validateNewPassword = async (forgotPasswordForm) => {
+		let is_flag = true;
+		
+		errors.password = '';
+		errors.confirmPassword = '';
+
+		if (forgotPasswordForm.password === "") {
+			errors.password = 'Mật khẩu không để trống!';
+			is_flag = false;
+		} else if (forgotPasswordForm.password.length < 8) {
+			errors.password = 'Mật khẩu phải có ít nhất 8 ký tự!';
+			is_flag = false;
+		}
+	
+		// Confirm password must match password
+		if (forgotPasswordForm.confirmPassword === "") {
+			errors.confirmPassword = 'Xác nhận mật khẩu không để trống!';
+			is_flag = false;
+		} else if (forgotPasswordForm.password !== forgotPasswordForm.confirmPassword) {
+			errors.confirmPassword = 'Mật khẩu không khớp!';
+			is_flag = false;
+		}
+		
+		return is_flag;
+	}
+	const submitNewPassword = async () => {
+		const status = await validateNewPassword(forgotPasswordForm);
+        if (status == false) {
+            return;
+        }
+		try {
+			const response = await axios.post(`${API_BACK_END}new-password`, forgotPasswordForm);
+			if(response.data.status === 'error'||
+				response.data.role === "Admin"
+			)
+			{
+				showErrorPopup('error','Không cập nhật được mật khẩu',true);
+				return;
+			}
+
+			if (response.data.status == 'success') {
+				
+				await  Swal.fire({
+					icon: 'success',
+					title: 'Cập nhật mật khẩu thành công!',
+					showConfirmButton: false,
+					timer: 1000
+				});
+				await router.push({ name: 'login' })
+			}
+			
+		} catch (error) {
+			console.error(error)
+		}
+	}
+	
 	const logout = async () => {
         const headers = {
             'accept': 'application/json',
@@ -235,6 +394,12 @@ export default function Auth() {
             const { data } = await axios.post(`${API_BACK_END}auth/logout `, {}, { headers: headers });
             if (data.status == 'success') {
                 await store.dispatch('logout')
+				await  Swal.fire({
+					icon: 'success',
+					title: 'Đăng xuất thành công',
+					showConfirmButton: false,
+					timer: 1000
+				});
 				await router.push({ name: 'login' })
             }
         } catch ({ res }) {
@@ -260,6 +425,12 @@ export default function Auth() {
 		errors,
 		resultOtp,
 		submitResgiter,
-		editUserInfo
+		editUserInfo,
+		forgotPasswordForm,
+		submitForgotPassword,
+		otpSent,
+		submitOtp,
+		resetPasswordForm,
+		submitNewPassword,
 	}
 }

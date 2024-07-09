@@ -6,7 +6,8 @@ import store from '../stores/global.js';
 import auth from '../stores/auth.js'
 import { useRouter } from "vue-router";
 import apiURL  from "../connect.js";
-
+import Auth from '@/api/auth/index.js';
+const{logout } = Auth();
 const router = useRouter();
 const API_BACK_END = apiURL.URL;
 const isMenuOpen = ref(false);
@@ -16,24 +17,6 @@ const props = defineProps({
 const isCartMenuOpen = ref(false);
 const isHeaderSticky = ref(false)
 const isSearchBarOpened = ref(false)
-const isTopPriceOpened = ref(false)
-const currencies = ['USD', 'ARS', 'AUD', 'BRL', 'GBP', 'DKK', 'EUR']
-const languages = [
-  { code: 'en', name: 'Tiếng Anh' },
-  { code: 'au', name: 'Úc' },
-  { code: 'es', name: 'Tây Ban Nha' },
-  { code: 'br', name: 'Brazil' },
-  { code: 'fr', name: 'Pháp' },
-  { code: 'us', name: 'Hoa Kỳ' }
-]
-
-const language = ref('en')
-const selectedCurrency = ref('USD');
-
-const currentLanguage = computed(() => {
-  const foundLanguage = languages.find((item) => item.code === language.value)
-  return foundLanguage ? foundLanguage.name : 'Tiếng Anh'
-})
 
 const openSearchBar = () => {
   isSearchBarOpened.value = true
@@ -114,25 +97,12 @@ onUnmounted(() => {
                 <a href="#">Vị trí cửa hàng</a>
                 <a href="#">Theo dõi đơn hàng</a>
                 <a href="faq.html">FAQs</a>
-              </div>
-              <div class="header__lang">
-                <span class="header__lang-select">
-                  {{ currentLanguage }} <i class="fa fa-chevron-down"></i>
-                </span>
-                <ul class="header__lang-submenu">
-                  <li v-for="(lang, index) in languages" :key="index">
-                    <a href="#" @click="changeLanguage(lang)">{{ lang.name }}</a>
-                  </li>
-                </ul>
-              </div>
-              <div class="header__top-price">
-                <select
-                  v-model="selectedCurrency"
-                  @click="toggleTopPriceSelect"
-                  class="nice-select"
-                >
-                  <option v-for="currency in currencies" :value="currency">{{ currency }}</option>
-                </select>
+              </div> 
+              <div class="header__logout">
+                <form @submit.prevent="logout">
+                  
+                  <button type="submit" class="header__logout-button"> Đăng xuất <i class="fa-solid fa-right-from-bracket header__logout-icon"></i></button>
+                </form>
               </div>
             </div>
           </div>
@@ -560,89 +530,6 @@ onUnmounted(() => {
   color: var(--tp-heading-secondary);
 }
 
-.header__lang {
-  position: relative;
-  z-index: 99;
-  padding: 7px 0;
-}
-
-.header__lang-select {
-  font-size: 13px;
-  color: var(--tp-common-white);
-  padding-left: 15px;
-  margin-left: 15px;
-  position: relative;
-}
-
-.header__lang-select::before {
-  position: absolute;
-  content: '';
-  left: 0;
-  background-color: #5e5aa3;
-  height: 15px;
-  width: 1px;
-  top: 50%;
-  transform: translateY(-50%);
-}
-.header__lang-select i {
-  font-size: 14px;
-  margin-left: 2px;
-  color: #b0afcc;
-  font-family: 'Font Awesome 5 Pro';
-}
-.header__lang-submenu {
-  position: absolute;
-  top: 110%;
-  left: 0px;
-  width: 120px;
-  background: var(--tp-common-white);
-  z-index: 9;
-  padding: 14px 16px;
-  border-radius: 4px;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.3s ease-out 0s;
-  box-shadow: 0px 8px 20px rgba(61, 110, 168, 0.1);
-  border-radius: 0px 0px 5px 5px;
-}
-.header__lang-submenu li {
-  list-style: none;
-  margin-bottom: 5px;
-}
-.header__lang-submenu li a {
-  font-size: 14px;
-  font-weight: 400;
-  color: inherit;
-}
-.header__lang-submenu li a:hover {
-  color: var(--tp-heading-secondary);
-}
-.header__lang:hover .header__lang-select {
-  opacity: 1;
-  visibility: visible;
-  top: 100%;
-}
-.header__lang:hover .header__lang-submenu {
-  visibility: visible;
-  opacity: 1;
-  transform: perspective(400px) rotateX(0deg);
-}
-.header__top-price .nice-select {
-  background: var(--tp-heading-primary);
-  color: #fff;
-  border: none;
-  font-size: 13px;
-  height: 40px;
-  width: 85px;
-  padding-right: 16px;
-  font-weight: 400;
-  margin-left: 5px;
-}
-
-.header__top-price .nice-select .option {
-  margin-bottom: -13px;
-  cursor: pointer;
-}
 
 .main-menu ul li.has-homemenu {
   position: static;
@@ -1002,5 +889,23 @@ onUnmounted(() => {
 }
 .main-menu.three ul li a {
   padding: 22px 20px;
+}
+
+.header__logout-button {
+  color: var(--tp-common-white);
+  display: inline-block;
+  font-size: 14px;
+  margin-left: 14px;
+  cursor: pointer;
+  padding:10px 15px;
+}
+
+.header__logout-button:hover {
+  color: var(--tp-heading-secondary);
+}
+.header__logout-icon:before  {
+  padding-left:5px;
+  content: "\f2f5";
+  font: normal normal normal 14px/1 FontAwesome;
 }
 </style>
