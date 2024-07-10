@@ -83,9 +83,8 @@ import store from '../stores/index.js';
  <!-- HomePage Weekly Product -->
          <ProductSlider title='Sản phẩm Hot' option='Xem tất cả' fullscreen='' :hasProcess="true" :slideOnShow='5' :products='store.state.global.product'/>
          <HomeBannerSection/>
-         <ProductSlider title='Sản phẩm theo thương hiệu' option='Tất cả\Herbest' fullscreen='' :hasProcess="true" :slideOnShow='5' :products='store.state.global.product'/>
          <HomeBigBannerSection/>
-         <HomeBrandProduct/>
+         <HomeBrandProduct :brandId="1"/>
          <HomeReviewSlider/>
          <HomeCartArea/>
          <HomeBlogArea/>

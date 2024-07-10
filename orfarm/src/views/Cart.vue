@@ -90,14 +90,7 @@ const formatCurrency = (value) => {
       }).format(value);
       return `${formattedNumber} VND`;
     };
-const updateAllCarts = async (event) => {
-    event.preventDefault();
-    const carts = globalStore.value.cart;
-    for (const cart of carts) {
-        await store.dispatch('updateCart', { id: cart.id, amount: cart.amount });
-    }
-    store.dispatch('getCart');
-}
+
 
 </script>
 
@@ -179,15 +172,7 @@ const updateAllCarts = async (event) => {
                       Áp dụng mã giảm giá
                     </button>
                   </div>
-                  <div class="coupon2">
-                    <button
-                      class="tp-btn tp-color-btn banner-animation"
-                      name="update_cart" 
-                     @click="updateAllCarts($event)"
-                    >
-                      Cập nhật giỏ hàng
-                    </button>
-                  </div>
+                 
                 </div>
               </div>
             </div>

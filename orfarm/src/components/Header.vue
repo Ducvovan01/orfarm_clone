@@ -108,7 +108,9 @@ const deleteCart = async (id) => {
     }
 };
 
-
+const routeForward = ($route) =>{
+  router.push({ name: $route });
+}
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
 })
@@ -509,8 +511,8 @@ onUnmounted(() => {
                    <span class="heilight-price"> {{ formatCurrency(total) }}</span>
                 </div>
                 <div class="tpcart__checkout-btn">
-                   <a class="tpcart-btn mb-10" href="/cart">Xem Giỏ Hàng</a>
-                   <a class="tpcheck-btn" href="/checkout">Thanh Toán</a>
+                   <a class="tpcart-btn mb-10" href="#" @click.prevent="routeForward('cart')" >Xem Giỏ Hàng</a>
+                   <a class="tpcheck-btn" href="#" @click.prevent="routeForward('checkout')">Thanh Toán</a>
                 </div>
              </div>
           </div>
@@ -622,6 +624,7 @@ onUnmounted(() => {
 }
 
 .main-menu ul li.has-dropdown:hover .sub-menu {
+  justify-content:center;
   visibility: visible;
   opacity: 1;
   top: 100%;
