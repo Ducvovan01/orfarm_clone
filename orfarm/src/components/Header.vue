@@ -23,13 +23,17 @@ const openSearchBar = () => {
 
 
 const globalStore = ref(store.state.global);
+
 const total = computed(() => {
   let totalValue = 0;
-  if( globalStore.value.cart){
-    globalStore.value.cart.forEach(item => {
-    totalValue += item.product.price * item.amount;
-  });
+  const cartItems = globalStore.value.cart; 
+
+  if (cartItems && Array.isArray(cartItems)) { 
+    cartItems.forEach(item => {
+      totalValue += item.product.price * item.amount;
+    });
   }
+
   return totalValue;
 });
 
@@ -84,7 +88,7 @@ const formatCurrency = (value) => {
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
 })
-console.log(store.state.global.cart);
+
 </script>
 
 <template>

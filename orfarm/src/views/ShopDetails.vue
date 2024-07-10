@@ -12,9 +12,9 @@ const productByCategory = ref('');
 const productId = new URLSearchParams(window.location.search).get('product');
 
 const cart = reactive({
-    id: productId,
+    product_id: productId,
     amount: 1,
-    userId: store.state.auth.user.id,
+    user_id: store.state.auth.user.id,
 })
 
 const minusQuantity = () => {
@@ -26,6 +26,7 @@ const minusQuantity = () => {
 const plusQuantity = (item) => {
     cart.amount++;
 };
+
 
 const fetchProduct = async () => {
     try {
@@ -57,6 +58,18 @@ const fetchProductByCategory = async () => {
     }
 };
 
+const addCart = async () => {
+    try {
+        const response = await axios.post(`${API_BACK_END}cart`,cart);
+        if (response.data.status === 'success') {
+            store.dispatch('getCart');
+        } else {
+            console.error('Failed to fetch product data');
+        }
+    } catch (error) {
+        console.error('Error fetching product data:', error);
+    }
+};
 
 
 const formatCurrency = (value) => {
@@ -137,11 +150,11 @@ onMounted(async () => {
                                         <b>Số lượng:</b>
                                         <div class="product__details-count mr-10">
                                         <span class="cart-minus" @click="minusQuantity"><i class="far fa-minus"></i></span>
-                                        <input class="tp-cart-input" type="text" :value="cart.quantity">
+                                        <input class="tp-cart-input" type="text" :value="cart.amount">
                                         <span class="cart-plus" @click="plusQuantity"><i class="far fa-plus"></i></span>
                                         </div>
-                                        <div class="product__details-btn">
-                                        <a href="cart.html">Thêm vào giỏ</a>
+                                        <div class="product__details-btn" @click='addCart'>
+                                        <a href="#">Thêm vào giỏ</a>
                                         </div>
                                     </div>
                                     <ul class="product__details-check">
