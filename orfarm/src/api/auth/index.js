@@ -1,7 +1,7 @@
 import { useRouter } from "vue-router";
 import { ref, reactive, inject } from 'vue'
 import { useStore } from 'vuex';
-import store from '../../stores/auth.js';
+import store from '../../stores/index.js';
 import validator from "../validator/validator.js";
 import apiURL  from "../../connect.js";
 import axios from 'axios';
@@ -217,8 +217,8 @@ export default function Auth() {
 				
 				await store.dispatch('setTokenUser', { 'token': response.data.accessToken })
 				await store.dispatch('getUser')
+				await store.dispatch('getCart')
 				await  Swal.fire({
-
 					icon: 'success',
 					title: 'Đăng nhập thành công!',
 					showConfirmButton: false,

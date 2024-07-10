@@ -2,8 +2,7 @@
 import HeaderSearch from './HeaderSearch.vue'
 import { ref, computed } from 'vue'
 import { defineProps,onMounted, onUnmounted  } from 'vue';
-import store from '../stores/global.js';
-import auth from '../stores/auth.js'
+import store from '../stores/index.js';
 import { useRouter } from "vue-router";
 import apiURL  from "../connect.js";
 import Auth from '@/api/auth/index.js';
@@ -22,9 +21,18 @@ const openSearchBar = () => {
   isSearchBarOpened.value = true
 }
 
-const changeLanguage = (lang) => {
-  language.value = lang.code
-}
+
+const globalStore = ref(store.state.global);
+const total = computed(() => {
+  let totalValue = 0;
+  if( globalStore.value.cart){
+    globalStore.value.cart.forEach(item => {
+    totalValue += item.product.price * item.amount;
+  });
+  }
+  return totalValue;
+});
+
 
 const closeSearchBar = () => {
   isSearchBarOpened.value = false
@@ -55,7 +63,7 @@ const toggleCartMenu = () => {
 }
  
 const openUserDetail = () => {
-  if (!auth.state.user || Object.keys(auth.state.user).length === 0) {
+  if (!store.state.user || Object.keys(store.state.user).length === 0) {
     router.push({ name: 'login' });
   }
 };
@@ -76,6 +84,7 @@ const formatCurrency = (value) => {
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
 })
+console.log(store.state.global.cart);
 </script>
 
 <template>
@@ -141,7 +150,7 @@ onUnmounted(() => {
                            </div>
                            <div class="header__info-cart tpcolor__oasis ml-10 tp-cart-toggle" @click='toggleCartMenu'>
                               <button><i><img src="../assets/img/icon/cart-1.svg" alt=""></i>
-                                 <span>{{store.state.cart.length??'0'}}</span>
+                                 <span>{{store.state?.global?.cart?.length??'0'}}</span>
                               </button>
                            </div>
                         </div>
@@ -425,7 +434,7 @@ onUnmounted(() => {
                 <div class="header__info-cart tpcolor__oasis ml-10 tp-cart-toggle"  @click='toggleCartMenu'>
                   <button class="header__info-button">
                     <i><img src="../assets/img/icon/cart-1.svg" alt="" /></i>
-                    <span>{{store.state.cart.length??'0'}}</span>
+                    <span>{{store.state?.global?.cart?.length??'0'}}</span>
                   </button>
                 </div>
               </div>
@@ -445,7 +454,7 @@ onUnmounted(() => {
           <div class="tpcart__product">
              <div class="tpcart__product-list">
               <ul>
-                <li v-for="item in store.state.cart" :key="item.id">
+                <li v-for="item in store.state.global.cart" :key="item.id">
                   <div class="tpcart__item">
                     <div class="tpcart__img">
                       <img :src="getImageUrl(item.product.images[0].image_path)" alt="" />
@@ -469,7 +478,7 @@ onUnmounted(() => {
              <div class="tpcart__checkout">
                 <div class="tpcart__total-price d-flex justify-content-between align-items-center">
                    <span> Tổng Tiền:</span>
-                   <span class="heilight-price"> {{ formatCurrency(60000) }}</span>
+                   <span class="heilight-price"> {{ formatCurrency(total) }}</span>
                 </div>
                 <div class="tpcart__checkout-btn">
                    <a class="tpcart-btn mb-10" href="/cart">Xem Giỏ Hàng</a>

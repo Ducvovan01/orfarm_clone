@@ -1,29 +1,30 @@
 <script setup>
 import BreadCrumb from '@/components/BreadCrumb.vue'
 import ProductSlider from '@/components/ProductSlider.vue'
-import { defineProps,onMounted,ref } from 'vue';
+import { defineProps,onMounted,ref, reactive } from 'vue';
 import axios from 'axios';
 import apiURL  from "../connect.js";
-import store from '../stores/auth.js';
+import store from '../stores/index.js';
 const API_BACK_END = apiURL.baseURL;
 const API_BACK_END_SUB = apiURL.URL;
 const productInfor = ref('');
-const  productByCategory = ref('');
+const productByCategory = ref('');
 const productId = new URLSearchParams(window.location.search).get('product');
-const cart = ref({
+
+const cart = reactive({
     id: productId,
-    quantity: 1,
-    userId: store.state.user,
+    amount: 1,
+    userId: store.state.auth.user.id,
 })
 
 const minusQuantity = () => {
-    if (cart.value.quantity > 1) {
-        cart.value.quantity--;
+    if (cart.amount > 1) {
+        cart.amount--;
     }
 };
 
 const plusQuantity = (item) => {
-    cart.value.quantity++;
+    cart.amount++;
 };
 
 const fetchProduct = async () => {

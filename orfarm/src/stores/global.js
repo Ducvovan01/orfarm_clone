@@ -2,7 +2,7 @@ import Vuex from 'vuex';
 import axios from 'axios';
 import apiURL from '../connect';
 
-const store = new Vuex.Store({
+const store = {
     state: {
         cart: {},
         product: {},
@@ -101,5 +101,5 @@ const store = new Vuex.Store({
         },     
        
     }
-});
+};
 export default store;

@@ -1,24 +1,26 @@
 <script setup>
 import BreadCrumb from '@/components/BreadCrumb.vue'
 import { computed, ref } from 'vue'
-import store from '../stores/global.js';
+import store from '../stores/index.js';
 import { mapState } from 'vuex';
 import apiURL  from "../connect.js";
 const API_BACK_END = apiURL.URL;
 const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, { name: 'Giỏ Hàng' }]
 
-const globalStore = ref(store.state);
+const globalStore = ref(store.state.global);
 const total = computed(() => {
   let totalValue = 0;
-  globalStore.value.cart.forEach(item => {
+  if( globalStore.value.cart){
+    globalStore.value.cart.forEach(item => {
     totalValue += item.product.price * item.amount;
   });
+  }
   return totalValue;
 });
 
 
 const minusQuantity = (item) => {
-  const foundItem = store.state.cart.find(p => p.id === item.id);
+  const foundItem = store.state.global.cart.find(p => p.id === item.id);
   if (foundItem && foundItem.amount > 1) {
     foundItem.amount--;
    
@@ -27,12 +29,13 @@ const minusQuantity = (item) => {
 
 // Function to increase quantity
 const plusQuantity = (item) => {
-  const foundItem = store.state.cart.find(p => p.id === item.id);
+  const foundItem = store.state.global.cart.find(p => p.id === item.id);
   if (foundItem) {
     foundItem.amount++;
   
   }
 };
+
 const getImageUrl = (imagePath) => {
       return `${API_BACK_END}/${imagePath}`;
     };
@@ -78,8 +81,8 @@ const deleteCart = (cartId) => {
                     <th class="product-remove">Xóa</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr v-for="(item, index) in store.state.cart" :key="index">
+                <tbody v-if='store.state.global.cart'>
+                  <tr v-for="(item, index) in store.state.global.cart" :key="index">
                     <td class="product-thumbnail">
                       <a :href="'product-details?id=' + item.product.id">
                         <img :src="getImageUrl(item.product.images[0].image_path)" :alt="item.product.name" />
@@ -103,6 +106,16 @@ const deleteCart = (cartId) => {
                     </td>
                     <td class="product-remove" @click="deleteCart(item.id)">
                       <a href="#"><i class="fa fa-times"></i></a>
+                    </td>
+                  </tr>
+                </tbody>
+                <tbody v-else>
+                  <tr>
+                    <td class="product-thumbnail" colspan="6" style="text-align: center; padding-top:50px; padding-bottom:50px;">
+                      <img src="../assets/img/shape/erorr-bg.png" alt="">
+                      <br/>
+                      Hiện tại chưa có sản phẩm nào trong giỏ hàng
+                    
                     </td>
                   </tr>
                 </tbody>

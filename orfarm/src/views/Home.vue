@@ -7,7 +7,7 @@ import HomeBrandProduct from '@/components/HomeBrandProduct.vue'
 import HomeReviewSlider from '@/components/HomeReviewSlider.vue'
 import HomeCartArea from '@/components/HomeCartArea.vue'
 import HomeBlogArea from '@/components/HomeBlogArea.vue'
-import store from '../stores/global.js';
+import store from '../stores/index.js';
 
 </script>
 
@@ -81,9 +81,9 @@ import store from '../stores/global.js';
    </div>
 </section>
  <!-- HomePage Weekly Product -->
-         <ProductSlider title='Sản phẩm Hot' option='Xem tất cả' fullscreen='' :hasProcess="true" :slideOnShow='5' :products='store.state.product'/>
+         <ProductSlider title='Sản phẩm Hot' option='Xem tất cả' fullscreen='' :hasProcess="true" :slideOnShow='5' :products='store.state.global.product'/>
          <HomeBannerSection/>
-         <ProductSlider title='Sản phẩm theo thương hiệu' option='Tất cả\Herbest' fullscreen='' :hasProcess="true" :slideOnShow='5' :products='store.state.product'/>
+         <ProductSlider title='Sản phẩm theo thương hiệu' option='Tất cả\Herbest' fullscreen='' :hasProcess="true" :slideOnShow='5' :products='store.state.global.product'/>
          <HomeBigBannerSection/>
          <HomeBrandProduct/>
          <HomeReviewSlider/>
