@@ -11,6 +11,7 @@ import Wishlist from '../views/Wishlist.vue';
 import NotFound from '../views/NotFound.vue';
 import Home from '../views/Home.vue';
 import Register from '../views/Register.vue';
+import User from '../views/User.vue';
 import ForgotPassword from '../views/ForgotPassword.vue';
 import store from '../stores/auth.js';
 import { useStore} from "vuex"
@@ -75,6 +76,11 @@ const routes = [
     path: '/404',
     name: 'not-found',
     component: NotFound
+  },
+  {
+    path: '/user',
+    name: 'user',
+    component: User,
   },
   {
     path: '/:catchAll(.*)',

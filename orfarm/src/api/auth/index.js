@@ -35,6 +35,7 @@ export default function Auth() {
 		name: '',
 		email: '',
 		otp:'',
+		address:'',
 	});
 	const {
 		checkNumber,
@@ -229,7 +230,7 @@ export default function Auth() {
 			}
 			
 		} catch (error) {
-			// throw handleError(error);
+			errors.phone='Tài khoản/mật khẩu không đúng'
 			console.error(error)
 		}
 	}

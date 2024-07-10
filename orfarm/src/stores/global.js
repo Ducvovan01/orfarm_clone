@@ -4,7 +4,7 @@ import apiURL from '../connect';
 
 const store = {
     state: {
-        cart: {},
+        cart: [],
         product: {},
     },
     getters: {

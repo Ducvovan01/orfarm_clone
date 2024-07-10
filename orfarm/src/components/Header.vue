@@ -6,6 +6,9 @@ import store from '../stores/index.js';
 import { useRouter } from "vue-router";
 import apiURL  from "../connect.js";
 import Auth from '@/api/auth/index.js';
+import axios from 'axios';
+import Swal from 'sweetalert2';
+const API_BACK_END_V1 =apiURL.baseURL;
 const{logout } = Auth();
 const router = useRouter();
 const API_BACK_END = apiURL.URL;
@@ -67,8 +70,10 @@ const toggleCartMenu = () => {
 }
  
 const openUserDetail = () => {
-  if (!store.state.user || Object.keys(store.state.user).length === 0) {
+  if (!store.state.auth.user || Object.keys(store.state.auth.user).length === 0) {
     router.push({ name: 'login' });
+  }else{
+    router.push({name:'user'});
   }
 };
 
@@ -82,7 +87,26 @@ const formatCurrency = (value) => {
         maximumFractionDigits: 0
       }).format(value);
       return `${formattedNumber} VND`;
-    };
+};
+
+const deleteCart = async (id) => {
+    try {
+        const response = await axios.delete(`${API_BACK_END_V1}cart/${id}`);
+        if (response.data.status === 'success') {
+            store.dispatch('getCart');
+            await  Swal.fire({
+					icon: 'success',
+					title: 'Đã xóa sản phẩm khỏi giỏ hàng!',
+					showConfirmButton: false,
+					timer: 1000 
+			});
+        } else {
+            console.error('Failed to fetch product data');
+        }
+    } catch (error) {
+        console.error('Error fetching product data:', error);
+    }
+};
 
 
 onUnmounted(() => {
@@ -472,7 +496,7 @@ onUnmounted(() => {
                         <span class="new-price">{{ formatCurrency(item.product.price) }}</span>
                       </div>
                       <div class="tpcart__del">
-                        <a href="#"><i class="icon-x-circle"></i></a>
+                        <a href="#" @click.prevent='deleteCart(item.id)'><i class="icon-x-circle"></i></a>
                       </div>
                     </div>
                   </div>
@@ -920,5 +944,13 @@ onUnmounted(() => {
   padding-left:5px;
   content: "\f2f5";
   font: normal normal normal 14px/1 FontAwesome;
+}
+.tpcart__del{
+  position:absolute;
+  top:15px;
+  right:-5px;
+}
+.tpcart__product-list ul li {
+  position:relative;
 }
 </style>

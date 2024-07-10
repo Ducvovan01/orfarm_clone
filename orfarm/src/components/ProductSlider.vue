@@ -2,7 +2,12 @@
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Autoplay } from 'swiper/modules';
 import apiURL  from "../connect.js";
+import Swal from 'sweetalert2';
+import store from '../stores/index.js';
+import { defineProps,onMounted,ref, reactive } from 'vue';
+import axios from 'axios';
 const API_BACK_END = apiURL.URL;
+const API_BACK_END_V1 =apiURL.baseURL;
 const props = defineProps({
     title: {
     type: String,
@@ -24,6 +29,33 @@ const props = defineProps({
     type:Array,
   }
 });
+
+const cart = reactive({
+    product_id: '',
+    amount: 1,
+    user_id: store.state.auth.user.id,
+})
+
+const addCart = async (id) => {
+    try {
+        cart.product_id = id;
+        const response = await axios.post(`${API_BACK_END_V1}cart`,cart);
+        if (response.data.status === 'success') {
+            store.dispatch('getCart');
+            await  Swal.fire({
+					icon: 'success',
+					title: 'Thêm sản phẩm vào giỏ hàng thành công!',
+					showConfirmButton: false,
+					timer: 1000 
+			});
+        } else {
+            console.error('Failed to fetch product data');
+        }
+    } catch (error) {
+        console.error('Error fetching product data:', error);
+    }
+};
+
 
 const haveMultiOption = (param)=>{
     if(param.includes('\\')){
@@ -152,8 +184,8 @@ const formatCurrency = (value) => {
                                         </div>
                                     </div>
                                     <div class="tpproduct__hover-text">
-                                        <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
-                                            <a class="tp-btn-2" href="cart.html">Thêm vào giỏ</a>
+                                        <div class="tpproduct__hover-btn d-flex justify-content-center mb-10" >
+                                            <a class="tp-btn-2" href="#" @click.prevent="addCart(product.id)">Thêm vào giỏ</a>
                                         </div>
                                         <div class="tpproduct__descrip">
                                             <ul>
