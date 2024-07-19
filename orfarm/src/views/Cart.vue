@@ -5,7 +5,10 @@ import store from '../stores/index.js';
 import { mapState } from 'vuex';
 import axios from 'axios';
 import apiURL  from "../connect.js";
-import Swal from 'sweetalert2';
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css';
+
+const notyf = new Notyf();
 const API_BACK_END = apiURL.URL;
 const API_BACK_END_V1 = apiURL.baseURL;
 const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, { name: 'Giỏ Hàng' }]
@@ -48,7 +51,7 @@ const deleteCartItem = async (itemId) => {
       showAlert('success', 'Đã xóa sản phẩm khỏi giỏ hàng!');
       store.dispatch('getCart');
     } else {
-      console.error('Failed to delete cart item');
+      showAlert('error','Failed to delete cart item');
     }
   } catch (error) {
     console.error('Error deleting cart item:', error);
@@ -62,7 +65,7 @@ const updateCartItem = async (cart) => {
       showAlert('success', 'Thay đổi số lượng thành công!');
       store.dispatch('getCart');
     } else {
-      console.error('Failed to update cart item');
+      showAlert('error','Failed to update cart item');
     }
   } catch (error) {
     console.error('Error updating cart item:', error);
@@ -70,12 +73,26 @@ const updateCartItem = async (cart) => {
 };
 
 const showAlert = async (icon, title) => {
-  await Swal.fire({
-    icon: icon,
-    title: title,
-    showConfirmButton: false,
-    timer: 1000,
-  });
+  if(icon == 'success'){
+    await  notyf.success({
+					message: title,
+					duration: 2000,
+					position: {
+						x: 'right',
+						y: 'top',
+					  },
+				  });
+  }else{
+    await  notyf.error({
+					message: title,
+					duration: 2000,
+					position: {
+						x: 'right',
+						y: 'top',
+					  },
+				  });
+  }
+ 
 };
 
 const getImageUrl = (imagePath) => {

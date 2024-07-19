@@ -2,10 +2,12 @@
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Autoplay } from 'swiper/modules';
 import apiURL  from "../connect.js";
-import Swal from 'sweetalert2';
 import store from '../stores/index.js';
 import { defineProps,onMounted,ref, reactive } from 'vue';
 import axios from 'axios';
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css';
+const notyf = new Notyf();
 const API_BACK_END = apiURL.URL;
 const API_BACK_END_V1 =apiURL.baseURL;
 const props = defineProps({
@@ -42,12 +44,14 @@ const addCart = async (id) => {
         const response = await axios.post(`${API_BACK_END_V1}cart`,cart);
         if (response.data.status === 'success') {
             store.dispatch('getCart');
-            await  Swal.fire({
-					icon: 'success',
-					title: 'Thêm sản phẩm vào giỏ hàng thành công!',
-					showConfirmButton: false,
-					timer: 1000 
-			});
+         await  notyf.success({
+					message: 'Thêm sản phẩm vào giỏ hàng thành công!',
+					duration: 2000,
+					position: {
+						x: 'right',
+						y: 'top',
+					  },
+				  });
         } else {
             console.error('Failed to fetch product data');
         }
@@ -94,7 +98,7 @@ const formatCurrency = (value) => {
       <section class="weekly-product-area whight-product" :class="fullscreen ? 'pt-75 pb-80' : 'grey-bg'">
          <div :class="{ container: !isValidOption(fullscreen) }">
             <div class="sections__wrapper white-bg pr-50 pl-50">
-               <div class="row align-items-center">
+               <div class="row align-items-center brand-product-title-container" :class=" fullscreen ?? 'fullscreen'">
                   <div class="col-md-6 text-center">
                      <div class="tpsection mb-15">
                            <div class="tpnavtab__area tpnavtab__newitem" v-if="haveMultiOption(title)">
@@ -230,6 +234,9 @@ const formatCurrency = (value) => {
  }
  .brand-product-title {
     font-size: 22px;
+ }
+ .brand-product-title-container.true{
+   margin: 0 7%;
  }
  
  .tpproduct__all-item a {

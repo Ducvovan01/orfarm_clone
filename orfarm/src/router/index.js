@@ -25,7 +25,8 @@ const routes = [
   {
     path: '/shop-details',
     name: 'shop-details',
-    component: ShopDetails
+    component: ShopDetails,
+    props: true
   },
   {
     path: '/shop-left-sidebar',

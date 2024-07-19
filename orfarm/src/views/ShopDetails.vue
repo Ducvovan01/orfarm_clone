@@ -6,12 +6,14 @@ import axios from 'axios';
 import apiURL  from "../connect.js";
 import store from '../stores/index.js';
 import Swal from 'sweetalert2';
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css';
 const API_BACK_END = apiURL.baseURL;
 const API_BACK_END_SUB = apiURL.URL;
 const productInfor = ref('');
 const productByCategory = ref('');
 const productId = new URLSearchParams(window.location.search).get('product');
-
+const notyf = new Notyf();
 const cart = reactive({
     product_id: productId,
     amount: 1,
@@ -64,12 +66,15 @@ const addCart = async () => {
         const response = await axios.post(`${API_BACK_END}cart`,cart);
         if (response.data.status === 'success') {
             store.dispatch('getCart');
-            await  Swal.fire({
-					icon: 'success',
-					title: 'Thêm sản phẩm vào giỏ hàng thành công!',
-					showConfirmButton: false,
-					timer: 1000
-			});
+            await  notyf.success({
+					message: 'Thêm sản phẩm vào giỏ hàng thành công!',
+					duration: 2000,
+					position: {
+						x: 'right',
+						y: 'top',
+					  },
+				  });
+          
         } else {
             console.error('Failed to fetch product data');
         }

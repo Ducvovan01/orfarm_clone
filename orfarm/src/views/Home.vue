@@ -7,8 +7,7 @@ import HomeBrandProduct from '@/components/HomeBrandProduct.vue'
 import HomeReviewSlider from '@/components/HomeReviewSlider.vue'
 import HomeCartArea from '@/components/HomeCartArea.vue'
 import HomeBlogArea from '@/components/HomeBlogArea.vue'
-import store from '../stores/index.js';
-
+import store from '../stores/index.js'
 </script>
 
 <template>

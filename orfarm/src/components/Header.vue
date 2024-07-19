@@ -7,7 +7,9 @@ import { useRouter } from "vue-router";
 import apiURL  from "../connect.js";
 import Auth from '@/api/auth/index.js';
 import axios from 'axios';
-import Swal from 'sweetalert2';
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css';
+const notyf = new Notyf();
 const API_BACK_END_V1 =apiURL.baseURL;
 const{logout } = Auth();
 const router = useRouter();
@@ -94,12 +96,14 @@ const deleteCart = async (id) => {
         const response = await axios.delete(`${API_BACK_END_V1}cart/${id}`);
         if (response.data.status === 'success') {
             store.dispatch('getCart');
-            await  Swal.fire({
-					icon: 'success',
-					title: 'Đã xóa sản phẩm khỏi giỏ hàng!',
-					showConfirmButton: false,
-					timer: 1000 
-			});
+            await  notyf.success({
+					message: 'Đã xóa sản phẩm khỏi giỏ hàng!',
+					duration: 2000,
+					position: {
+						x: 'right',
+						y: 'top',
+					  },
+				  });
         } else {
             console.error('Failed to fetch product data');
         }
@@ -107,6 +111,10 @@ const deleteCart = async (id) => {
         console.error('Error fetching product data:', error);
     }
 };
+
+const goToShopDetail = (id) =>{ 
+  router.push({ name: 'shop-details',params: { product: id } });
+}
 
 const routeForward = ($route) =>{
   router.push({ name: $route });
@@ -449,7 +457,7 @@ onUnmounted(() => {
               </div>
             </div>
             <div class="col-xl-3">
-              <div class="header__info d-flex align-items-center">
+              <div class="header__info d-flex align-items-center ">
                 <div class="header__info-search tpcolor__purple ml-10">
                   <button class="tp-search-toggle" @click="openSearchBar">
                     <i class="icon-search"></i>
@@ -491,7 +499,7 @@ onUnmounted(() => {
                     </div>
                     <div class="tpcart__content">
                       <span class="tpcart__content-title">
-                        <a href="shop-details.html">{{ item.product.name }}</a>
+                        <a href="#" @click.prevent='goToShopDetail(item.id)' >{{ item.product.name }}</a>
                       </span>
                       <div class="tpcart__cart-price">
                         <span class="quantity">{{ item.amount }} x </span>
