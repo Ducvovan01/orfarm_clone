@@ -2,7 +2,14 @@
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Autoplay } from 'swiper/modules';
 import apiURL  from "../connect.js";
+import store from '../stores/index.js';
+import { defineProps,onMounted,ref, reactive } from 'vue';
+import axios from 'axios';
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css';
+const notyf = new Notyf();
 const API_BACK_END = apiURL.URL;
+const API_BACK_END_V1 =apiURL.baseURL;
 const props = defineProps({
     title: {
     type: String,
@@ -24,6 +31,35 @@ const props = defineProps({
     type:Array,
   }
 });
+
+const cart = reactive({
+    product_id: '',
+    amount: 1,
+    user_id: store.state.auth.user.id,
+})
+
+const addCart = async (id) => {
+    try {
+        cart.product_id = id;
+        const response = await axios.post(`${API_BACK_END_V1}cart`,cart);
+        if (response.data.status === 'success') {
+            store.dispatch('getCart');
+         await  notyf.success({
+					message: 'Thêm sản phẩm vào giỏ hàng thành công!',
+					duration: 2000,
+					position: {
+						x: 'right',
+						y: 'top',
+					  },
+				  });
+        } else {
+            console.error('Failed to fetch product data');
+        }
+    } catch (error) {
+        console.error('Error fetching product data:', error);
+    }
+};
+
 
 const haveMultiOption = (param)=>{
     if(param.includes('\\')){
@@ -62,7 +98,7 @@ const formatCurrency = (value) => {
       <section class="weekly-product-area whight-product" :class="fullscreen ? 'pt-75 pb-80' : 'grey-bg'">
          <div :class="{ container: !isValidOption(fullscreen) }">
             <div class="sections__wrapper white-bg pr-50 pl-50">
-               <div class="row align-items-center">
+               <div class="row align-items-center brand-product-title-container" :class=" fullscreen ?? 'fullscreen'">
                   <div class="col-md-6 text-center">
                      <div class="tpsection mb-15">
                            <div class="tpnavtab__area tpnavtab__newitem" v-if="haveMultiOption(title)">
@@ -114,8 +150,8 @@ const formatCurrency = (value) => {
                               <swiper-slide v-for="product in products">  
                                  <div class="tpproduct p-relative tpprogress__hover">
                                     <div class="tpproduct__thumb p-relative text-center">
-                                        <a href="#"><img :src="getImageUrl(product.images[0].image_path)" alt=""></a>
-                                        <a class="tpproduct__thumb-img" href="shop-details.html"><img :src="getImageUrl(product.images[0].image_path)" alt=""></a>
+                                        <a href="#"><img :src="getImageUrl(product.images[0]?.image_path)" alt=""></a>
+                                        <a class="tpproduct__thumb-img"  :href="'product-details/' + product.id" ><img :src="getImageUrl(product.images[0]?.image_path)" alt=""></a>
                                         <div class="tpproduct__info bage">
                                             <span class="tpproduct__info-discount bage__discount">-50%</span>
                                             <span class="tpproduct__info-hot bage__hot">HOT</span>
@@ -152,8 +188,8 @@ const formatCurrency = (value) => {
                                         </div>
                                     </div>
                                     <div class="tpproduct__hover-text">
-                                        <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
-                                            <a class="tp-btn-2" href="cart.html">Thêm vào giỏ</a>
+                                        <div class="tpproduct__hover-btn d-flex justify-content-center mb-10" >
+                                            <a class="tp-btn-2" href="#" @click.prevent="addCart(product.id)">Thêm vào giỏ</a>
                                         </div>
                                         <div class="tpproduct__descrip">
                                             <ul>
@@ -198,6 +234,9 @@ const formatCurrency = (value) => {
  }
  .brand-product-title {
     font-size: 22px;
+ }
+ .brand-product-title-container.true{
+   margin: 0 7%;
  }
  
  .tpproduct__all-item a {

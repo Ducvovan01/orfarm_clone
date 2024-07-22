@@ -2,11 +2,15 @@
 import HeaderSearch from './HeaderSearch.vue'
 import { ref, computed } from 'vue'
 import { defineProps,onMounted, onUnmounted  } from 'vue';
-import store from '../stores/global.js';
-import auth from '../stores/auth.js'
+import store from '../stores/index.js';
 import { useRouter } from "vue-router";
 import apiURL  from "../connect.js";
 import Auth from '@/api/auth/index.js';
+import axios from 'axios';
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css';
+const notyf = new Notyf();
+const API_BACK_END_V1 =apiURL.baseURL;
 const{logout } = Auth();
 const router = useRouter();
 const API_BACK_END = apiURL.URL;
@@ -22,9 +26,22 @@ const openSearchBar = () => {
   isSearchBarOpened.value = true
 }
 
-const changeLanguage = (lang) => {
-  language.value = lang.code
-}
+
+const globalStore = ref(store.state.global);
+
+const total = computed(() => {
+  let totalValue = 0;
+  const cartItems = globalStore.value.cart; 
+
+  if (cartItems && Array.isArray(cartItems)) { 
+    cartItems.forEach(item => {
+      totalValue += item.product.price * item.amount;
+    });
+  }
+
+  return totalValue;
+});
+
 
 const closeSearchBar = () => {
   isSearchBarOpened.value = false
@@ -55,8 +72,10 @@ const toggleCartMenu = () => {
 }
  
 const openUserDetail = () => {
-  if (!auth.state.user || Object.keys(auth.state.user).length === 0) {
+  if (!store.state.auth.user || Object.keys(store.state.auth.user).length === 0) {
     router.push({ name: 'login' });
+  }else{
+    router.push({name:'user'});
   }
 };
 
@@ -70,12 +89,40 @@ const formatCurrency = (value) => {
         maximumFractionDigits: 0
       }).format(value);
       return `${formattedNumber} VND`;
-    };
+};
 
+const deleteCart = async (id) => {
+    try {
+        const response = await axios.delete(`${API_BACK_END_V1}cart/${id}`);
+        if (response.data.status === 'success') {
+            store.dispatch('getCart');
+            await  notyf.success({
+					message: 'Đã xóa sản phẩm khỏi giỏ hàng!',
+					duration: 2000,
+					position: {
+						x: 'left',
+						y: 'top',
+					  },
+				  });
+        } else {
+            console.error('Failed to fetch product data');
+        }
+    } catch (error) {
+        console.error('Error fetching product data:', error);
+    }
+};
 
+const goToShopDetail = (id) =>{ 
+  router.push({ name: 'product-details',params: { product: id } });
+}
+
+const routeForward = ($route) =>{
+  router.push({ name: $route });
+}
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
 })
+
 </script>
 
 <template>
@@ -125,7 +172,7 @@ onUnmounted(() => {
                      </div>
                      <div class="col-xl-4">
                         <div class="header__logo text-center">
-                           <a href="index.html"><img src="../assets/img/logo/logo.png" alt="logo"></a>
+                           <a href="/"><img src="../assets/img/logo/logo.png" alt="logo"></a>
                         </div>
                      </div>
                      <div class="col-xl-4">
@@ -141,7 +188,7 @@ onUnmounted(() => {
                            </div>
                            <div class="header__info-cart tpcolor__oasis ml-10 tp-cart-toggle" @click='toggleCartMenu'>
                               <button><i><img src="../assets/img/icon/cart-1.svg" alt=""></i>
-                                 <span>{{store.state.cart.length??'0'}}</span>
+                                 <span>{{store.state?.global?.cart?.length??'0'}}</span>
                               </button>
                            </div>
                         </div>
@@ -153,20 +200,20 @@ onUnmounted(() => {
                 <nav id="mobile-menu" style="display: block" >
                   <ul>
                     <li class="has-dropdown has-homemenu">
-                      <a href="index.html">Trang chủ <i class="fa fa-chevron-down icon"></i></a>
+                      <a href="/">Trang chủ <i class="fa fa-chevron-down icon"></i></a>
                       <ul class="sub-menu home-menu-style">
                         <li>
-                          <a href="index.html"
+                          <a href="/"
                             ><img src="../assets/img/header/home1-1.jpg" alt="" /> Trang chủ V1</a
                           >
                         </li>
                         <li>
-                          <a href="index-2.html"
+                          <a href="/"
                             ><img src="../assets/img/header/home2-1.jpg" alt="" /> Trang chủ V2</a
                           >
                         </li>
                         <li>
-                          <a href="index-3.html"
+                          <a href="/"
                             ><img src="../assets/img/header/home3-1.jpg" alt="" /> Trang chủ V3</a
                           >
                         </li>
@@ -280,7 +327,7 @@ onUnmounted(() => {
           <div class="row align-items-center" :class="{ 'header-sticky': isHeaderSticky }">
             <div class="col-xl-3">
               <div class="header__logo">
-                <a href="index.html"><img src="../assets/img/logo/logo.png" alt="logo" /></a>
+                <a href="/"><img src="../assets/img/logo/logo.png" alt="logo" /></a>
               </div>
             </div>
             <div class="col-xl-6">
@@ -288,10 +335,10 @@ onUnmounted(() => {
                 <nav id="mobile-menu" style="display: block">
                   <ul>
                     <li class="has-dropdown has-homemenu">
-                      <a href="index.html">Trang chủ <i class="fa fa-chevron-down icon"></i></a>
+                      <a href="/">Trang chủ <i class="fa fa-chevron-down icon"></i></a>
                       <ul class="sub-menu home-menu-style">
                         <li>
-                          <a href="index.html"
+                          <a href="/"
                             ><img src="../assets/img/header/home1-1.jpg" alt="" /> Trang chủ V1</a
                           >
                         </li>
@@ -410,7 +457,7 @@ onUnmounted(() => {
               </div>
             </div>
             <div class="col-xl-3">
-              <div class="header__info d-flex align-items-center">
+              <div class="header__info d-flex align-items-center ">
                 <div class="header__info-search tpcolor__purple ml-10">
                   <button class="tp-search-toggle" @click="openSearchBar">
                     <i class="icon-search"></i>
@@ -425,7 +472,7 @@ onUnmounted(() => {
                 <div class="header__info-cart tpcolor__oasis ml-10 tp-cart-toggle"  @click='toggleCartMenu'>
                   <button class="header__info-button">
                     <i><img src="../assets/img/icon/cart-1.svg" alt="" /></i>
-                    <span>{{store.state.cart.length??'0'}}</span>
+                    <span>{{store.state?.global?.cart?.length??'0'}}</span>
                   </button>
                 </div>
               </div>
@@ -445,21 +492,21 @@ onUnmounted(() => {
           <div class="tpcart__product">
              <div class="tpcart__product-list">
               <ul>
-                <li v-for="item in store.state.cart" :key="item.id">
+                <li v-for="item in store.state.global.cart" :key="item.id">
                   <div class="tpcart__item">
                     <div class="tpcart__img">
                       <img :src="getImageUrl(item.product.images[0].image_path)" alt="" />
                     </div>
                     <div class="tpcart__content">
                       <span class="tpcart__content-title">
-                        <a :href="`/product-details/`+item.product_id" >{{ item.product.name }}</a>
+                        <a :href="`/product-details/`+item.product_id"  >{{ item.product.name }}</a>
                       </span>
                       <div class="tpcart__cart-price">
                         <span class="quantity">{{ item.amount }} x </span>
                         <span class="new-price">{{ formatCurrency(item.product.price) }}</span>
                       </div>
                       <div class="tpcart__del">
-                        <a href="#"><i class="icon-x-circle"></i></a>
+                        <a href="#" @click.prevent='deleteCart(item.id)'><i class="icon-x-circle"></i></a>
                       </div>
                     </div>
                   </div>
@@ -469,11 +516,11 @@ onUnmounted(() => {
              <div class="tpcart__checkout">
                 <div class="tpcart__total-price d-flex justify-content-between align-items-center">
                    <span> Tổng Tiền:</span>
-                   <span class="heilight-price"> {{ formatCurrency(60000) }}</span>
+                   <span class="heilight-price"> {{ formatCurrency(total) }}</span>
                 </div>
                 <div class="tpcart__checkout-btn">
-                   <a class="tpcart-btn mb-10" href="/cart">Xem Giỏ Hàng</a>
-                   <a class="tpcheck-btn" href="/checkout">Thanh Toán</a>
+                   <a class="tpcart-btn mb-10" href="#" @click.prevent="routeForward('cart')" >Xem Giỏ Hàng</a>
+                   <a class="tpcheck-btn" href="#" @click.prevent="routeForward('checkout')">Thanh Toán</a>
                 </div>
              </div>
           </div>
@@ -585,6 +632,7 @@ onUnmounted(() => {
 }
 
 .main-menu ul li.has-dropdown:hover .sub-menu {
+  justify-content:center;
   visibility: visible;
   opacity: 1;
   top: 100%;
@@ -907,5 +955,13 @@ onUnmounted(() => {
   padding-left:5px;
   content: "\f2f5";
   font: normal normal normal 14px/1 FontAwesome;
+}
+.tpcart__del{
+  position:absolute;
+  top:15px;
+  right:-5px;
+}
+.tpcart__product-list ul li {
+  position:relative;
 }
 </style>

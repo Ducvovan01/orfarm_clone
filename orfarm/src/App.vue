@@ -4,7 +4,7 @@ import Footer from '@/components/Footer.vue';
 import Header from '@/components/Header.vue';
 import HeaderMobile from '@/components/HeaderMobile.vue';
 import { useRoute } from 'vue-router';
-import store from './stores/global.js';
+import store from './stores/index.js';
 
 const route = useRoute();
 const isHomePage = ref(route.path === '/');
@@ -15,12 +15,11 @@ watch(route, () => {
 });
 
 store.dispatch('getProduct');
-store.dispatch('getCart');
 </script>
 
 <template>
   <HeaderMobile ></HeaderMobile>
-  <Header :isHomePage="isHomePage"></Header>
+  <Header :isHomePage="isHomePage" :key="route.fullPath"></Header>
   <main>
     <router-view></router-view>
   </main>

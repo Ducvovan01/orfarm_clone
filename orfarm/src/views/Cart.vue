@@ -1,38 +1,100 @@
 <script setup>
 import BreadCrumb from '@/components/BreadCrumb.vue'
-import { computed, ref } from 'vue'
-import store from '../stores/global.js';
+import { computed, ref, reactive} from 'vue'
+import store from '../stores/index.js';
 import { mapState } from 'vuex';
+import axios from 'axios';
 import apiURL  from "../connect.js";
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css';
+
+const notyf = new Notyf();
 const API_BACK_END = apiURL.URL;
+const API_BACK_END_V1 = apiURL.baseURL;
 const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, { name: 'Giỏ Hàng' }]
 
-const globalStore = ref(store.state);
+const globalStore = ref(store.state.global);
 const total = computed(() => {
   let totalValue = 0;
-  globalStore.value.cart.forEach(item => {
+  if( store.state.global.cart){
+    store.state.global.cart.forEach(item => {
     totalValue += item.product.price * item.amount;
   });
+  }
   return totalValue;
 });
 
 
-const minusQuantity = (item) => {
-  const foundItem = store.state.cart.find(p => p.id === item.id);
-  if (foundItem && foundItem.amount > 1) {
-    foundItem.amount--;
-   
+const changeQuantity = async (item, condition) => {
+  const cart = {
+    product_id: item.product.id,
+    amount: condition,
+    user_id: store.state.auth.user.id,
+  };
+
+  try {
+    if (item.amount === 1 && condition === -1) {
+      await deleteCartItem(item.id);
+    } else {
+      await updateCartItem(cart);
+    }
+    
+  } catch (error) {
+    console.error('Error processing cart item:', error);
   }
 };
 
-// Function to increase quantity
-const plusQuantity = (item) => {
-  const foundItem = store.state.cart.find(p => p.id === item.id);
-  if (foundItem) {
-    foundItem.amount++;
-  
+const deleteCartItem = async (itemId) => {
+  try {
+    const response = await axios.delete(`${API_BACK_END_V1}cart/${itemId}`);
+    if (response.data.status === 'success') {
+      showAlert('success', 'Đã xóa sản phẩm khỏi giỏ hàng!');
+      store.dispatch('getCart');
+    } else {
+      showAlert('error','Failed to delete cart item');
+    }
+  } catch (error) {
+    console.error('Error deleting cart item:', error);
   }
 };
+
+const updateCartItem = async (cart) => {
+  try {
+    const response = await axios.post(`${API_BACK_END_V1}cart`, cart);
+    if (response.data.status === 'success') {
+      showAlert('success', 'Thay đổi số lượng thành công!');
+      store.dispatch('getCart');
+    } else {
+      showAlert('error','Failed to update cart item');
+    }
+  } catch (error) {
+    console.error('Error updating cart item:', error);
+  }
+};
+
+const showAlert = async (icon, title) => {
+  if(icon == 'success'){
+    await  notyf.success({
+					message: title,
+					duration: 2000,
+					position: {
+						x: 'right',
+						y: 'top',
+					  },
+				  });
+  }else{
+    await  notyf.error({
+					message: title,
+					duration: 2000,
+					position: {
+						x: 'right',
+						y: 'top',
+					  },
+				  });
+  }
+ 
+};
+
 const getImageUrl = (imagePath) => {
       return `${API_BACK_END}/${imagePath}`;
     };
@@ -45,18 +107,8 @@ const formatCurrency = (value) => {
       }).format(value);
       return `${formattedNumber} VND`;
     };
-const updateAllCarts = async (event) => {
-    event.preventDefault();
-    const carts = globalStore.value.cart;
-    for (const cart of carts) {
-        await store.dispatch('updateCart', { id: cart.id, amount: cart.amount });
-    }
-    store.dispatch('getCart');
-}
 
-const deleteCart = (cartId) => {
-  store.dispatch('deleteCart', cartId);
-}
+
 </script>
 
 <template>
@@ -78,8 +130,8 @@ const deleteCart = (cartId) => {
                     <th class="product-remove">Xóa</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr v-for="(item, index) in store.state.cart" :key="index">
+                <tbody v-if='store.state.global.cart && store.state.global.cart.length > 0'>
+                  <tr v-for="(item, index) in store.state.global.cart" :key="index">
                     <td class="product-thumbnail">
                       <a :href="'product-details?id=' + item.product.id">
                         <img :src="getImageUrl(item.product.images[0].image_path)" :alt="item.product.name" />
@@ -92,17 +144,27 @@ const deleteCart = (cartId) => {
                       <span class="amount">{{ formatCurrency(item.product.price) }}</span>
                     </td>
                     <td class="product-quantity">
-                      <span class="cart-minus" @click="minusQuantity(item)"
+                      <span class="cart-minus" @click="changeQuantity(item,-1)"
                         >-</span
                       >
                       <input class="cart-input" type="text" :value="item.amount" />
-                      <span class="cart-plus" @click="plusQuantity(item)">+</span>
+                      <span class="cart-plus" @click="changeQuantity(item,1)">+</span>
                     </td>
                     <td class="product-subtotal">
                       <span class="amount">{{ formatCurrency(item.amount * item.product.price) }}</span>
                     </td>
-                    <td class="product-remove" @click="deleteCart(item.id)">
+                    <td class="product-remove" @click="deleteCartItem(item.id)">
                       <a href="#"><i class="fa fa-times"></i></a>
+                    </td>
+                  </tr>
+                </tbody>
+                <tbody v-else>
+                  <tr>
+                    <td class="product-thumbnail" colspan="6" style="text-align: center; padding-top:50px; padding-bottom:50px;">
+                      <img src="../assets/img/shape/erorr-bg.png" alt="">
+                      <br/>
+                      Hiện tại chưa có sản phẩm nào trong giỏ hàng
+                    
                     </td>
                   </tr>
                 </tbody>
@@ -127,15 +189,7 @@ const deleteCart = (cartId) => {
                       Áp dụng mã giảm giá
                     </button>
                   </div>
-                  <div class="coupon2">
-                    <button
-                      class="tp-btn tp-color-btn banner-animation"
-                      name="update_cart" 
-                     @click="updateAllCarts($event)"
-                    >
-                      Cập nhật giỏ hàng
-                    </button>
-                  </div>
+                 
                 </div>
               </div>
             </div>
