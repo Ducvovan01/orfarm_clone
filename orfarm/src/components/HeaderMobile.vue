@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, ref, onUnmounted, onMounted} from 'vue';
+import { reactive, ref, onUnmounted, onMounted, computed} from 'vue';
 import store from '../stores/index.js';
 import { useRouter } from "vue-router";
 import apiURL  from "../connect.js";
@@ -82,9 +82,23 @@ const deleteCart = async (id) => {
     }
 };
 
+const total = computed(() => {
+  let totalValue = 0;
+  const cartItems = globalStore.value.cart; 
+
+  if (cartItems && Array.isArray(cartItems)) { 
+    cartItems.forEach(item => {
+      totalValue += item.product.price * item.amount;
+    });
+  }
+
+  return totalValue;
+});
+
 
 const routeForward = ($route) =>{
   router.push({ name: $route });
+  closeMenu();
 }
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
@@ -123,7 +137,7 @@ onUnmounted(() => {
                     </div>
                     <div class="header__info-cart tpcolor__oasis ml-10 tp-cart-toggle" @click='toggleCartMenu'>
                        <button><i><img src="../assets/img/icon/cart-1.svg" alt=""></i>
-                          <span>5</span>
+                          <span>{{store.state?.global?.cart?.length??'0'}}</span>
                        </button>
                     </div>
                  </div>
@@ -164,11 +178,11 @@ onUnmounted(() => {
              <div class="tpcart__checkout">
                 <div class="tpcart__total-price d-flex justify-content-between align-items-center">
                    <span> Tổng Tiền:</span>
-                   <span class="heilight-price"> $300.00</span>
+                   <span class="heilight-price">{{formatCurrency(total)}}</span>
                 </div>
                 <div class="tpcart__checkout-btn">
-                   <a class="tpcart-btn mb-10" href="cart.html">Xem Giỏ Hàng</a>
-                   <a class="tpcheck-btn" href="checkout.html">Thanh Toán</a>
+                   <a class="tpcart-btn mb-10" href="#" @click.prevent="routeForward('cart')">Xem Giỏ Hàng</a>
+                   <a class="tpcheck-btn" href="#" @click.prevent="routeForward('checkout')">Thanh Toán</a>
                 </div>
              </div>
           </div>

@@ -8,6 +8,8 @@ import store from '../stores/index.js';
 import Swal from 'sweetalert2';
 import { Notyf } from 'notyf';
 import 'notyf/notyf.min.css';
+import { Skeleton } from 'vue-loading-skeleton';
+import "vue-loading-skeleton/dist/style.css"
 const API_BACK_END = apiURL.baseURL;
 const API_BACK_END_SUB = apiURL.URL;
 const productInfor = ref('');
@@ -110,7 +112,7 @@ onMounted(async () => {
                      <div class="tpdetails__area mr-60 pb-30">
                         <div class="tpdetails__product mb-30">
                            <div class="tpdetails__title-box">
-                              <h3 class="tpdetails__title">{{productInfor?.name}}</h3>
+                              <h3 class="tpdetails__title"><Skeleton :loading="!productInfor" :count='1'>{{productInfor?.name}}</Skeleton></h3>
                               <ul class="tpdetails__brand">
                                  <li> Nhãn hàng: <a href="#">{{productInfor?.brands?.name}}</a> </li>
                                  <li>
@@ -129,6 +131,7 @@ onMounted(async () => {
                            <div class="tpdetails__box">
                               <div class="row">
                                  <div class="col-lg-6">
+                                    <Skeleton height="450px" width="450px" :loading="!productInfor.images">
                                         <div class="tpproduct-details__nab">
                                           <div class="tab-content" id="nav-tabContents">
                                             <div v-for="(image, index) in productInfor?.images" :key="image?.id" class="tab-pane fade w-img" :class="{ 'show active': index === 0 }" :id="`nav-${index}`" role="tabpanel" :aria-labelledby="`nav-tab-${index}`" tabindex="0">
@@ -138,6 +141,7 @@ onMounted(async () => {
                                                 <span class="tpproduct__info-discount bage__discount" style='margin-left:5px;'>-90%</span>
                                               </div>
                                             </div>
+                                    
                                           </div>
                                           <nav>
                                             <div class="nav nav-tabs justify-content-center" id="nav-tab" role="tablist">
@@ -147,11 +151,12 @@ onMounted(async () => {
                                             </div>
                                           </nav>
                                         </div>
+                                    </Skeleton>
                                  </div>
                                  <div class="col-lg-6">
                                 <div class="product__details">
                                     <div class="product__details-price-box">
-                                    <h5 class="product__details-price">{{formatCurrency(productInfor?.price)}}</h5>
+                                    <h5 class="product__details-price"> <Skeleton :loading="!productInfor" :count='1'>{{formatCurrency(productInfor?.price)}} </Skeleton></h5>
                                     <ul class="product__details-info-list">
                                         <li>Nước sốt phô mai không sữa ngon</li>
                                         <li>Thân thiện với người ăn chay & dị ứng</li>
@@ -184,8 +189,8 @@ onMounted(async () => {
                                     </div>
                                     <div class="product__details-stock mb-25">
                                     <ul>
-                                        <li>Tình trạng: <i>{{productInfor?.quantity}} Còn hàng</i></li>
-                                        <li>Danh mục: <span>{{productInfor?.category?.name}}</span></li>
+                                        <Skeleton :loading="!productInfor" :count='1'><li>Tình trạng:<i>{{productInfor?.quantity}} Còn hàng</i></li></Skeleton>
+                                        <li>Danh mục: <span><Skeleton :loading="!productInfor" :count='1'>{{productInfor?.category?.name}}</Skeleton></span></li>
                                         <li>
                                             Tình trạng: 
                                             <span v-if="productInfor && productInfor?.status === 'published'">
@@ -218,7 +223,9 @@ onMounted(async () => {
                            <div class="tab-content" id="nav-tabContent">
                               <div class="tab-pane fade active show" id="nav-description" role="tabpanel" aria-labelledby="nav-description-tab" tabindex="0">
                                  <div class="tpdescription__content">
+                                    <Skeleton :loading="!productInfor" :count='25'>
                                     <p v-html="productInfor?.description"> </p>
+                                    </Skeleton>
                                  </div>
                               </div>
 
