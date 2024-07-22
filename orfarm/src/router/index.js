@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import App from '../App.vue';
-import ShopDetails from '../views/ShopDetails.vue';
+import ProductDetail from '../views/ProductDetail.vue';
 import ShopLeftSidebar from '../views/ShopLeftSidebar.vue';
 import Blog from '../views/Blog.vue';
 import BlogDetails from '../views/BlogDetails.vue';
@@ -23,9 +23,9 @@ const routes = [
     component: Home
   },
   {
-    path: '/shop-details',
-    name: 'shop-details',
-    component: ShopDetails,
+    path: '/product-details/:product',
+    name: 'product-details',
+    component: ProductDetail,
     props: true
   },
   {
@@ -89,14 +89,35 @@ const routes = [
   }
 ];
 
-
-function isAuthenticated() {
-	return localStorage.getItem("token");
-}
-
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes
+});
+
+const isAuthenticated = () => {
+  const token = localStorage.getItem('token');
+  
+  if (!token) {
+    return false;
+  }
+
+  try {
+    const tokenPayload = JSON.parse(atob(token.split('.')[1]));
+    const expiry = tokenPayload.exp;
+    const now = Math.floor(Date.now() / 1000);
+    return now < expiry;
+  } catch (error) {
+    console.error('Invalid token:', error);
+    return false;
+  }
+};
+
+router.beforeEach((to, from, next) => {
+  if (to.name !== 'login' && to.name!=='register' && !isAuthenticated()) {
+    next({ name: 'login' });
+  } else {
+    next();
+  }
 });
 
 export default router;

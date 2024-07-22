@@ -1,8 +1,22 @@
 <script setup>
 import { reactive, ref, onUnmounted, onMounted} from 'vue';
+import store from '../stores/index.js';
+import { useRouter } from "vue-router";
+import apiURL  from "../connect.js";
+import Auth from '@/api/auth/index.js';
+import axios from 'axios';
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css';
+const notyf = new Notyf();
+const API_BACK_END_V1 =apiURL.baseURL;
+const{logout } = Auth();
+const router = useRouter();
+const API_BACK_END = apiURL.URL;
+
 const isMenuOpen = ref(false);
 const isCartMenuOpen = ref(false);
 const isHeaderSticky = ref(false);
+const globalStore = ref(store.state.global);
 const menuState = reactive({
       home: false,
       shop: false,
@@ -34,6 +48,44 @@ const menuState = reactive({
     isHeaderSticky.value = false
   }
 }
+
+const getImageUrl = (imagePath) => {
+      return `${API_BACK_END}/${imagePath}`;
+    };
+const formatCurrency = (value) => {
+  const formattedNumber = new Intl.NumberFormat('en-VN', {
+        style: 'decimal',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+      }).format(value);
+      return `${formattedNumber} VND`;
+};
+
+const deleteCart = async (id) => {
+    try {
+        const response = await axios.delete(`${API_BACK_END_V1}cart/${id}`);
+        if (response.data.status === 'success') {
+            store.dispatch('getCart');
+            await  notyf.success({
+					message: 'Đã xóa sản phẩm khỏi giỏ hàng!',
+					duration: 2000,
+					position: {
+						x: 'left',
+						y: 'top',
+					  },
+				  });
+        } else {
+            console.error('Failed to fetch product data');
+        }
+    } catch (error) {
+        console.error('Error fetching product data:', error);
+    }
+};
+
+
+const routeForward = ($route) =>{
+  router.push({ name: $route });
+}
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
 })
@@ -41,6 +93,7 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
 })
+
 </script>
 <template>
   
@@ -54,7 +107,7 @@ onUnmounted(() => {
               </div>
               <div class="col-lg-4 col-md-4 col-6 col-sm-4">
                  <div class="header__logo text-center">
-                    <a href="index.html"><img src="../assets/img/logo/logo.png" alt="logo"></a>
+                    <a href="/"><img src="../assets/img/logo/logo.png" alt="logo"></a>
                  </div>
               </div>
               <div class="col-lg-4 col-md-4 col-3 col-sm-5">
@@ -88,56 +141,20 @@ onUnmounted(() => {
           <div class="tpcart__product">
              <div class="tpcart__product-list">
                 <ul>
-                   <li>
-                      <div class="tpcart__item">
+                   <li v-for="item in store.state.global.cart" :key="item.id">
+                      <div class="tpcart__item" >
                          <div class="tpcart__img">
-                            <img src="../assets/img/product/products1-min.jpg" alt="">
-                            <div class="tpcart__del">
-                               <a href="#"><i class="icon-x-circle"></i></a>
-                            </div>
+                            <img :src="getImageUrl(item.product.images[0].image_path)" alt="">
                          </div>
                          <div class="tpcart__content">
-                            <span class="tpcart__content-title"><a href="shop-details.html">Snack Bánh Pita Stacy's vị Phô Mai Parmesan, Tỏi &amp; Thảo Mộc Tự Nhiên</a>
+                            <span class="tpcart__content-title"> <a :href="`/product-details/`+item.product_id" >{{ item.product.name }}</a>
                             </span>
                             <div class="tpcart__cart-price">
-                               <span class="quantity">1 x</span>
-                               <span class="new-price">$162.80</span>
+                                <span class="quantity">{{ item.amount }} x </span>
+                                <span class="new-price">{{ formatCurrency(item.product.price) }}</span>
                             </div>
-                         </div>
-                      </div>
-                   </li>
-                   <li>
-                      <div class="tpcart__item">
-                         <div class="tpcart__img">
-                            <img src="../assets/img/product/products12-min.jpg" alt="">
-                            <div class="tpcart__del">
-                               <a href="#"><i class="icon-x-circle"></i></a>
-                            </div>
-                         </div>
-                         <div class="tpcart__content">
-                            <span class="tpcart__content-title"><a href="shop-details.html">Chuối, Đẹp Da, Tốt Cho Sức Khỏe 1Kg</a>
-                            </span>
-                            <div class="tpcart__cart-price">
-                               <span class="quantity">1 x</span>
-                               <span class="new-price">$138.00</span>
-                            </div>
-                         </div>
-                      </div>
-                   </li>
-                   <li>
-                      <div class="tpcart__item">
-                         <div class="tpcart__img">
-                            <img src="../assets/img/product/products3-min.jpg" alt="">
-                            <div class="tpcart__del">
-                               <a href="#"><i class="icon-x-circle"></i></a>
-                            </div>
-                         </div>
-                         <div class="tpcart__content">
-                            <span class="tpcart__content-title"><a href="shop-details.html">Bánh Gạo Nổ Quaker Vị Sôcôla</a>
-                            </span>
-                            <div class="tpcart__cart-price">
-                               <span class="quantity">1 x</span>
-                               <span class="new-price">$162.8</span>
+                            <div class="tpcart__del-item">
+                                <a href="#" @click.prevent='deleteCart(item.id)'><i class="icon-x-circle"></i></a>
                             </div>
                          </div>
                       </div>
@@ -695,7 +712,7 @@ onUnmounted(() => {
 }
 .tpcart__close {
 color: var(--tp-heading-secondary);
-right: 30px;
+right: 10px;
 font-size: 18px;
 width: 35px;
 height: 35px;
@@ -710,7 +727,6 @@ z-index: 2;
     font-size: 14px;
     color: var(--tp-heading-primary);
     text-transform: uppercase;
-    margin-bottom: 20px;
 }
 .tpcart {
     float: none;
@@ -761,6 +777,8 @@ z-index: 2;
 }
 .tpcart__img img {
     width: 70px;
+    height:70px;
+    object-fit:cover;
     border-radius: 10px;
 }
 .tpcart__del {
@@ -769,6 +787,18 @@ z-index: 2;
     right: 20px;
     top: 10px;
 }
+.tpcart__product{
+    overflow:scroll;
+}
+.tpcart__product-list ul li {
+    position:relative;
+}
+
+.tpcart__del-item{
+    position:absolute;
+    top:15px;
+    right:-12px;
+  }
 .icon-x-circle:before {
     color: var(--tp-heading-secondary);
     content: "\f057 ";

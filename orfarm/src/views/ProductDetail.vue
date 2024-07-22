@@ -12,7 +12,8 @@ const API_BACK_END = apiURL.baseURL;
 const API_BACK_END_SUB = apiURL.URL;
 const productInfor = ref('');
 const productByCategory = ref('');
-const productId = new URLSearchParams(window.location.search).get('product');
+const productId = window.location.pathname.split('/').pop();
+
 const notyf = new Notyf();
 const cart = reactive({
     product_id: productId,

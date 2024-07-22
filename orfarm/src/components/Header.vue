@@ -100,7 +100,7 @@ const deleteCart = async (id) => {
 					message: 'Đã xóa sản phẩm khỏi giỏ hàng!',
 					duration: 2000,
 					position: {
-						x: 'right',
+						x: 'left',
 						y: 'top',
 					  },
 				  });
@@ -113,7 +113,7 @@ const deleteCart = async (id) => {
 };
 
 const goToShopDetail = (id) =>{ 
-  router.push({ name: 'shop-details',params: { product: id } });
+  router.push({ name: 'product-details',params: { product: id } });
 }
 
 const routeForward = ($route) =>{
@@ -499,7 +499,7 @@ onUnmounted(() => {
                     </div>
                     <div class="tpcart__content">
                       <span class="tpcart__content-title">
-                        <a href="#" @click.prevent='goToShopDetail(item.id)' >{{ item.product.name }}</a>
+                        <a :href="`/product-details/`+item.product_id"  >{{ item.product.name }}</a>
                       </span>
                       <div class="tpcart__cart-price">
                         <span class="quantity">{{ item.amount }} x </span>
