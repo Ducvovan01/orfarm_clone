@@ -3,7 +3,7 @@ import BreadCrumb from '@/components/BreadCrumb.vue'
 import SideBannerAuth from '@/components/SideBannerAuth.vue'
 import Auth from '@/api/auth/index.js';
 import { useRouter } from "vue-router";
-import { computed} from 'vue';
+import { computed, reactive} from 'vue';
 import axios from 'axios';
 import { config } from '@/config/config';
 import store from '../stores/index.js';
@@ -12,10 +12,32 @@ const{loginForm, submitLogin, errors, resultOtp,submitResgiter } = Auth();
 
 const breadCrumbPath = [{ route: '/', name: 'Trang chủ' }, { name: 'Thông tin người dùng' }];
 const user = computed(() => store.state.auth.user);
-console.log(user);
-const updateUserInfor = () =>{
+const form = reactive({
+    name : user.value.name,
+    address : user.value.address,
+    phone : user.value.phone,
+});
 
-}
+const updateUserInfor = async (id) => {
+    try {
+        const response = await axios.put(`${API_BACK_END_V1}user/${id}`);
+        if (response.data.status === 'success') {
+            store.dispatch('getUser');
+            await  notyf.success({
+					message: 'Đã sửa thông tin thành công!',
+					duration: 2000,
+					position: {
+						x: 'right',
+						y: 'top',
+					  },
+				  });
+        } else {
+            console.error('Failed to update data');
+        }
+    } catch (error) {
+        console.error('Error update data:', error);
+    }
+};
 </script>
 
 <template>
@@ -47,29 +69,21 @@ const updateUserInfor = () =>{
                       <label for="name">Họ và tên:</label>
                       <div class="tptrack__email mb-1">
                         <span><i class="fal fa-user"></i> </span>
-                        <input type="text" placeholder="Họ và tên" name="name" v-model="user.name" />
+                        <input type="text" placeholder="Họ và tên" name="name" v-model="form.name" />
                       </div>
                       <span class="text-danger error_message" v-if="errors.name">{{ errors.name }}</span>
                     </div>
                     <div class="tptrack_input">
-                      <label for="email">Email:</label>
-                      <div class="tptrack__email mb-1">
-                        <span><i class="fal fa-envelope"></i></span>
-                        <input type="email" placeholder="Địa chỉ email" name="email" v-model="user.email" />
-                      </div>
-                      <span class="text-danger error_message" v-if="errors.email">{{ errors.email }}</span>
-                    </div>
-                    <div class="tptrack_input">
                       <label for="phone">Số điện thoại:</label>
                       <div class="tptrack__email tptrack__normal mb-1">
-                        <input type="text" placeholder="Số điện thoại" name="phone" v-model="user.phone" />
+                        <input type="text" placeholder="Số điện thoại" name="phone" v-model="form.phone" />
                       </div>
                       <span class="text-danger error_message" v-if="errors.phone">{{ errors.phone }}</span>
                     </div>
                     <div class="tptrack_input">
                       <label for="address">Địa chỉ:</label>
                       <div class="tptrack__email tptrack__normal mb-1">
-                        <input type="text" placeholder="Địa chỉ" name="address" v-model="user.address" />
+                        <input type="text" placeholder="Địa chỉ" name="address" v-model="form.address" />
                       </div>
                       <span class="text-danger error_message" v-if="errors.address">{{ errors.address }}</span>
                     </div>
