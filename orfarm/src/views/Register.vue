@@ -244,7 +244,7 @@ const submitOtp1 = (event) => {
   color: inherit;
 }
 .error_message{
-  font-size:14px;
+  font-size:16px;
 }
 @media (max-width: 767px) {
   .tptrack__content {

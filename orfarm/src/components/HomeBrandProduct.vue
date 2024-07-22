@@ -1,4 +1,12 @@
 <script setup>
+import { defineProps } from 'vue';
+
+const props = defineProps({
+  brandId: {
+    type: Number,
+    default: 0
+  },
+});
 
 </script>
 

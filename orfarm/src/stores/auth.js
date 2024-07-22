@@ -2,7 +2,7 @@ import Vuex from 'vuex';
 import axios from 'axios';
 import apiURL from '../connect';
 
-const store = new Vuex.Store({
+const store = {
     state: {
         authenticated: false,
         user: {},
@@ -79,7 +79,10 @@ const store = new Vuex.Store({
             commit('setUser', {});
             commit('setAdmin', {});
             commit('SET_AUTHENTICATED', false);
+            commit('setToken', '');
+            commit('setCart',{});
+
         }
     }
-});
+};
 export default store;

@@ -1,11 +1,15 @@
 import { useRouter } from "vue-router";
 import { ref, reactive, inject } from 'vue'
 import { useStore } from 'vuex';
-import store from '../../stores/auth.js';
+import store from '../../stores/index.js';
 import validator from "../validator/validator.js";
 import apiURL  from "../../connect.js";
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css';
+
+const notyf = new Notyf();
 export default function Auth() {
 	const API_BACK_END = apiURL.baseURL;
 	const otpSent = ref(false); 
@@ -35,6 +39,7 @@ export default function Auth() {
 		name: '',
 		email: '',
 		otp:'',
+		address:'',
 	});
 	const {
 		checkNumber,
@@ -217,19 +222,21 @@ export default function Auth() {
 				
 				await store.dispatch('setTokenUser', { 'token': response.data.accessToken })
 				await store.dispatch('getUser')
-				await  Swal.fire({
-
-					icon: 'success',
-					title: 'Đăng nhập thành công!',
-					showConfirmButton: false,
-					timer: 1000
+				await store.dispatch('getCart')
+				await  notyf.success({
+					message: 'Đăng nhập thành công!',
+					duration: 2000,
+					position: {
+						x: 'right',
+						y: 'top',
+					  },
 				  });
 				
 				await router.push({ name: 'home' })
 			}
 			
 		} catch (error) {
-			// throw handleError(error);
+			errors.phone='Tài khoản/mật khẩu không đúng'
 			console.error(error)
 		}
 	}
@@ -268,12 +275,14 @@ export default function Auth() {
 			if (response.data.status == 'success') {
 				otpSent.value = true;
 				
-				await  Swal.fire({
-					icon: 'success',
-					title: 'Gửi OTP về email của bạn thành công!',
-					showConfirmButton: false,
-					timer: 1000
-				});
+				await  notyf.success({
+					message: 'Gửi OTP về email của bạn thành công!',
+					duration: 2000,
+					position: {
+						x: 'right',
+						y: 'top',
+					  },
+				  });
 			}
 			
 		} catch (error) {
@@ -315,12 +324,15 @@ export default function Auth() {
 
 			if (response.data.status == 'success') {
 				
-				await  Swal.fire({
-					icon: 'success',
-					title: 'Xác thực OTP thành công!',
-					showConfirmButton: false,
-					timer: 1000
-				});
+				await  notyf.success({
+					message: 'Xác thực OTP thành công!',
+					duration: 2000,
+					position: {
+						x: 'right',
+						y: 'top',
+					  },
+				  });
+				
 				resetPasswordForm.value = true;
 			}
 			
@@ -371,12 +383,15 @@ export default function Auth() {
 
 			if (response.data.status == 'success') {
 				
-				await  Swal.fire({
-					icon: 'success',
-					title: 'Cập nhật mật khẩu thành công!',
-					showConfirmButton: false,
-					timer: 1000
-				});
+				await  notyf.success({
+					message: 'Cập nhật mật khẩu thành công!',
+					duration: 2000,
+					position: {
+						x: 'right',
+						y: 'top',
+					  },
+				  });
+				
 				await router.push({ name: 'login' })
 			}
 			
@@ -394,12 +409,14 @@ export default function Auth() {
             const { data } = await axios.post(`${API_BACK_END}auth/logout `, {}, { headers: headers });
             if (data.status == 'success') {
                 await store.dispatch('logout')
-				await  Swal.fire({
-					icon: 'success',
-					title: 'Đăng xuất thành công',
-					showConfirmButton: false,
-					timer: 1000
-				});
+				await  notyf.success({
+					message: 'Đăng xuất thành công!',
+					duration: 2000,
+					position: {
+						x: 'right',
+						y: 'top',
+					  },
+				  });
 				await router.push({ name: 'login' })
             }
         } catch ({ res }) {

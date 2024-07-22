@@ -1,14 +1,13 @@
 import { createStore } from 'vuex'
 import auth from './auth.js'
 import global from './global.js'
-import 
+import createPersistedState from "vuex-persistedstate";
 const store = createStore({
-    plugins:[
-    ],
     modules:{
         auth : auth,
         global : global,
-    }
+    },
+    plugins: [createPersistedState()]
 })
 
-export default store
+export default store;
